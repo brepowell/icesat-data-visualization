@@ -18,6 +18,7 @@ import xarray
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 
+# Cartopy for map features, like land and ocean
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
@@ -25,6 +26,7 @@ import cartopy.feature as cfeature
 MAXLONGITUDE = 180
 MINLONGITUDE = -180
 NORTHPOLE = 90
+LAT_LIMIT = 50
 
 # Change these for different runs
 runDir = os.path.dirname(os.path.abspath(__file__))     # Gets the current directory path
@@ -51,28 +53,59 @@ def loadData(runDir, outputFileName):
     var1D = var[0,:] # reduce the variable to 1D so we can use these indices
     return var1D
 
-def mapHemisphere(latCell, lat_limit, hemisphere, title, hemisphereMap):
+def mapHemisphere(latCell, xCell, yCell, var1D, hemisphere, title, hemisphereMap):
     """ Map one hemisphere onto a matplotlib figure. 
-    Ensure that you include the minus sign if mapping southern hemisphere. """
+    You do not need to include the minus sign if mapping southern hemisphere. """
     if hemisphere == "n":
-        indices = np.where(latCell > math.radians(lat_limit))
+        indices = np.where(latCell > math.radians(LAT_LIMIT))
     elif hemisphere == "s":
-        indices = np.where(latCell < math.radians(lat_limit))
+        indices = np.where(latCell < math.radians(-LAT_LIMIT))
 
     sc = hemisphereMap.scatter(xCell[indices], yCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
     plt.colorbar(sc, ax=hemisphereMap)
 
-# Create a figure with two subplots
-fig, axs = plt.subplots(1, 2, figsize=(20, 8))
-leftMap = axs[0]
-rightMap = axs[1]
-lat_limit = 50
+def makeCircle():
+    """ Use this with Cartopy to make a circular map of the globe, 
+    rather than a rectangular map. """
+    theta = np.linspace(0, 2*np.pi, 100)
+    center, radius = [0.5, 0.5], 0.5
+    verts = np.vstack([np.sin(theta), np.cos(theta)]).T
+    return mpath.Path(verts * radius + center)
 
-nCells, latCell, lonCell, xCell, yCell = loadMesh(runDir, meshFileName)
-var1D = loadData(runDir, outputFileName)
-mapHemisphere(latCell, lat_limit, "n", "Arctic Sea Ice", leftMap)      # Map northern hemisphere
-mapHemisphere(latCell, -lat_limit, "s", "Antarctic Sea Ice", rightMap) # Map southern hemisphere
+def generateNorthandSouthPoleMaps():
+    """ Generate 2 maps; one of the north pole and one of the south pole. """
+    fig = plt.figure(figsize=[10, 5])
+    leftMap = fig.add_subplot(1, 2, 1, projection=ccrs.NorthPolarStereo())
+    rightMap = fig.add_subplot(1, 2, 2, projection=ccrs.SouthPolarStereo(),
+                            sharex=leftMap, sharey=leftMap)
 
-plt.savefig('seaice_Output.png')
+    # Adjusts the margins around the plots (as a fraction of the width or height)
+    fig.subplots_adjust(bottom=0.05, top=0.95,
+                        left=0.04, right=0.95, wspace=0.02)
+
+    # Format for set_extent is [minimum longitude, maximum longitude, minimum latitude, maximum latitude]
+    leftMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
+
+    leftMap.add_feature(cfeature.OCEAN)
+    rightMap.add_feature(cfeature.OCEAN)
+
+    leftMap.add_feature(cfeature.LAND)
+    rightMap.add_feature(cfeature.LAND)
+
+    leftMap.gridlines()
+    rightMap.gridlines()
+
+    # Crops the map to be round instead of rectangular
+    rightMap.set_boundary(makeCircle(), transform=rightMap.transAxes)
+    leftMap.set_boundary(makeCircle(), transform=leftMap.transAxes)
+
+    nCells, latCell, lonCell, xCell, yCell = loadMesh(runDir, meshFileName)
+    var1D = loadData(runDir, outputFileName)
+    mapHemisphere(latCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", leftMap)      # Map northern hemisphere
+    mapHemisphere(latCell, xCell, yCell, var1D, "s", "Antarctic Sea Ice", rightMap) # Map southern hemisphere
+
+    plt.savefig('seaice_Output.png')
+
+generateNorthandSouthPoleMaps()
