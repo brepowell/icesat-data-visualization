@@ -39,24 +39,25 @@ def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
     print('read: ', runDir, meshFileName)
 
-    mesh    = xarray.open_dataset(runDir + meshFileName)
-    nCells  = mesh.sizes['nCells']
-    latCell = mesh.variables['latCell'] # in radians
-    lonCell = mesh.variables['lonCell']
-    xCell   = mesh.variables['xCell'] # in meters
-    yCell   = mesh.variables['yCell']
-    return nCells, latCell, lonCell, xCell, yCell
+    mesh            = xarray.open_dataset(runDir + meshFileName)
+    numberOfCells   = mesh.sizes['nCells']
+    latCell         = mesh.variables['latCell'] # in radians (checked by printing latCell[0:5])
+    lonCell         = mesh.variables['lonCell'] # in radians (checked by printing latCell[0:5])
+    xCell           = mesh.variables['xCell']   # in meters????
+    yCell           = mesh.variables['yCell'] 
+
+    return numberOfCells, latCell, lonCell, xCell, yCell
 
 def loadData(runDir, outputFileName):
     """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot. """
     print('read: ', runDir, outputFileName)
-    
+
     output = xarray.open_dataset(runDir + outputFileName)
     var = output.variables[varToPlot]
     var1D = var[0,:] # reduce the variable to 1D so we can use these indices
     return var1D
 
-def mapHemisphere(latCell, xCell, yCell, var1D, hemisphere, title, hemisphereMap):
+def mapHemisphere(latCell, lonCell, xCell, yCell, var1D, hemisphere, title, hemisphereMap):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign if mapping southern hemisphere. """
     if hemisphere == "n":
@@ -81,7 +82,7 @@ def makeCircle():
     return mpath.Path(verts * radius + center)
 
 def addMapFeatures(my_map, ocean, land, grid):
-    # Set optional features on the map
+    """ Set optional features on the map """
     if (ocean == 1):
         my_map.add_feature(cfeature.OCEAN)
 
@@ -123,9 +124,10 @@ def generateNorthandSouthPoleMaps(ocean, land, grid):
     # Load the mesh, data, and map the 2 hemispheres.
     nCells, latCell, lonCell, xCell, yCell = loadMesh(runDir, meshFileName)
     var1D = loadData(runDir, outputFileName)
-    mapHemisphere(latCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
-    mapHemisphere(latCell, xCell, yCell, var1D, "s", "Antarctic Sea Ice", southMap) # Map southern hemisphere
+    mapHemisphere(latCell, lonCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    mapHemisphere(latCell, lonCell, xCell, yCell, var1D, "s", "Antarctic Sea Ice", southMap) # Map southern hemisphere
 
+    # Save the maps as an image.
     plt.savefig('seaice_Output.png')
 
 generateNorthandSouthPoleMaps(1,1,1)
