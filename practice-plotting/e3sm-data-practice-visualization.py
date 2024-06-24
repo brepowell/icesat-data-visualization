@@ -26,6 +26,7 @@ import cartopy.feature as cfeature
 MAXLONGITUDE = 180
 MINLONGITUDE = -180
 NORTHPOLE = 90
+SOUTHPOLE = -90
 LAT_LIMIT = 50
 
 # Change these for different runs
@@ -37,17 +38,19 @@ varToPlot = 'timeDaily_avg_iceAreaCell' # The variable that you want to plot
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
     print('read: ', runDir, meshFileName)
-    mesh = xarray.open_dataset(runDir + meshFileName)
-    nCells = mesh.sizes['nCells']
+
+    mesh    = xarray.open_dataset(runDir + meshFileName)
+    nCells  = mesh.sizes['nCells']
     latCell = mesh.variables['latCell'] # in radians
     lonCell = mesh.variables['lonCell']
-    xCell = mesh.variables['xCell'] # in meters
-    yCell = mesh.variables['yCell']
+    xCell   = mesh.variables['xCell'] # in meters
+    yCell   = mesh.variables['yCell']
     return nCells, latCell, lonCell, xCell, yCell
 
 def loadData(runDir, outputFileName):
     """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot. """
     print('read: ', runDir, outputFileName)
+    
     output = xarray.open_dataset(runDir + outputFileName)
     var = output.variables[varToPlot]
     var1D = var[0,:] # reduce the variable to 1D so we can use these indices
@@ -58,10 +61,12 @@ def mapHemisphere(latCell, xCell, yCell, var1D, hemisphere, title, hemisphereMap
     You do not need to include the minus sign if mapping southern hemisphere. """
     if hemisphere == "n":
         indices = np.where(latCell > math.radians(LAT_LIMIT))
+        sc = hemisphereMap.scatter(xCell[indices], yCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
     elif hemisphere == "s":
         indices = np.where(latCell < math.radians(-LAT_LIMIT))
-
-    sc = hemisphereMap.scatter(xCell[indices], yCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
+        sc = hemisphereMap.scatter(yCell[indices], xCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
+    else:
+        return
     
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
@@ -86,37 +91,40 @@ def addMapFeatures(my_map, ocean, land, grid):
     if (grid == 1):
         my_map.gridlines()
 
+    my_map.coastlines()
+
 def generateNorthandSouthPoleMaps(ocean, land, grid):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
     fig = plt.figure(figsize=[10, 5])
 
     # Define projections for each map
     map_projection_north = ccrs.NorthPolarStereo(central_longitude=270, globe=None)
-    map_projection_south = ccrs.SouthPolarStereo(central_longitude=90, globe=None)
+    map_projection_south = ccrs.SouthPolarStereo(central_longitude=0, globe=None)
 
     # Create the two maps as subplots of the figure.
-    leftMap  = fig.add_subplot(1, 2, 1, projection=map_projection_north)
-    rightMap = fig.add_subplot(1, 2, 2, projection=map_projection_south)
+    northMap = fig.add_subplot(1, 2, 1, projection=map_projection_north)
+    southMap = fig.add_subplot(1, 2, 2, projection=map_projection_south)
 
     # Adjust the margins around the plots (as a fraction of the width or height)
-    fig.subplots_adjust(bottom=0.05, top=0.95,
-                        left=0.04, right=0.95, wspace=0.02)
+    fig.subplots_adjust(bottom=0.05, top=0.95, left=0.04, right=0.95, wspace=0.02)
 
     # Set your viewpoint (the extent)
-    leftMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
+    northMap.set_extent([MINLONGITUDE, MAXLONGITUDE,  LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
+    southMap.set_extent([MINLONGITUDE, MAXLONGITUDE, -LAT_LIMIT, SOUTHPOLE], ccrs.PlateCarree())
 
-    addMapFeatures(leftMap, ocean, land, grid)
-    addMapFeatures(rightMap, ocean, land, grid)
+    # Add map features, like land and ocean
+    addMapFeatures(northMap, ocean, land, grid)
+    addMapFeatures(southMap, ocean, land, grid)
 
     # Crop the map to be round instead of rectangular.
-    rightMap.set_boundary(makeCircle(), transform=rightMap.transAxes)
-    leftMap.set_boundary(makeCircle(), transform=leftMap.transAxes)
+    northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
+    southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
     # Load the mesh, data, and map the 2 hemispheres.
     nCells, latCell, lonCell, xCell, yCell = loadMesh(runDir, meshFileName)
     var1D = loadData(runDir, outputFileName)
-    mapHemisphere(latCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", leftMap)      # Map northern hemisphere
-    mapHemisphere(latCell, xCell, yCell, var1D, "s", "Antarctic Sea Ice", rightMap) # Map southern hemisphere
+    mapHemisphere(latCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    mapHemisphere(latCell, xCell, yCell, var1D, "s", "Antarctic Sea Ice", southMap) # Map southern hemisphere
 
     plt.savefig('seaice_Output.png')
 
