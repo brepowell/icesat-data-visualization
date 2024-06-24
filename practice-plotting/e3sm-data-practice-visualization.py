@@ -62,6 +62,7 @@ def mapHemisphere(latCell, xCell, yCell, var1D, hemisphere, title, hemisphereMap
         indices = np.where(latCell < math.radians(-LAT_LIMIT))
 
     sc = hemisphereMap.scatter(xCell[indices], yCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
+    
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
     plt.colorbar(sc, ax=hemisphereMap)
@@ -74,14 +75,28 @@ def makeCircle():
     verts = np.vstack([np.sin(theta), np.cos(theta)]).T
     return mpath.Path(verts * radius + center)
 
+def addMapFeatures(my_map, ocean, land, grid):
+    # Set optional features on the map
+    if (ocean == 1):
+        my_map.add_feature(cfeature.OCEAN)
+
+    if (land == 1):
+        my_map.add_feature(cfeature.LAND)
+
+    if (grid == 1):
+        my_map.gridlines()
+
 def generateNorthandSouthPoleMaps(ocean, land, grid):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
     fig = plt.figure(figsize=[10, 5])
 
+    # Define projections for each map
+    map_projection_north = ccrs.NorthPolarStereo(central_longitude=270, globe=None)
+    map_projection_south = ccrs.SouthPolarStereo(central_longitude=90, globe=None)
+
     # Create the two maps as subplots of the figure.
-    leftMap = fig.add_subplot(1, 2, 1, projection=ccrs.NorthPolarStereo())
-    rightMap = fig.add_subplot(1, 2, 2, projection=ccrs.SouthPolarStereo(),
-                            sharex=leftMap, sharey=leftMap)
+    leftMap  = fig.add_subplot(1, 2, 1, projection=map_projection_north)
+    rightMap = fig.add_subplot(1, 2, 2, projection=map_projection_south)
 
     # Adjust the margins around the plots (as a fraction of the width or height)
     fig.subplots_adjust(bottom=0.05, top=0.95,
@@ -90,18 +105,8 @@ def generateNorthandSouthPoleMaps(ocean, land, grid):
     # Set your viewpoint (the extent)
     leftMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
 
-    # Set optional features on the map
-    if (ocean == 1):
-        leftMap.add_feature(cfeature.OCEAN)
-        rightMap.add_feature(cfeature.OCEAN)
-
-    if (land == 1):
-        leftMap.add_feature(cfeature.LAND)
-        rightMap.add_feature(cfeature.LAND)
-
-    if (grid == 1):
-        leftMap.gridlines()
-        rightMap.gridlines()
+    addMapFeatures(leftMap, ocean, land, grid)
+    addMapFeatures(rightMap, ocean, land, grid)
 
     # Crop the map to be round instead of rectangular.
     rightMap.set_boundary(makeCircle(), transform=rightMap.transAxes)
