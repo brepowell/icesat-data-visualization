@@ -77,17 +77,20 @@ def makeCircle():
 def generateNorthandSouthPoleMaps(ocean, land, grid):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
     fig = plt.figure(figsize=[10, 5])
+
+    # Create the two maps as subplots of the figure.
     leftMap = fig.add_subplot(1, 2, 1, projection=ccrs.NorthPolarStereo())
     rightMap = fig.add_subplot(1, 2, 2, projection=ccrs.SouthPolarStereo(),
                             sharex=leftMap, sharey=leftMap)
 
-    # Adjusts the margins around the plots (as a fraction of the width or height)
+    # Adjust the margins around the plots (as a fraction of the width or height)
     fig.subplots_adjust(bottom=0.05, top=0.95,
                         left=0.04, right=0.95, wspace=0.02)
 
-    # Format for set_extent is [minimum longitude, maximum longitude, minimum latitude, maximum latitude]
+    # Set your viewpoint (the extent)
     leftMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
 
+    # Set optional features on the map
     if (ocean == 1):
         leftMap.add_feature(cfeature.OCEAN)
         rightMap.add_feature(cfeature.OCEAN)
@@ -100,10 +103,11 @@ def generateNorthandSouthPoleMaps(ocean, land, grid):
         leftMap.gridlines()
         rightMap.gridlines()
 
-    # Crops the map to be round instead of rectangular
+    # Crop the map to be round instead of rectangular.
     rightMap.set_boundary(makeCircle(), transform=rightMap.transAxes)
     leftMap.set_boundary(makeCircle(), transform=leftMap.transAxes)
 
+    # Load the mesh, data, and map the 2 hemispheres.
     nCells, latCell, lonCell, xCell, yCell = loadMesh(runDir, meshFileName)
     var1D = loadData(runDir, outputFileName)
     mapHemisphere(latCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", leftMap)      # Map northern hemisphere
