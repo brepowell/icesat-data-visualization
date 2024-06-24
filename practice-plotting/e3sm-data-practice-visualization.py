@@ -18,6 +18,12 @@ import xarray
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.mpl.ticker as cticker
+import cartopy.feature as cfeature
+
 # Change these for different runs
 runDir = os.path.dirname(os.path.abspath(__file__))     # Gets the current directory path
 meshFileName = "\data\seaice.EC30to60E2r2.210210.nc"                                         # .nc file for the mesh
@@ -25,7 +31,9 @@ outputFileName = "\data\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.000
 varToPlot = 'timeDaily_avg_iceAreaCell' # The variable that you want to plot
 
 # Create a figure with two subplots
-fig, axs = plt.subplots(1, 2, figsize=(14, 6))
+fig, axs = plt.subplots(1, 2, figsize=(20, 8))
+leftMap = axs[0]
+rightMap = axs[1]
 
 print('read: ', runDir, meshFileName)
 mesh = xarray.open_dataset(runDir + meshFileName)
@@ -40,33 +48,33 @@ output = xarray.open_dataset(runDir + outputFileName)
 
 var = output.variables[varToPlot]
 
+# reduce the variable to 1D so we can use these indices
+var1D = var[0,:]
+
 #######################
 # Northern Hemisphere #
 #######################
 
 NorthernHemisphereIndices = np.where(latCell > math.radians(60))
-# reduce the variable to 1D so we can use these NorthernHemisphereIndices
-var1D = var[0,:]
 
 # Plot Arctic data in the first subplot
-axs[0].scatter(xCell[NorthernHemisphereIndices], yCell[NorthernHemisphereIndices], c=var1D[NorthernHemisphereIndices], cmap='bwr', s=0.4)
-axs[0].set_title('Arctic Sea Ice')
-axs[0].axis('off')
+sc = leftMap.scatter(xCell[NorthernHemisphereIndices], yCell[NorthernHemisphereIndices], c=var1D[NorthernHemisphereIndices], cmap='bwr', s=0.4)
+leftMap.set_title('Arctic Sea Ice')
+leftMap.axis('off')
+plt.colorbar(sc, ax=leftMap)
 
 #######################
 # Southern Hemisphere #
 #######################
 
 SouthernHemisphereIndices = np.where(latCell < math.radians(-60))
-# reduce the variable to 1D so we can use these NorthernHemisphereIndices
-var1D = var[0,:]
 
 # Plot Antarctic data in the second subplot
-axs[1].scatter(yCell[SouthernHemisphereIndices], xCell[SouthernHemisphereIndices], c=var1D[SouthernHemisphereIndices], cmap='bwr', s=0.4)
-axs[1].set_title('Antarctic Sea Ice')
-plt.axis('off')
+sc = rightMap.scatter(yCell[SouthernHemisphereIndices], xCell[SouthernHemisphereIndices], c=var1D[SouthernHemisphereIndices], cmap='bwr', s=0.4)
+rightMap.set_title('Antarctic Sea Ice')
+plt.colorbar(sc, ax=rightMap)
 
-# plt.colorbar()
+plt.axis('off')
 
 ###############
 # Save figure #
