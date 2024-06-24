@@ -74,7 +74,7 @@ def makeCircle():
     verts = np.vstack([np.sin(theta), np.cos(theta)]).T
     return mpath.Path(verts * radius + center)
 
-def generateNorthandSouthPoleMaps():
+def generateNorthandSouthPoleMaps(ocean, land, grid):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
     fig = plt.figure(figsize=[10, 5])
     leftMap = fig.add_subplot(1, 2, 1, projection=ccrs.NorthPolarStereo())
@@ -88,14 +88,17 @@ def generateNorthandSouthPoleMaps():
     # Format for set_extent is [minimum longitude, maximum longitude, minimum latitude, maximum latitude]
     leftMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
 
-    leftMap.add_feature(cfeature.OCEAN)
-    rightMap.add_feature(cfeature.OCEAN)
+    if (ocean == 1):
+        leftMap.add_feature(cfeature.OCEAN)
+        rightMap.add_feature(cfeature.OCEAN)
 
-    leftMap.add_feature(cfeature.LAND)
-    rightMap.add_feature(cfeature.LAND)
+    if (land == 1):
+        leftMap.add_feature(cfeature.LAND)
+        rightMap.add_feature(cfeature.LAND)
 
-    leftMap.gridlines()
-    rightMap.gridlines()
+    if (grid == 1):
+        leftMap.gridlines()
+        rightMap.gridlines()
 
     # Crops the map to be round instead of rectangular
     rightMap.set_boundary(makeCircle(), transform=rightMap.transAxes)
@@ -108,4 +111,4 @@ def generateNorthandSouthPoleMaps():
 
     plt.savefig('seaice_Output.png')
 
-generateNorthandSouthPoleMaps()
+generateNorthandSouthPoleMaps(1,1,1)
