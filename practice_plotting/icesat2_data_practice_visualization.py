@@ -80,4 +80,8 @@ def downloadSatelliteData(region):
     #region.download_granules(path)
     region.order_granules(format='NetCDF4-CF')
 
-printDetails(region)
+def main():
+    printDetails(region)
+
+if __name__ == "__main__":
+    main()

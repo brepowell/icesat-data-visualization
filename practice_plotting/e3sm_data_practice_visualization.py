@@ -139,4 +139,8 @@ def generateNorthandSouthPoleMaps(oceanFeature=1, landFeature=1, grid=1, coastli
     # Save the maps as an image.
     plt.savefig('seaice_Output.png')
 
-generateNorthandSouthPoleMaps(1,1,1,1)
+def main():
+    generateNorthandSouthPoleMaps(1,1,1,1)
+
+if __name__ == "__main__":
+    main()
