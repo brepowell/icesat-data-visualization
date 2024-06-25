@@ -62,7 +62,9 @@ def loadData(runDir, outputFileName):
 
 def mapHemisphere(latCell, lonCell, var1D, hemisphere, title, hemisphereMap):
     """ Map one hemisphere onto a matplotlib figure. 
-    You do not need to include the minus sign if mapping southern hemisphere. """
+    You do not need to include the minus sign if mapping southern hemisphere. 
+    This requires latCell and lonCell to be filled by a mesh file.
+    It also requires var1D to be filled by an output .nc file. """
     if hemisphere == "n":
         indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
     elif hemisphere == "s":
