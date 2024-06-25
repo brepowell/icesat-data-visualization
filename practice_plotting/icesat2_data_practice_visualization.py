@@ -34,7 +34,14 @@ from e3sm_data_practice_visualization import *
     # ATL07 is Sea Ice Height
     # ATL06 is Land Ice Height
     # ATL10 is Sea Ice Freeboard ** what we are interested in **
-SHORT_NAME = 'ATL10'
+
+PRODUCTS = {                  # Some algorithms are not compatible
+    "ATL07": ["Sea Ice Height"],
+    "ATL06": ["Land Ice Height"],
+    "ATL10": ["Sea Ice Freeboard"]
+}
+
+SHORT_NAME = 'ATL10' # Change this if you want to do different queries
 
 # spatial_extent examples, using a rectangle, polygon, or a shape file:
     # Decimal degrees for the lower left longitude, lower left latitude, 
@@ -54,26 +61,30 @@ SHORT_NAME = 'ATL10'
 LOWER_LEFT_LONGITUDE    = 180
 LOWER_LEFT_LATITUDE     = 50
 UPPER_RIGHT_LONGITUDE   = -180
-UPPER_RIGHT_LATITUDE    = 50
+UPPER_RIGHT_LATITUDE    = 90
 
-spatial_extent  = [LOWER_LEFT_LONGITUDE, LOWER_LEFT_LATITUDE, UPPER_RIGHT_LONGITUDE, UPPER_RIGHT_LATITUDE]
-# tracks. See https://icesat-2.gsfc.nasa.gov/science/specs
+def getSubsetOfSatData():
 
-date_range      = ['2020-7-1', '2020-7-2'] # YYYY-MM-DD
-start_time      = '03:30:00'
-end_time        = '21:30:00'
+    spatial_extent  = [LOWER_LEFT_LONGITUDE, LOWER_LEFT_LATITUDE, UPPER_RIGHT_LONGITUDE, UPPER_RIGHT_LATITUDE]
+    # tracks. See https://icesat-2.gsfc.nasa.gov/science/specs
 
-# Use the parameters that you specified to query the database for that area in that date range
-region = ipx.Query(SHORT_NAME, spatial_extent, date_range, start_time, end_time)
+    date_range      = ['2020-7-1', '2020-7-1'] # YYYY-MM-DD
+    start_time      = '15:00:00'
+    end_time        = '20:00:00'
+
+    # Use the parameters that you specified to query the database for that area in that date range
+    region = ipx.Query(SHORT_NAME, spatial_extent, date_range, start_time, end_time)
+    return region
 
 def printDetails(region):
-    print(region.product)
-    print(region.dates)
-    print(region.start_time)
-    print(region.end_time)
-    print(region.product_version)
-    print(list(set(region.avail_granules(cycles=True)[0]))) #region.cycles
-    print(list(set(region.avail_granules(tracks=True)[0]))) #region.tracks
+
+    print("Queried for ", PRODUCTS[region.product][0])
+    print("Date Range: ", region.dates)
+    print("Start Time: ", region.start_time)
+    print("End Time:   ", region.end_time)
+    print("Version:    ", region.product_version)
+    print("Cycles:     ", list(set(region.avail_granules(cycles=True)[0]))) #region.cycles
+    print("Tracks:     ", list(set(region.avail_granules(tracks=True)[0]))) #region.tracks
 
 def downloadSatelliteData(region):
     #path = './satellite_data'
@@ -81,6 +92,7 @@ def downloadSatelliteData(region):
     region.order_granules(format='NetCDF4-CF')
 
 def main():
+    region = getSubsetOfSatData()
     printDetails(region)
 
 if __name__ == "__main__":
