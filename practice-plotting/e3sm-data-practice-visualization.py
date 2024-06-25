@@ -26,7 +26,7 @@ MAXLONGITUDE =  180
 MINLONGITUDE = -180
 NORTHPOLE    =  90
 SOUTHPOLE    = -90
-LAT_LIMIT    =  50  # Good wide view for the north and south poles
+LAT_LIMIT    =  50  # Good wide view for the north and south poles; change if you want a wider or narrower view.
 
 # Change these for different runs
 runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
@@ -45,7 +45,8 @@ def loadMesh(runDir, meshFileName):
     return latCell, lonCell
 
 def loadData(runDir, outputFileName):
-    """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot. """
+    """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot of size nCells.
+    The indices of the 1D array match with those of the latitude and longitude arrays, which are also size nCells."""
     print('read: ', runDir, outputFileName)
 
     # Load the data into a variable named "output"
@@ -82,20 +83,21 @@ def makeCircle():
     verts = np.vstack([np.sin(theta), np.cos(theta)]).T
     return mpath.Path(verts * radius + center)
 
-def addMapFeatures(my_map, ocean, land, grid):
+def addMapFeatures(my_map, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     """ Set optional features on the map """
-    if (ocean == 1):
+    if (oceanFeature == 1):
         my_map.add_feature(cfeature.OCEAN)
 
-    if (land == 1):
+    if (landFeature == 1):
         my_map.add_feature(cfeature.LAND)
 
     if (grid == 1):
         my_map.gridlines()
 
-    my_map.coastlines()
+    if (coastlines == 1):
+        my_map.coastlines()
 
-def generateNorthandSouthPoleMaps(ocean, land, grid):
+def generateNorthandSouthPoleMaps(oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
     fig = plt.figure(figsize=[10, 5])
 
@@ -116,9 +118,9 @@ def generateNorthandSouthPoleMaps(ocean, land, grid):
     northMap.set_extent([MINLONGITUDE, MAXLONGITUDE,  LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
     southMap.set_extent([MINLONGITUDE, MAXLONGITUDE, -LAT_LIMIT, SOUTHPOLE], ccrs.PlateCarree())
 
-    # Add map features, like land and ocean.
-    addMapFeatures(northMap, ocean, land, grid)
-    addMapFeatures(southMap, ocean, land, grid)
+    # Add map features, like landFeature and oceanFeature.
+    addMapFeatures(northMap, oceanFeature, landFeature, grid, coastlines)
+    addMapFeatures(southMap, oceanFeature, landFeature, grid, coastlines)
 
     # Crop the map to be round instead of rectangular.
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
@@ -135,4 +137,4 @@ def generateNorthandSouthPoleMaps(ocean, land, grid):
     # Save the maps as an image.
     plt.savefig('seaice_Output.png')
 
-generateNorthandSouthPoleMaps(1,1,1)
+generateNorthandSouthPoleMaps(1,1,1,1)
