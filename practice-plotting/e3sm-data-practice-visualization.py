@@ -12,60 +12,58 @@
 # $ python e3sm-data-practice-visualization.py
 
 import os
-import math
-import numpy as np
-import xarray
+import numpy as np                  # For working with arrays
 import matplotlib.path as mpath
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt     # For plotting
+import netCDF4                      # For opening .nc files for numpy
 
 # Cartopy for map features, like land and ocean
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 # Constants
-MAXLONGITUDE = 180
+MAXLONGITUDE =  180
 MINLONGITUDE = -180
-NORTHPOLE = 90
-SOUTHPOLE = -90
-LAT_LIMIT = 50
+NORTHPOLE    =  90
+SOUTHPOLE    = -90
+LAT_LIMIT    =  50
 
 # Change these for different runs
-runDir = os.path.dirname(os.path.abspath(__file__))     # Gets the current directory path
-meshFileName = "\data\seaice.EC30to60E2r2.210210.nc"                                         # .nc file for the mesh
+runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
+meshFileName   = "\data\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
 outputFileName = "\data\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-varToPlot = 'timeDaily_avg_iceAreaCell' # The variable that you want to plot
+varToPlot      = 'timeDaily_avg_iceAreaCell'                                                 # The variable to plot
 
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
     print('read: ', runDir, meshFileName)
 
-    mesh            = xarray.open_dataset(runDir + meshFileName)
-    numberOfCells   = mesh.sizes['nCells']
-    latCell         = mesh.variables['latCell'] # in radians (checked by printing latCell[0:5])
-    lonCell         = mesh.variables['lonCell'] # in radians (checked by printing latCell[0:5])
-    xCell           = mesh.variables['xCell']   # in meters????
-    yCell           = mesh.variables['yCell'] 
+    dataset = netCDF4.Dataset(runDir + meshFileName)
+    latCell = np.degrees(dataset.variables['latCell'][:]) # converted from radians to degrees
+    lonCell = np.degrees(dataset.variables['lonCell'][:]) # converted from radians to degrees
 
-    return numberOfCells, latCell, lonCell, xCell, yCell
+    return latCell, lonCell
 
 def loadData(runDir, outputFileName):
     """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot. """
     print('read: ', runDir, outputFileName)
 
-    output = xarray.open_dataset(runDir + outputFileName)
-    var = output.variables[varToPlot]
-    var1D = var[0,:] # reduce the variable to 1D so we can use these indices
+    output = netCDF4.Dataset(runDir + outputFileName)
+    var = output.variables[varToPlot][:]
+    var1D = var[0,:]                                      # reduce the variable to 1D so we can use the indices
+    print("var1D", var1D[0:5])
+
     return var1D
 
-def mapHemisphere(latCell, lonCell, xCell, yCell, var1D, hemisphere, title, hemisphereMap):
+def mapHemisphere(latCell, lonCell, var1D, hemisphere, title, hemisphereMap):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign if mapping southern hemisphere. """
     if hemisphere == "n":
-        indices = np.where(latCell > math.radians(LAT_LIMIT))
-        sc = hemisphereMap.scatter(xCell[indices], yCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
+        indices = np.where(latCell > LAT_LIMIT)
+        sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=var1D[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
     elif hemisphere == "s":
-        indices = np.where(latCell < math.radians(-LAT_LIMIT))
-        sc = hemisphereMap.scatter(yCell[indices], xCell[indices], c=var1D[indices], cmap='bwr', s=0.4)
+        indices = np.where(latCell < -LAT_LIMIT)
+        sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=var1D[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
     else:
         return
     
@@ -122,10 +120,10 @@ def generateNorthandSouthPoleMaps(ocean, land, grid):
     southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
     # Load the mesh, data, and map the 2 hemispheres.
-    nCells, latCell, lonCell, xCell, yCell = loadMesh(runDir, meshFileName)
+    latCell, lonCell = loadMesh(runDir, meshFileName)
     var1D = loadData(runDir, outputFileName)
-    mapHemisphere(latCell, lonCell, xCell, yCell, var1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
-    mapHemisphere(latCell, lonCell, xCell, yCell, var1D, "s", "Antarctic Sea Ice", southMap) # Map southern hemisphere
+    mapHemisphere(latCell, lonCell, var1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    mapHemisphere(latCell, lonCell, var1D, "s", "Antarctic Sea Ice", southMap) # Map southern hemisphere
 
     # Save the maps as an image.
     plt.savefig('seaice_Output.png')
