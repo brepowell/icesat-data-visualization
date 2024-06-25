@@ -17,11 +17,11 @@
 import icepyx as ipx
 from e3sm_data_practice_visualization import *
 
-##########################################################
-# VARIABLES FOR CREATING A BOUNDING BOX TO VIEW THE DATA #
-##########################################################
+#################################
+# VARIABLES FOR AN ICESAT QUERY #
+#################################
 
-# See this for more info about the variables: 
+# See this documentation for more info about the variables: 
 # https://icepyx.readthedocs.io/en/latest/example_notebooks/IS2_data_access.html
     # SHORT_NAME is the data of interest
     # spatial_extent is the bounding box. It can be a shp, kml, or gpkg format for a polygon shape
@@ -66,7 +66,7 @@ UPPER_RIGHT_LATITUDE    = 90
 def printDetails(region):
     """ This helps you narrow down your query to a good range. 
     Ideally, you do not want to plot a lot of tracks. """
-    print("Queried for ", PRODUCTS[region.product])
+    print("Queried for ",     PRODUCTS[region.product])
     print("Spatial Extent: ", region.spatial_extent[1])
     print("Date Range:     ", region.dates)
     print("Start Time:     ", region.start_time)
@@ -90,14 +90,14 @@ def getSubsetOfSatData():
     printDetails(region)
     return region
 
-
+# https://icepyx.readthedocs.io/en/latest/example_notebooks/IS2_data_access2-subsetting.html
 def downloadSatelliteData(region):
     path = './satellite_data'
-    region.order_granules(path=path, format='NetCDF4-CF')
+    region.download_granules(path=path, format='NetCDF4-CF') # Calls order_granules() under the hood
 
 def main():
     region = getSubsetOfSatData()
-    # downloadSatelliteData(region)
+    downloadSatelliteData(region)
 
 if __name__ == "__main__":
     main()
