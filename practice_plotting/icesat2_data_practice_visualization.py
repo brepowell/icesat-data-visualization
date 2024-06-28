@@ -157,14 +157,14 @@ def seeAvailableVariables(region_a):
 
 # https://icepyx.readthedocs.io/en/latest/example_notebooks/IS2_data_access2-subsetting.html#why-does-the-subsetter-say-no-matching-data-was-found
 def downloadSatelliteData(region_a):
-    path = './satellite_data'
+    path = '/satellite_data'
     region_a.download_granules(path=path, format='NetCDF4-CF') # Calls order_granules() under the hood
 
 def main():
     region_a = queryForSatelliteAtSpaceAndTime()        # Can set printResult to be False
     subsetTheData(region_a, False)                      # Can set printResult to be False
     # seeAvailableVariables(region_a) # Saves the big long list of variables into variables.txt file.
-    # downloadSatelliteData(region_a)
+    downloadSatelliteData(region_a)
 
 if __name__ == "__main__":
     main()
