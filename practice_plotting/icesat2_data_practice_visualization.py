@@ -15,7 +15,6 @@
 # Have e3sm-data-practice-visualization.py in the same directory
 
 import icepyx as ipx
-import pprint # Pretty print library to print the variables nicely
 from e3sm_data_practice_visualization import *
 
 ######################
@@ -84,40 +83,55 @@ UPPER_RIGHT_LATITUDE    = 80
 
 TRACKS = ['0977']     # See https://icesat-2.gsfc.nasa.gov/science/specs
 
-def printQueryDetails(region):
+# ValueError: Invalid keyword: longitude. 
+# Please select from this list: ancillary_data, freeboard_estimation, freeboard_segment, geophysical, gt1l, gt1r, gt2l, gt2r, gt3l, gt3r, heights, leads, none, orbit_info, quality_assessment, reference_surface_section
+KEYWORDSFORSUBSET = ['freeboard_estimation', 'freeboard_segment'] # This is what variables you want to collect from ICESAT-2
+
+VARIABLESTOGRAB = ['longitude', 'latitude', 'beam_fb_height'] 
+
+def printQueryDetails(region_a):
     """ This helps you narrow down your query to a good range. 
     Ideally, you do not want to plot a lot of tracks. """
-    print("Queried for ",     PRODUCTS[region.product])
-    print("Spatial Extent: ", region.spatial_extent[1])
-    print("Date Range:     ", region.dates)
-    print("Start Time:     ", region.start_time)
-    print("End Time:       ", region.end_time)
-    print("Version:        ", region.product_version)
-    print("Cycles:         ", list(set(region.avail_granules(cycles=True)[0]))) #region.cycles
-    print("Tracks:         ", list(set(region.avail_granules(tracks=True)[0]))) #region.tracks
+    print("Queried for ",     PRODUCTS[region_a.product])
+    print("Spatial Extent: ", region_a.spatial_extent[1])
+    print("Date Range:     ", region_a.dates)
+    print("Start Time:     ", region_a.start_time)
+    print("End Time:       ", region_a.end_time)
+    print("Version:        ", region_a.product_version)
+    print("Cycles:         ", list(set(region_a.avail_granules(cycles=True)[0]))) #region_a.cycles
+    print("Tracks:         ", list(set(region_a.avail_granules(tracks=True)[0]))) #region_a.tracks
 
-def getSubsetOfSatData(print=True):
 
-    """ Query for only a small subset of the data, using the time constraints to narrow it down. 
-    ICESat-2 lauched on September 15, 2018, so do not expect to be able to see data earlier than that. """
+def subsetTheData(region_a, printResult=True):
+
+    a = region_a.order_vars.wanted
+    region_a.order_vars.append(keyword_list=KEYWORDSFORSUBSET)
+    
+    if printResult==True:
+        print(region_a.order_vars.wanted)
+
+def queryForSatelliteAtSpaceAndTime(printResult=True):
+    """ Query for only one location and a specific time. ICESat-2 lauched on September 15, 2018, 
+    so do not expect to be able to see data earlier than that. Use a bounding box or other shape to query
+    for a certain spatial extent. """
     spatial_extent  = [LOWER_LEFT_LONGITUDE, LOWER_LEFT_LATITUDE, UPPER_RIGHT_LONGITUDE, UPPER_RIGHT_LATITUDE]
     date_range      = ['2020-2-28', '2020-2-29'] # YYYY-MM-DD
     start_time      = '15:00:00'
     end_time        = '20:00:00'
 
     # Use the parameters that you specified to query the database for that area in that date range
-    region = ipx.Query(SHORT_NAME, spatial_extent, date_range, start_time, end_time, tracks=TRACKS)
-    # region = ipx.Query(SHORT_NAME, spatial_extent, date_range) # Use default start and end times.
+    region_a = ipx.Query(SHORT_NAME, spatial_extent, date_range, start_time, end_time, tracks=TRACKS)
+    # region_a = ipx.Query(SHORT_NAME, spatial_extent, date_range) # Use default start and end times.
 
     # Hard-Coded Example
-    # region = ipx.Query('ATL06',[-55, 68, -48, 71],['2019-02-22','2019-02-28'], start_time='00:00:00', end_time='23:59:59')
+    # region_a = ipx.Query('ATL06',[-55, 68, -48, 71],['2019-02-22','2019-02-28'], start_time='00:00:00', end_time='23:59:59')
 
-    if print==True:
-        printQueryDetails(region)
+    if printResult==True:
+        printQueryDetails(region_a)
 
-    return region
+    return region_a
 
-def seeAvailableVariables(region):
+def seeAvailableVariables(region_a):
     import sys, io
 
     filename = "variables.txt"
@@ -128,7 +142,7 @@ def seeAvailableVariables(region):
         sys.stdout = buffer
         
         # Call the function that prints its output
-        region.show_custom_options(dictview=True)
+        region_a.show_custom_options(dictview=True)
         
         # Restore the standard output
         sys.stdout = sys.__stdout__
@@ -142,14 +156,15 @@ def seeAvailableVariables(region):
             print("Error: The output of show_custom_options is None or empty.")
 
 # https://icepyx.readthedocs.io/en/latest/example_notebooks/IS2_data_access2-subsetting.html#why-does-the-subsetter-say-no-matching-data-was-found
-def downloadSatelliteData(region):
+def downloadSatelliteData(region_a):
     path = './satellite_data'
-    region.download_granules(path=path, format='NetCDF4-CF') # Calls order_granules() under the hood
+    region_a.download_granules(path=path, format='NetCDF4-CF') # Calls order_granules() under the hood
 
 def main():
-    region = getSubsetOfSatData() # Can set print to be False
-    # seeAvailableVariables(region) # Saves the big long list of variables into variables.txt file.
-    # downloadSatelliteData(region)
+    region_a = queryForSatelliteAtSpaceAndTime()        # Can set printResult to be False
+    subsetTheData(region_a, False)                      # Can set printResult to be False
+    # seeAvailableVariables(region_a) # Saves the big long list of variables into variables.txt file.
+    # downloadSatelliteData(region_a)
 
 if __name__ == "__main__":
     main()
