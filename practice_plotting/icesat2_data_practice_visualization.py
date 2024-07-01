@@ -156,15 +156,37 @@ def seeAvailableVariables(region_a):
             print("Error: The output of show_custom_options is None or empty.")
 
 # https://icepyx.readthedocs.io/en/latest/example_notebooks/IS2_data_access2-subsetting.html#why-does-the-subsetter-say-no-matching-data-was-found
-def downloadSatelliteData(region_a):
-    path = '/satellite_data'
-    region_a.download_granules(path=path, format='NetCDF4-CF') # Calls order_granules() under the hood
+def downloadSatelliteData(region_a, satelliteDataPath):
+    """ Download the data as a netCDF .nc file. """
+    region_a.download_granules(path=satelliteDataPath, format='NetCDF4-CF') # Calls order_granules() under the hood
 
 def main():
-    region_a = queryForSatelliteAtSpaceAndTime()        # Can set printResult to be False
-    subsetTheData(region_a, False)                      # Can set printResult to be False
+
+    ##################################
+    # QUERY, PULL, AND SAVE THE DATA #
+    ##################################
+
+    satelliteDataPath = '/satellite_data'
+
+    # region_a = queryForSatelliteAtSpaceAndTime()        # Can set printResult to be False
+    # subsetTheData(region_a, False)                      # Can set printResult to be False
     # seeAvailableVariables(region_a) # Saves the big long list of variables into variables.txt file.
-    downloadSatelliteData(region_a)
+    # downloadSatelliteData(region_a, satelliteDataPath) # Only use when you need to download the data
+
+    ################
+    # MAP THE DATA #
+    ################
+    runDir           = os.path.dirname(os.path.abspath(__file__))  # Get current directory path
+    
+    # Load the mesh and data to plot.
+    meshFileName     = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"
+    latCell, lonCell = loadMesh(runDir, meshFileName)
+
+    outputFileName = r"\satellite_data\processed_ATL10-01_20200228162543_09770601_006_01.nc"  # .nc file for the data to plot    
+    variableToPlot1D = loadData(runDir, outputFileName, VARIABLESTOGRAB[2])
+    mapImageFileName = 'satellite_Output.png'
+
+    generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, 1,1,1,1)
 
 if __name__ == "__main__":
     main()

@@ -32,7 +32,7 @@ LAT_LIMIT    =  50  # Good wide view for the north and south poles; change if yo
 runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
 meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
 outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-varToPlot      = 'timeDaily_avg_iceAreaCell'                                                 # The variable to plot
+keyVariableToPlot      = 'timeDaily_avg_iceAreaCell'                                                 # The variable to plot
 
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
@@ -44,27 +44,27 @@ def loadMesh(runDir, meshFileName):
 
     return latCell, lonCell
 
-def loadData(runDir, outputFileName):
+def loadData(runDir, outputFileName, keyVariableToPlot):
     """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot of size nCells.
     The indices of the 1D array match with those of the latitude and longitude arrays, which are also size nCells."""
     print('read: ', runDir, outputFileName)
 
     # Load the data into a variable named "output"
     output = netCDF4.Dataset(runDir + outputFileName)
-    var = output.variables[varToPlot][:]
+    var = output.variables[keyVariableToPlot][:]
 
     # Reduce the variable to 1D so we can use the indices.
-    # The indices for each cell of the var1D array coincide with the indices of the latCell and lonCell.
-    var1D = var[0,:]                                      
-    print("var1D", var1D[0:5])
+    # The indices for each cell of the variableToPlot1D array coincide with the indices of the latCell and lonCell.
+    variableToPlot1D = var[0,:]                                      
+    print("variableToPlot1D", variableToPlot1D[0:5])
 
-    return var1D
+    return variableToPlot1D
 
-def mapHemisphere(latCell, lonCell, var1D, hemisphere, title, hemisphereMap):
+def mapHemisphere(latCell, lonCell, variableToPlot1D, hemisphere, title, hemisphereMap):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign if mapping southern hemisphere. 
     This requires latCell and lonCell to be filled by a mesh file.
-    It also requires var1D to be filled by an output .nc file. """
+    It also requires variableToPlot1D to be filled by an output .nc file. """
     if hemisphere == "n":
         indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
     elif hemisphere == "s":
@@ -72,7 +72,7 @@ def mapHemisphere(latCell, lonCell, var1D, hemisphere, title, hemisphereMap):
     else:
         return
     
-    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=var1D[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=variableToPlot1D[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
     plt.colorbar(sc, ax=hemisphereMap)
@@ -99,7 +99,7 @@ def addMapFeatures(my_map, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     if (coastlines == 1):
         my_map.coastlines()
 
-def generateNorthandSouthPoleMaps(oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+def generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
     fig = plt.figure(figsize=[10, 5])
 
@@ -128,19 +128,21 @@ def generateNorthandSouthPoleMaps(oceanFeature=1, landFeature=1, grid=1, coastli
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
     southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
-    # Load the mesh and data to plot.
-    latCell, lonCell = loadMesh(runDir, meshFileName)
-    var1D = loadData(runDir, outputFileName)
-
     # Map the 2 hemispheres.
-    mapHemisphere(latCell, lonCell, var1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
-    mapHemisphere(latCell, lonCell, var1D, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
+    mapHemisphere(latCell, lonCell, variableToPlot1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    mapHemisphere(latCell, lonCell, variableToPlot1D, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
 
     # Save the maps as an image.
-    plt.savefig('seaice_Output.png')
+    plt.savefig(mapImageFileName)
 
 def main():
-    generateNorthandSouthPoleMaps(1,1,1,1)
+
+    # Load the mesh and data to plot.
+    latCell, lonCell = loadMesh(runDir, meshFileName)
+    variableToPlot1D = loadData(runDir, outputFileName, keyVariableToPlot)
+    mapImageFileName = 'seaice_Output.png'
+
+    generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, 1,1,1,1)
 
 if __name__ == "__main__":
     main()
