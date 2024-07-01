@@ -2,6 +2,9 @@
 # Started 06/25/2024
 # Modified from https://icepyx.readthedocs.io/en/latest/example_notebooks/IS2_data_visualization.html
 
+# TODO: The development of this program will be put on hiatus for the time being.
+# We are switching over to using a pre-processed Icesat dataset, (not oulling Icesat-2 data)
+
 ##########
 # TO RUN #
 ##########
@@ -87,7 +90,9 @@ TRACKS = ['0977']     # See https://icesat-2.gsfc.nasa.gov/science/specs
 # Please select from this list: ancillary_data, freeboard_estimation, freeboard_segment, geophysical, gt1l, gt1r, gt2l, gt2r, gt3l, gt3r, heights, leads, none, orbit_info, quality_assessment, reference_surface_section
 KEYWORDSFORSUBSET = ['freeboard_estimation', 'freeboard_segment'] # This is what variables you want to collect from ICESAT-2
 
-VARIABLESTOGRAB = ['longitude', 'latitude', 'beam_fb_height'] 
+# VARIABLESTOGRAB = ['longitude', 'latitude', 'beam_fb_height'] 
+VARIABLESTOGRAB = ['/gt3l/reference_surface_section/latitude/' , 
+'/gt3l/reference_surface_section/longitude/', '/gt3r/freeboard_segment/beam_fb_height/']
 
 def printQueryDetails(region_a):
     """ This helps you narrow down your query to a good range. 
@@ -103,6 +108,8 @@ def printQueryDetails(region_a):
 
 
 def subsetTheData(region_a, printResult=True):
+    """ Do not grab all the data, just grab a subset. 
+    Use the keyword list to query for specific pieces of data. """
 
     a = region_a.order_vars.wanted
     region_a.order_vars.append(keyword_list=KEYWORDSFORSUBSET)
@@ -132,6 +139,7 @@ def queryForSatelliteAtSpaceAndTime(printResult=True):
     return region_a
 
 def seeAvailableVariables(region_a):
+    """ Prints the available variables to a txt file to have a look at what is available in the data. """
     import sys, io
 
     filename = "variables.txt"
@@ -160,6 +168,42 @@ def downloadSatelliteData(region_a, satelliteDataPath):
     """ Download the data as a netCDF .nc file. """
     region_a.download_granules(path=satelliteDataPath, format='NetCDF4-CF') # Calls order_granules() under the hood
 
+
+# from https://stackoverflow.com/questions/31931483/programmatically-list-all-variables-of-a-netcdf-file-using-netcdf4-and-python
+# def expand_var_list(var_list, group):
+#     for var_key, _ in group.variables.items():
+#         var_list.append(var_key)
+    
+#     for _, sub_group in group.groups.items():
+#         expand_var_list(var_list, sub_group)
+
+#     all_vars = []
+#     with netCDF4.Dataset("test.nc", "r") as root_group:
+#         expand_var_list(all_vars, root_group)
+#     print(all_vars)
+#     return all_vars
+
+
+def loadSatelliteData(runDir, outputFileName, keyVariableToPlot):
+    """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot of size nCells.
+    The indices of the 1D array match with those of the latitude and longitude arrays, which are also size nCells."""
+    print('read: ', runDir, outputFileName)
+
+    # Load the data into a variable named "output"
+    output = netCDF4.Dataset(runDir + outputFileName)
+    # print(output) # Prints all the details
+    print(output.groups) # Gives specific details about each group within the dataset
+    
+    # TODO: Need to figure out what variable to pull from the dataset to map
+    #var = output.variables[keyVariableToPlot][:]
+
+    # Reduce the variable to 1D so we can use the indices.
+    # The indices for each cell of the variableToPlot1D array coincide with the indices of the latCell and lonCell.
+    #variableToPlot1D = var[0,:]                                      
+    #print("variableToPlot1D", variableToPlot1D[0:5])
+
+    #return variableToPlot1D
+
 def main():
 
     ##################################
@@ -183,10 +227,10 @@ def main():
     latCell, lonCell = loadMesh(runDir, meshFileName)
 
     outputFileName = r"\satellite_data\processed_ATL10-01_20200228162543_09770601_006_01.nc"  # .nc file for the data to plot    
-    variableToPlot1D = loadData(runDir, outputFileName, VARIABLESTOGRAB[2])
+    loadSatelliteData(runDir, outputFileName, VARIABLESTOGRAB[2])
     mapImageFileName = 'satellite_Output.png'
 
-    generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, 1,1,1,1)
+    # generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, 1,1,1,1)
 
 if __name__ == "__main__":
     main()
