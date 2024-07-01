@@ -1,27 +1,26 @@
 #!/bin/bash -fe
 
 # E3SM Coupled Model Group run_e3sm script template.
-#
 # Bash coding style inspired by:
 # http://kfirlavi.herokuapp.com/blog/2012/11/14/defensive-bash-programming
 
 main() {
 
-# For debugging, uncomment libe below
+# For debugging, uncomment line below
 #set -x
 
 # --- Configuration flags ----
 
 # Machine and project
-readonly MACHINE=pm-cpu
-readonly PROJECT="m4572" ## EDIT PROJECT 
+readonly MACHINE=pm-cpu  # Run on Perlmutter
+readonly PROJECT="m4572" # Breanna's Project
 
 # Simulation
-#readonly COMPSET="2000_DATM%JRA-1p5_SLND_MPASSI_DOCN%SOM_DROF%JRA-1p5_SGLC_SWAV_TEST"
-readonly COMPSET="DTESTM-JRA1p5"
+#readonly COMPSET="2000_DATM%JRA-1p5_SLND_MPASSI_DOCN%SOM_DROF%JRA-1p5_SGLC_SWAV_TEST"  # long name
+readonly COMPSET="DTESTM-JRA1p5"                                                        # short name
 readonly RESOLUTION="TL319_EC30to60E2r2"
 readonly NL_MAPS=false   ### nonlinear maps for tri-grid
-readonly CASE_NAME="Breanna_D_test_1"
+readonly CASE_NAME="Breanna_D_test_2x10"
 
 # Code and compilation
 #readonly CHECKOUT="20240502"
@@ -56,8 +55,8 @@ readonly JOB_QUEUE="debug"
 #  or 'production' for full simulation
 
 #readonly run='custom-4_1x1_ndays'
-readonly run='S_1x5_ndays'
-#readonly run='S_2x5_ndays'
+#readonly run='S_1x5_ndays'              # Ran this for Breanna_D_test_1 - try bigger runs
+readonly run='S_2x10_ndays'              # Running this for Breanna_D_test_2x10
 #readonly run='custom-52_1x10_ndays'
 #readonly run='custom-104_1x10_ndays'
 
