@@ -29,13 +29,6 @@ SOUTHPOLE       = -90
 LAT_LIMIT       =  50  # Good wide view for the north and south poles; change if you want a wider or narrower view.
 VARIABLETOPLOT  = 'timeDaily_avg_iceAreaCell'   # The variable to plot
 
-
-# Change these for different runs
-runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
-meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
-outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-
-
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
     print('read: ', runDir, meshFileName)
@@ -206,15 +199,22 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
 
 def main():
 
+    # Change these for different runs
+    runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
+    meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
+    outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
+
     # Load the mesh and data to plot.
     latCell, lonCell = loadMesh(runDir, meshFileName)
     output = loadData(runDir, outputFileName)
     print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
     variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
     
+    # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
     generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", 1,1,1,1,1)
 
+    # Plot just the arctic
     fig, northMap = generateNorthPoleAxes()
     generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", 1,1,1,1,1)
 

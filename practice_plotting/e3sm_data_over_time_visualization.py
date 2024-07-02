@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.animation as animation
 from e3sm_data_practice_visualization import *
 
-def createGIFAnimation(fileName):
+def createGIFAnimation(fileName, runDir, meshFileName, outputFileName):
 
     # Load the mesh and data to plot.
     latCell, lonCell    = loadMesh(runDir, meshFileName)
@@ -29,7 +29,12 @@ def createGIFAnimation(fileName):
     ani.save(filename=fileName, writer="pillow")
 
 def main():
-    createGIFAnimation("5_day_simulation.gif")
+
+    # Change these for different runs
+    runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
+    meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
+    outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
+    createGIFAnimation("5_day_simulation.gif", runDir, meshFileName, outputFileName)
 
 if __name__ == "__main__":
     main()
