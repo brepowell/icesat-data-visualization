@@ -1,5 +1,5 @@
-# Breanna Powell
-# Modified code from Mark Petersen and Savannah Byron
+# Author:   Breanna Powell
+# Date:     07/02/2024
 
 ##########
 # TO RUN #
@@ -22,17 +22,19 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 # Constants
-MAXLONGITUDE =  180
-MINLONGITUDE = -180
-NORTHPOLE    =  90
-SOUTHPOLE    = -90
-LAT_LIMIT    =  50  # Good wide view for the north and south poles; change if you want a wider or narrower view.
+MAXLONGITUDE    =  180
+MINLONGITUDE    = -180
+NORTHPOLE       =  90
+SOUTHPOLE       = -90
+LAT_LIMIT       =  50  # Good wide view for the north and south poles; change if you want a wider or narrower view.
+VARIABLETOPLOT  = 'timeDaily_avg_iceAreaCell'   # The variable to plot
+
 
 # Change these for different runs
 runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
 meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
 outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-keyVariableToPlot      = 'timeDaily_avg_iceAreaCell'                                                 # The variable to plot
+
 
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
@@ -44,27 +46,40 @@ def loadMesh(runDir, meshFileName):
 
     return latCell, lonCell
 
-def loadData(runDir, outputFileName, keyVariableToPlot):
+def loadData(runDir, outputFileName):
     """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot of size nCells.
     The indices of the 1D array match with those of the latitude and longitude arrays, which are also size nCells."""
     print('read: ', runDir, outputFileName)
 
-    # Load the data into a variable named "output"
-    output = netCDF4.Dataset(runDir + outputFileName)
-    var = output.variables[keyVariableToPlot][:]
+    return netCDF4.Dataset(runDir + outputFileName)
 
-    # Reduce the variable to 1D so we can use the indices.
-    # The indices for each cell of the variableToPlot1D array coincide with the indices of the latCell and lonCell.
-    variableToPlot1D = var[0,:]                                      
-    print("variableToPlot1D", variableToPlot1D[0:5])
+def printAllAvailableVariables(output):
+    """ See what variables you can use in this netCDF file. 
+    Requires having loaded a netCDF file into an output variable. """
+    print(output.variables) # See all variables available in the netCDF file
 
-    return variableToPlot1D
+def getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT):
+    """ Find out how many days are in the simulation by looking at the netCDF file and at the variable
+     you have chosen to plot. """
+    variableForAllDays = output.variables[keyVariableToPlot][:]
+    return variableForAllDays.shape[0]
 
-def mapHemisphere(latCell, lonCell, variableToPlot1D, hemisphere, title, hemisphereMap):
+def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
+    """ Reduce the variable to one day's worth of data so we can plot using each indice per cell. 
+        The indices for each cell of the variableToPlot1Day array coincide with the indices 
+        of the latCell and lonCell. """
+    
+    variableForAllDays = output.variables[keyVariableToPlot][:]
+    variableToPlot1Day = variableForAllDays[dayNumber,:]                                     
+    # print("variableToPlot1Day", variableToPlot1Day[0:5])
+
+    return variableToPlot1Day
+
+def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign if mapping southern hemisphere. 
     This requires latCell and lonCell to be filled by a mesh file.
-    It also requires variableToPlot1D to be filled by an output .nc file. """
+    It also requires variableToPlot1Day to be filled by an output .nc file. """
     if hemisphere == "n":
         indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
     elif hemisphere == "s":
@@ -72,10 +87,11 @@ def mapHemisphere(latCell, lonCell, variableToPlot1D, hemisphere, title, hemisph
     else:
         return
     
-    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=variableToPlot1D[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=variableToPlot1Day[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
-    plt.colorbar(sc, ax=hemisphereMap)
+
+    return sc
 
 def makeCircle():
     """ Use this with Cartopy to make a circular map of the globe, 
@@ -99,10 +115,10 @@ def addMapFeatures(my_map, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     if (coastlines == 1):
         my_map.coastlines()
 
-def generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
-    """ Generate 2 maps; one of the north pole and one of the south pole. """
-    fig = plt.figure(figsize=[10, 5])
-
+def generateNorthandSouthPoleAxes():
+    """ Return a figure and axes (maps) to use for plotting data for the North and South Poles. """
+    fig = plt.figure(figsize=[10, 5]) #both north and south pole
+    
     # Define projections for each map.
     map_projection_north = ccrs.NorthPolarStereo(central_longitude=270, globe=None)
     map_projection_south = ccrs.SouthPolarStereo(central_longitude=0, globe=None)
@@ -110,6 +126,23 @@ def generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFi
     # Create the two maps as subplots of the figure.
     northMap = fig.add_subplot(1, 2, 1, projection=map_projection_north)
     southMap = fig.add_subplot(1, 2, 2, projection=map_projection_south)
+
+    return fig, northMap, southMap
+
+def generateNorthPoleAxes():
+    """ Return a figure and axes (map) to use for plotting data for the North Pole. """
+
+    fig = plt.figure(figsize=[5, 5]) #north pole only
+    
+    # Define projections for each map.
+    map_projection_north = ccrs.NorthPolarStereo(central_longitude=270, globe=None)
+    
+    # Create an axes for a map of the Arctic on the figure
+    northMap = fig.add_subplot(1, 1, 1, projection=map_projection_north)
+    return fig, northMap
+
+def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+    """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
     fig.subplots_adjust(bottom=0.05, top=0.95, left=0.04, right=0.95, wspace=0.02)
@@ -129,20 +162,53 @@ def generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFi
     southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
     # Map the 2 hemispheres.
-    mapHemisphere(latCell, lonCell, variableToPlot1D, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
-    mapHemisphere(latCell, lonCell, variableToPlot1D, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
+    scatter1 = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    scatter2 = mapHemisphere(latCell, lonCell, variableToPlot1Day, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
+
+    return scatter1, scatter2
+
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+    """ Generate 2 maps; one of the north pole and one of the south pole. """
+
+    # Adjust the margins around the plots (as a fraction of the width or height).
+    fig.subplots_adjust(bottom=0.05, top=0.95, left=0.04, right=0.95, wspace=0.02)
+
+    # Set your viewpoint (the bounding box for what you will see).
+    # You want to see the full range of longitude values, since this is a polar plot.
+    # The range for the latitudes should be from your latitude limit (i.e. 50 degrees or -50 to the pole at 90 or -90).
+    northMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
+
+    # Add map features, like landFeature and oceanFeature.
+    addMapFeatures(northMap, oceanFeature, landFeature, grid, coastlines)
+
+    # Crop the map to be round instead of rectangular.
+    northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
+
+    # Map the 2 hemispheres.
+    scatter1 = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+
+    # Save the maps as an image.
+    plt.savefig(mapImageFileName)
+
+    return scatter1
 
 def main():
 
     # Load the mesh and data to plot.
     latCell, lonCell = loadMesh(runDir, meshFileName)
-    variableToPlot1D = loadData(runDir, outputFileName, keyVariableToPlot)
+    output = loadData(runDir, outputFileName)
+    print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
+    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
     mapImageFileName = 'seaice_Output.png'
-
-    generateNorthandSouthPoleMaps(latCell, lonCell, variableToPlot1D, mapImageFileName, 1,1,1,1)
+    
+    fig, northMap, southMap = generateNorthandSouthPoleAxes()
+    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, 1,1,1,1)
+    
+    fig, northMap = generateNorthPoleAxes()
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", 1,1,1,1)
 
 if __name__ == "__main__":
     main()
