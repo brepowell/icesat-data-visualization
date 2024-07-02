@@ -9,6 +9,7 @@
 # Have a folder labeled "netCDF_files" in that directory
 # The data folder must contain the mesh file and the output file
 # Ensure that you are looking for a variable that exists in the output file
+
 # $ python e3sm-data-practice-visualization.py
 
 import os
