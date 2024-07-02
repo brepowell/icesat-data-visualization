@@ -141,7 +141,7 @@ def generateNorthPoleAxes():
     northMap = fig.add_subplot(1, 1, 1, projection=map_projection_north)
     return fig, northMap
 
-def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -162,15 +162,20 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
     southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
     # Map the 2 hemispheres.
-    scatter1 = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
-    scatter2 = mapHemisphere(latCell, lonCell, variableToPlot1Day, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
+    northPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    southPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
+
+    # Set Color Bar
+    if colorBarOn:
+        plt.colorbar(northPoleScatter, ax=northMap)
+        plt.colorbar(southPoleScatter, ax=southMap)
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
 
-    return scatter1, scatter2
+    return northPoleScatter, southPoleScatter
 
-def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -187,13 +192,17 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
     # Crop the map to be round instead of rectangular.
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
-    # Map the 2 hemispheres.
-    scatter1 = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    # Map thehemispheres.
+    scatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+
+    # Set Color Bar
+    if colorBarOn:
+        plt.colorbar(scatter, ax=northMap)
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
 
-    return scatter1
+    return scatter
 
 def main():
 
@@ -202,13 +211,12 @@ def main():
     output = loadData(runDir, outputFileName)
     print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
     variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
-    mapImageFileName = 'seaice_Output.png'
     
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
-    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, 1,1,1,1)
-    
+    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", 1,1,1,1,1)
+
     fig, northMap = generateNorthPoleAxes()
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", 1,1,1,1)
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", 1,1,1,1,1)
 
 if __name__ == "__main__":
     main()
