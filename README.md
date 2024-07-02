@@ -1,4 +1,4 @@
-﻿# icesat2-data-visualization
+﻿# icesat-data-visualization
 The purpose of this repository is to store visualization tools for me to use when looking at data from icesat-2 and E3SM. There is another repository where I cloned E3SM. I will be creating a new analysis member for E3SM this summer.
 
 ## plotting_library_practice
