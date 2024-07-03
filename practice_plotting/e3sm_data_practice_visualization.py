@@ -5,6 +5,7 @@
 # TO RUN #
 ##########
 
+# Use the config.py file to specify max latitude, max longitude, file paths, etc.
 # Make sure that you navigate to the directory that contains e3sm-data-practice-visualization.py
 # Have a folder labeled "netCDF_files" in that directory
 # The data folder must contain the mesh file and the output file
@@ -12,7 +13,6 @@
 
 # $ python e3sm-data-practice-visualization.py
 
-import os
 import numpy as np                  # For working with arrays
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt     # For plotting
@@ -21,14 +21,7 @@ import netCDF4                      # For opening .nc files for numpy
 # Cartopy for map features, like land and ocean
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-
-# Constants
-MAXLONGITUDE    =  180
-MINLONGITUDE    = -180
-NORTHPOLE       =  90
-SOUTHPOLE       = -90
-LAT_LIMIT       =  50  # Good wide view for the north and south poles; change if you want a wider or narrower view.
-VARIABLETOPLOT  = 'timeDaily_avg_iceAreaCell'   # The variable to plot
+from config import *
 
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
@@ -200,10 +193,6 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
 
 def main():
 
-    # Change these for different runs
-    runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
-    meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
-    outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
 
     # Load the mesh and data to plot.
     latCell, lonCell = loadMesh(runDir, meshFileName)
