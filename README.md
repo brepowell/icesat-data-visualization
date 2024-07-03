@@ -1,5 +1,5 @@
-﻿# icesat2-data-visualization
-The purpose of this repository is to store visualization tools for me to use when looking at data from icesat-2 and E3SM. There is another repository where I cloned E3SM. I will be creating a new analysis member for E3SM this summer.
+﻿# icesat-data-visualization
+The purpose of this repository is to store visualization tools for me to use when looking at data from the DOE's Energy Exascale System Model (E3SM) and NASA's IceSat or IceSat-2. There is another repository on my github where I forked E3SM. I will be creating a new analysis member for E3SM this summer within that forked repo.
 
 ## plotting_library_practice
 This folder contains some generic matplotlib and cartopy examples that I used to give me a better feel for how those libraries work and what they are capable of doing.
