@@ -15,4 +15,6 @@ e3sm_data_practice_visualization.py is where I put several utility functions to 
 
 e3sm_data_over_time_visualization.py is where I made a function to create an animation for however many days exist in the netCDF file.
 
+<img src="\practice_plotting\5_day_simulation.gif" width = "400">
+
 icesat2_data_practice_visualization.py is where I first queried the NASA satellite, icesat-2. That part of the project is on hiatus as other parts of the project have taken priority.
