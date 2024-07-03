@@ -25,7 +25,6 @@ def createGIFAnimation(fileName, runDir, meshFileName, outputFileName):
     output              = loadData(runDir, outputFileName)
     days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
     artists = []
-    mapImageFileName = 'seaice_both_poles.png'
 
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
 
@@ -44,9 +43,8 @@ def createGIFAnimation(fileName, runDir, meshFileName, outputFileName):
 
 def main():
 
-    createGIFAnimation("5_day_simulation.gif", runDir, meshFileName, outputFileName) # Just for a 5-day simulation
-    # createGIFAnimation("10_day_simulation.gif", runDir, meshFileName, outputFileName)
-    # createGIFAnimation("365_day_simulation.gif", runDir, meshFileName, outputFileName)
+    # Change file name in config file
+    createGIFAnimation(animationFileName, runDir, meshFileName, outputFileName) 
 
 if __name__ == "__main__":
     main()

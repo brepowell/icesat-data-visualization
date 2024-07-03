@@ -9,10 +9,14 @@ import os
 VARIABLETOPLOT  = 'timeDaily_avg_iceAreaCell'   # The variable to plot
 LAT_LIMIT       =  50  # Good wide view for the north and south poles; change if you want a wider or narrower view.
 
-# Change these for different runs
+# Change these for different runs if you want to grab other .nc files
 runDir         = os.path.dirname(os.path.abspath(__file__))                                  # Get current directory path
 meshFileName   = r"\netCDF_files\seaice.EC30to60E2r2.210210.nc"                                       # .nc file for the mesh
-outputFileName = r"\netCDF_files\Breanna_D_test_1.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
+outputFileName = r"\netCDF_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
+
+# Change these to save without overwriting your files
+animationFileName   = "10_day_simulation.gif"             # Should be a .gif extension
+mapImageFileName    = "seaice_both_poles.png"             # Should be a .png file extension
 
 # Constants
 MAXLONGITUDE    =  180
