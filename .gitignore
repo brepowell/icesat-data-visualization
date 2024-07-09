@@ -1,5 +1,7 @@
 example_code/
-practice_plotting/netCDF_files/
+practice_plotting/mesh_files/
+practice_plotting/output_files/
 practice_plotting/__pycache__
-#practice_plotting/satellite_data
+practice_plotting/satellite_data_raw_from_NASA
+practice_plotting/satellite_data_preprocessed
 variables.txt

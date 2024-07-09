@@ -23,7 +23,7 @@ readonly PROJECT="m4572" # Breanna's Project
 readonly COMPSET="DTESTM-JRA1p5"                                                        # short name
 readonly RESOLUTION="TL319_EC30to60E2r2"
 readonly NL_MAPS=false   ### nonlinear maps for tri-grid
-readonly CASE_NAME="Breanna_D_test_1x10" # Change for each run
+readonly CASE_NAME="Breanna_D_test_5x365" # Change for each run
 
 # Code and compilation
 #readonly CHECKOUT="20240502"
@@ -59,7 +59,7 @@ readonly JOB_QUEUE="debug" # 'debug' or 'regular' https://docs.nersc.gov/jobs/po
 
 #readonly run='custom-4_1x1_ndays'
 #readonly run='S_1x5_ndays'              # Ran this for Breanna_D_test_1 - try bigger runs
-readonly run='M_1x10_ndays'              # Running this for Breanna_D_test_1x10
+#readonly run='M_1x10_ndays'             # Ran this for Breanna_D_test_1x10
 
 #readonly run='custom-52_1x10_ndays'
 #readonly run='custom-104_1x10_ndays'
