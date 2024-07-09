@@ -21,15 +21,19 @@ readonly PROJECT="m4572" # Breanna's Project
 # Simulation
 #readonly COMPSET="2000_DATM%JRA-1p5_SLND_MPASSI_DOCN%SOM_DROF%JRA-1p5_SGLC_SWAV_TEST"  # long name
 readonly COMPSET="DTESTM-JRA1p5"                                                        # short name
-readonly RESOLUTION="TL319_EC30to60E2r2"
+
+# Mesh to use
+#readonly RESOLUTION="TL319_EC30to60E2r2"   # Mesh used for 5-10 day simulation
+readonly RESOLUTION="TL319_IcoswISC30E3r5" # Mesh used for satellite data
+
 readonly NL_MAPS=false   ### nonlinear maps for tri-grid
-readonly CASE_NAME="Breanna_D_test_5x365" # Change for each run
+readonly CASE_NAME="Breanna_D_test_10_nodes_1_nyears" # Change for each run
 
 # Code and compilation
 #readonly CHECKOUT="20240502"
 #readonly BRANCH="be04e23443ce39d04bb43bb3ec341fdd23d06c31"  ## Erins V3 Wave Momentum branch rebased w/master as of May 2 2024
 readonly CHERRY=( )
-readonly DEBUG_COMPILE=true
+readonly DEBUG_COMPILE=false # Change to true when adding code to model
 
 # Run options
 readonly MODEL_START_TYPE="initial"  # 'initial', 'continue', 'branch', 'hybrid'
@@ -50,7 +54,7 @@ readonly CASE_BUILD_DIR=${CASE_ROOT}/build
 readonly CASE_ARCHIVE_DIR=${CASE_ROOT}/archive
 
 #readonly CHARGE_ACCOUNT="priority" # For priority partition on chrysalis
-readonly JOB_QUEUE="debug" # 'debug' or 'regular' https://docs.nersc.gov/jobs/policy/
+readonly JOB_QUEUE="regular" # 'debug' or 'regular' https://docs.nersc.gov/jobs/policy/
 # For regular, you'll have to wait in the priority queue
 
 # Define type of run
@@ -60,10 +64,10 @@ readonly JOB_QUEUE="debug" # 'debug' or 'regular' https://docs.nersc.gov/jobs/po
 #readonly run='custom-4_1x1_ndays'
 #readonly run='S_1x5_ndays'              # Ran this for Breanna_D_test_1 - try bigger runs
 #readonly run='M_1x10_ndays'             # Ran this for Breanna_D_test_1x10
+readonly run='custom-10_1x1_nyears'      # Ran this for Breanna_D_test_10_nodes_1_nyears
 
 #readonly run='custom-52_1x10_ndays'
 #readonly run='custom-104_1x10_ndays'
-
 #readonly run='production'
 
 if [[ "${run}" != "production" ]]; then
@@ -78,7 +82,7 @@ if [[ "${run}" != "production" ]]; then
   readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/tests/${run}/case_scripts
   readonly CASE_RUN_DIR=${CASE_ROOT}/tests/${run}/run
   readonly PELAYOUT=${layout}
-  readonly WALLTIME="0:20:00"
+  readonly WALLTIME="12:00:00" # Change this as a bound for how much time to take
   readonly STOP_OPTION=${units}
   readonly STOP_N=${length}
   readonly REST_OPTION=${STOP_OPTION}
@@ -102,10 +106,10 @@ else
 fi
 
 # Coupler history 
-readonly HIST_OPTION="nsteps"
-readonly HIST_N="1"
+readonly HIST_OPTION="never"  # Changed from 'nsteps' to "never"
+readonly HIST_N="0"           # Changed from 1 to 0
 
-readonly INFO_DBUG="3"
+readonly INFO_DBUG="1"        # Changed from 3 to 1
 
 # Leave empty (unless you understand what it does)
 readonly OLD_EXECUTABLE=""
@@ -226,7 +230,7 @@ then
     echo $'\n CUSTOMIZE PROCESSOR CONFIGURATION:'
 
     # Number of cores per node (machine specific)
-    if [ "${MACHINE}" == "chrysalis" ]; then
+    if [ "${MACHINE}" == "pm-cpu" ]; then        # Changed from "chrysalis"
         ncore=32
         hthrd=2  # hyper-threading
     else
@@ -247,19 +251,19 @@ then
     ./xmlchange MAX_TASKS_PER_NODE=$(( $ncore * $hthrd))
 
     # Layout-specific customization
-    if [ "${nnodes}" == "3" ]; then
+    if [ "${nnodes}" == "10" ]; then      # Changed from 3 to 10
 
-       echo Using custom 3 nodes layout
+       echo Using custom 10 nodes layout   # Changed from 3 to 10
 
        ### Current defaults for L
-      ./xmlchange CPL_NTASKS=384
-      ./xmlchange ATM_NTASKS=384
-      ./xmlchange OCN_NTASKS=384
+      ./xmlchange CPL_NTASKS=1280         # Changed next 6 lines from 384 to 1280
+      ./xmlchange ATM_NTASKS=1280
+      ./xmlchange OCN_NTASKS=1280
 
       ### Added by Xue for tri-grid
-      ./xmlchange LND_NTASKS=384
-      ./xmlchange ROF_NTASKS=384
-      ./xmlchange ICE_NTASKS=384
+      ./xmlchange LND_NTASKS=1280
+      ./xmlchange ROF_NTASKS=1280
+      ./xmlchange ICE_NTASKS=1280
       
       # ADDED BY ERIN for WW3 COMPSET
       #./xmlchange WAV_NTASKS=320
