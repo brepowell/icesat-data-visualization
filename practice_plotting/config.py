@@ -16,15 +16,15 @@ LAT_LIMIT       =  50  # Good wide view for the north and south poles; change if
 # Change these for different runs if you want to grab other .nc files
 runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
 
-#meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
-meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh
+meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
+#meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh
 
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_16.nc"
+outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_16.nc" # Satellite Track
 
 # Change these to save without overwriting your files
-animationFileName   = "satellite_track_animation_2008_02_22_16.gif"             # Should be a .gif extension
-mapImageFileName    = "satellite_both_poles.png"             # Should be a .png file extension
+animationFileName   = "satellite_track_2008_02_22_16_animation.gif"             # Should be a .gif extension
+mapImageFileName    = "satellite_track_2008_02_22_16.png"             # Should be a .png file extension
 
 # Constants
 MAXLONGITUDE    =  180
