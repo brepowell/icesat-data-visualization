@@ -20,7 +20,7 @@ runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current 
 meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh
 
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2007_03_15_12.nc"
+outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_16.nc"
 
 # Change these to save without overwriting your files
 animationFileName   = "satellite_track_animation_2008_02_22_16.gif"             # Should be a .gif extension
