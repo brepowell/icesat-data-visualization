@@ -27,7 +27,7 @@ readonly COMPSET="DTESTM-JRA1p5"                                                
 readonly RESOLUTION="TL319_IcoswISC30E3r5" # Mesh used for satellite data
 
 readonly NL_MAPS=false   ### nonlinear maps for tri-grid
-readonly CASE_NAME="Breanna_D_test_10_nodes_1_nyears" # Change for each run
+readonly CASE_NAME="Breanna_D_test_10_nodes_1_nyears_redo" # Change for each run
 
 # Code and compilation
 #readonly CHECKOUT="20240502"
@@ -231,7 +231,7 @@ then
 
     # Number of cores per node (machine specific)
     if [ "${MACHINE}" == "pm-cpu" ]; then        # Changed from "chrysalis"
-        ncore=32
+        ncore=64 # changed from 32
         hthrd=2  # hyper-threading
     else
         echo 'ERROR: MACHINE = '${MACHINE}' is not supported for current custom PE layout setting.'
