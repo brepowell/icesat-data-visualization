@@ -50,10 +50,10 @@ def main():
 
     # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
-    scatterNorth, scatterSouth = generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "sat_track1", 1,1,1,1,1)
+    scatterNorth, scatterSouth = generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "sat_track1", 1,1,1,1,1,5.0)
     print("Generated .png file")
 
-    ani = animation.FuncAnimation(fig=fig, func=update, frames=100, interval=30)
+    ani = animation.FuncAnimation(fig=fig, func=update, frames=40, interval=30)
     ani.save(filename="satellite_track.gif", writer="pillow")
     print("Saved animation as a .gif")
 

@@ -62,7 +62,7 @@ def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
 
     return variableToPlot1Day
 
-def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap):
+def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap, dot_size=0.4):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign if mapping southern hemisphere. 
     This requires latCell and lonCell to be filled by a mesh file.
@@ -74,7 +74,7 @@ def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemis
     else:
         return
     
-    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=variableToPlot1Day[indices], cmap='bwr', s=0.4, transform=ccrs.PlateCarree())
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=variableToPlot1Day[indices], cmap='bwr', s=dot_size, transform=ccrs.PlateCarree())
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
 
@@ -128,7 +128,7 @@ def generateNorthPoleAxes():
     northMap = fig.add_subplot(1, 1, 1, projection=map_projection_north)
     return fig, northMap
 
-def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=0.4):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -149,8 +149,8 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
     southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
     # Map the 2 hemispheres.
-    northPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
-    southPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "s", "Antarctic Sea Ice", southMap)  # Map southern hemisphere
+    northPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap, dot_size=dot_size)     # Map northern hemisphere
+    southPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "s", "Antarctic Sea Ice", southMap, dot_size=dot_size)  # Map southern hemisphere
 
     # Set Color Bar
     if colorBarOn:
