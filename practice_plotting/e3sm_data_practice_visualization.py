@@ -163,7 +163,7 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
     return northPoleScatter, southPoleScatter
 
 def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
-    """ Generate 2 maps; one of the north pole and one of the south pole. """
+    """ Generate one map of the north pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
     fig.subplots_adjust(bottom=0.05, top=0.95, left=0.04, right=0.95, wspace=0.02)
