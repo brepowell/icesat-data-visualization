@@ -13,7 +13,7 @@ VARIABLETOPLOT  = 'freeboard'
 LAT_LIMIT       =  65  # More of a closeup
 # LAT_LIMIT       =  50  # Good wide view for the north and south poles;
 
-DOT_SIZE = 7.0
+DOT_SIZE        = 7.0
 
 # Change these for different runs if you want to grab other .nc files
 runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
@@ -28,11 +28,19 @@ outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_
 subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 
 # Change these to save without overwriting your files
-# animationFileName   = "satellite_track_2008_03_animation.gif"   # Should be a .gif extension
-# mapImageFileName    = "satellite_track_2008_03.png"             # Should be a .png file extension
+animationFileName   = "satellite_track_2008_03_animation.gif"   # Should be a .gif extension
+mapImageFileName    = "satellite_track_2008_03.png"             # Should be a .png file extension
 
-animationFileName   = "satellite_track_2008_02_22_14_animation.gif"   # Should be a .gif extension
-mapImageFileName    = "satellite_track_2008_02_22_14.png"             # Should be a .png file extension
+# animationFileName   = "satellite_track_2008_02_22_14_animation.gif"   # Should be a .gif extension
+# mapImageFileName    = "satellite_track_2008_02_22_14.png"             # Should be a .png file extension
+
+# Map settings
+OCEANFEATURE    = 1   # These features are on
+LANDFEATURE     = 1
+COASTLINES      = 1
+COLORBARON      = 1
+
+GRIDON          = 0   # These features are off
 
 # Constants
 MAXLONGITUDE    =  180

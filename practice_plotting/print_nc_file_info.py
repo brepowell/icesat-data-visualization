@@ -13,8 +13,10 @@ runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current 
 # outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 236853
 
 # FILES FOR 1 YEAR SIMULATION:
-outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_16.nc"        # 6533
 # outputFileName = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc" # Size in grid cells:     465044
+
+# FILES FOR SATELLITE TRACK ANIMATION:
+outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"  # 6533
 
 output = loadData(runDir, outputFileName)
 printAllAvailableVariables(output)

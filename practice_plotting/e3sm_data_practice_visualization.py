@@ -88,7 +88,7 @@ def makeCircle():
     verts = np.vstack([np.sin(theta), np.cos(theta)]).T
     return mpath.Path(verts * radius + center)
 
-def addMapFeatures(my_map, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+def addMapFeatures(my_map, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES):
     """ Set optional features on the map """
     if (oceanFeature == 1):
         my_map.add_feature(cfeature.OCEAN)
@@ -128,7 +128,8 @@ def generateNorthPoleAxes():
     northMap = fig.add_subplot(1, 1, 1, projection=map_projection_north)
     return fig, northMap
 
-def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=DOT_SIZE):
+def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=COLORBARON, 
+                                      oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES, dot_size=DOT_SIZE):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -164,7 +165,8 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
 
     return northPoleScatter, southPoleScatter
 
-def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=DOT_SIZE):
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=COLORBARON, 
+                                      oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES, dot_size=DOT_SIZE):
     """ Generate one map of the north pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -205,11 +207,11 @@ def main():
     
     # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
-    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", 1,1,1,1,1)
+    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles")
 
     # Plot just the arctic
     fig, northMap = generateNorthPoleAxes()
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", 1,1,1,1,1)
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole")
 
 if __name__ == "__main__":
     main()
