@@ -4,6 +4,7 @@ import matplotlib.animation as animation
 from e3sm_data_practice_visualization import *
 from plotting_track_animation import *
 
+import time
 import os
 import netCDF4
 
@@ -19,13 +20,15 @@ def gatherFiles():
 
     return filesToPlot
 
-def animateTrackLines(filePaths):
-    """ Animates all tracks for a given period of time. Depends on what items are
-     in the specified subdirectory. """
+def animateTrackLinesNorthAndSouth(filePaths):
+    """ Animates all tracks for a given period of time (one day or one month). 
+    Depends on what items are in the specified subdirectory. """
     
     artists = []
     previousTracks = []  # List to keep track of all artists
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
+
+    startTime = time.time()
 
     # Load the mesh and data to plot.
     for file in filePaths:
@@ -46,9 +49,44 @@ def animateTrackLines(filePaths):
     ani.save(filename=animationFileName, writer="pillow")
     print("Saved .gif file")
 
+    endTime = time.time()
+    print("It took this much time: ", endTime-startTime)
+
+def animateTrackLinesNorth(filePaths):
+    """ Animates all tracks for a given period of time (one day or one month). 
+    Depends on what items are in the specified subdirectory. """
+    
+    artists = []
+    previousTracks = []  # List to keep track of all artists
+    fig, northMap = generateNorthPoleAxes()
+
+    startTime = time.time()
+
+    # Load the mesh and data to plot.
+    for file in filePaths:
+        output = netCDF4.Dataset(file)
+        latCell, lonCell = getLatLon(output)
+        satelliteTrack = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0)
+        northPoleScatter = generateNorthPoleMap(fig, northMap, latCell, lonCell, satelliteTrack, mapImageFileName, 0,1,1,1,1)
+        
+        # Allows it to remember all the tracks (not overwrite with each new track)
+        previousTracks.extend([northPoleScatter])
+        artists.append(list(previousTracks)) 
+
+    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=100)
+
+    plt.colorbar(northPoleScatter, ax=northMap)
+
+    ani.save(filename=animationFileName, writer="pillow")
+    print("Saved .gif file")
+
+    endTime = time.time()
+    print("It took this much time: ", endTime-startTime)
+
 def main():
     filePaths = gatherFiles()
-    animateTrackLines(filePaths)
+    # animateTrackLinesNorthAndSouth(filePaths)
+    animateTrackLinesNorth(filePaths)
 
 if __name__ == "__main__":
     main()

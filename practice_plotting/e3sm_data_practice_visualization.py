@@ -62,7 +62,7 @@ def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
 
     return variableToPlot1Day
 
-def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap, dot_size=0.4):
+def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap, dot_size=DOT_SIZE):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign if mapping southern hemisphere. 
     This requires latCell and lonCell to be filled by a mesh file.
@@ -128,7 +128,7 @@ def generateNorthPoleAxes():
     northMap = fig.add_subplot(1, 1, 1, projection=map_projection_north)
     return fig, northMap
 
-def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=0.4):
+def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=DOT_SIZE):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -164,11 +164,11 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
 
     return northPoleScatter, southPoleScatter
 
-def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=0.4):
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=DOT_SIZE):
     """ Generate one map of the north pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
-    fig.subplots_adjust(bottom=0.05, top=0.95, left=0.04, right=0.95, wspace=0.02)
+    fig.subplots_adjust(bottom=0.05, top=0.85, left=0.04, right=0.95, wspace=0.02)
 
     # Set your viewpoint (the bounding box for what you will see).
     # You want to see the full range of longitude values, since this is a polar plot.
@@ -181,14 +181,14 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
     # Crop the map to be round instead of rectangular.
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
-    # Map thehemispheres.
+    # Map the hemisphere
     scatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap, dot_size)     # Map northern hemisphere
 
     # Set Color Bar
     if colorBarOn:
         plt.colorbar(scatter, ax=northMap)
 
-    plt.suptitle(VARIABLETOPLOT)
+    plt.suptitle(VARIABLETOPLOT.upper(), size="x-large", fontweight="bold")
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)

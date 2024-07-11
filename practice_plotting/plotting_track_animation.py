@@ -30,14 +30,14 @@ def getLatLon(output):
     lonCell = lonCell.ravel()
     return latCell, lonCell
 
-def downsample_data(latCell, lonCell, variableToPlot1Day, factor):
+def downsampleData(latCell, lonCell, variableToPlot1Day, factor):
     """ Downsample the data arrays by the given factor. """
     latCell_ds = latCell[::factor]
     lonCell_ds = lonCell[::factor]
     variableToPlot1Day_ds = variableToPlot1Day[::factor]
     return latCell_ds, lonCell_ds, variableToPlot1Day_ds
 
-def main():
+def plotNorthAndSouthTrackAnimation():
 
     def update(frame):
         # Update the data stored on each artist for each frame
@@ -52,7 +52,7 @@ def main():
 
     # Downsample the data
     factor = 100  # Downsampling factor
-    latCell, lonCell, variableToPlot1Day = downsample_data(latCell, lonCell, variableToPlot1Day, factor)
+    latCell, lonCell, variableToPlot1Day = downsampleData(latCell, lonCell, variableToPlot1Day, factor)
 
     # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
@@ -68,6 +68,42 @@ def main():
 
     # =======================
     print("Saved .gif file")
+
+
+def plotNorthPoleTrackAnimation():
+
+    def update(frame):
+        # Update the data stored on each artist for each frame
+        scatterNorth.set_offsets(np.c_[lonCell[:frame], latCell[:frame]])
+        return scatterNorth
+    
+    # Load the data to plot
+    output = loadData(runDir, outputFileName)
+    latCell, lonCell = getLatLon(output)
+    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT)
+
+    # Downsample the data
+    factor = 100  # Downsampling factor
+    latCell, lonCell, variableToPlot1Day = downsampleData(latCell, lonCell, variableToPlot1Day, factor)
+
+    # Plot the north and south poles
+    fig, northMap = generateNorthPoleAxes()
+    scatterNorth = generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, 1,1,1,1,1,7.0)
+    print("Generated .png file")
+
+    import time
+    startTime = time.time()
+    ani = animation.FuncAnimation(fig=fig, func=update, frames=latCell.size, interval=1)
+    ani.save(filename=animationFileName, writer="pillow")
+    endTime = time.time()
+    print("It took this much time: ", endTime-startTime)
+
+    # =======================
+    print("Saved .gif file")
+
+def main():
+    # plotNorthAndSouthTrackAnimation()
+    plotNorthPoleTrackAnimation()
 
 if __name__ == "__main__":
     main()
