@@ -37,10 +37,10 @@ plotting_track_animation_over_time.py is where I plot the path of one satellite 
 
 > Here's a static version of the satellite paths:
 
-<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22.png" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day.png" width = "400">
 
 > Here's an animated version of the satellite paths:
 
-<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_animation.gif" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day_animation.gif" width = "400">
 
 icesat2_data_practice_visualization.py is where I first queried NASA satellite ICESat-2. That part of the project is on hiatus as other parts of the project have taken priority.
