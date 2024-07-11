@@ -25,22 +25,22 @@ e3sm_data_over_time_visualization.py is where I made a function to create an ani
 
 plotting_track_animation.py is where I plot the path of one satellite track as it travels over the Arctic.
 
-> Here's a static version of the satellite path:
-
-<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_16.png" width = "400">
-
 > Here's an animated version of the satellite path:
 
-<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_16_animation.gif" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_14_animation.gif" width = "400">
+
+> Here's a static version of the satellite path:
+
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_14.png" width = "400">
 
 plotting_track_animation_over_time.py is where I plot the path of one satellite track as it travels over the Arctic for a day or month. Note that a month takes a while to run.
-
-> Here's a static version of the satellite paths:
-
-<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day.png" width = "400">
 
 > Here's an animated version of the satellite paths:
 
 <img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day_animation.gif" width = "400">
+
+> Here's a static version of the satellite paths:
+
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day.png" width = "400">
 
 icesat2_data_practice_visualization.py is where I first queried NASA satellite ICESat-2. That part of the project is on hiatus as other parts of the project have taken priority.
