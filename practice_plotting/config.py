@@ -20,7 +20,9 @@ meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and
 #meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh
 
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # .nc file for the data to plot
-outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_16.nc" # Satellite Track
+outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_14.nc" # Satellite Track
+
+subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track
 
 # Change these to save without overwriting your files
 animationFileName   = "satellite_track_2008_02_22_animation.gif"   # Should be a .gif extension
