@@ -9,38 +9,38 @@ This folder has my initial mapping of some netCDF files.
 
 e3sm_data_practice_visualization.py is where I put several utility functions to use to create simple maps of the north and south pole and overlay them with scatterplots of e3sm data. 
 
-<img src="\practice_plotting\seaice_both_poles.png" width = "400">
+<img src="\practice_plotting\images_and_animations\seaice_both_poles.png" width = "400">
 
-<img src="\practice_plotting\seaice_north_pole.png" width = "400">
+<img src="\practice_plotting\images_and_animations\seaice_north_pole.png" width = "400">
 
 e3sm_data_over_time_visualization.py is where I made a function to create an animation for however many days exist in the netCDF file.
 
 > Here's a 5-day simulation, where blue is water and red is sea ice; white is a border between the two
 
-<img src="\practice_plotting\5_day_simulation.gif" width = "400">
+<img src="\practice_plotting\images_and_animations\5_day_simulation.gif" width = "400">
 
 > Here's a 10-day simulation; both of these start from initial conditions, which are perfect. That is why there is a very nice edge at first.
 
-<img src="\practice_plotting\10_day_simulation.gif" width = "400">
+<img src="\practice_plotting\images_and_animations\10_day_simulation.gif" width = "400">
 
 plotting_track_animation.py is where I plot the path of one satellite track as it travels over the Arctic.
 
 > Here's a static version of the satellite path:
 
-<img src="\practice_plotting\satellite_track_2008_02_22_16.png" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_16.png" width = "400">
 
 > Here's an animated version of the satellite path:
 
-<img src="\practice_plotting\satellite_track_2008_02_22_16_animation.gif" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_16_animation.gif" width = "400">
 
 plotting_track_animation_over_time.py is where I plot the path of one satellite track as it travels over the Arctic for a day or month. Note that a month takes a while to run.
 
 > Here's a static version of the satellite paths:
 
-<img src="\practice_plotting\satellite_track_2008_02_22.png" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22.png" width = "400">
 
 > Here's an animated version of the satellite paths:
 
-<img src="\practice_plotting\satellite_track_2008_02_22_animation.gif" width = "400">
+<img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_animation.gif" width = "400">
 
 icesat2_data_practice_visualization.py is where I first queried NASA satellite ICESat-2. That part of the project is on hiatus as other parts of the project have taken priority.
