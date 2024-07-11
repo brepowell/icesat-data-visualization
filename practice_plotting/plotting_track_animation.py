@@ -23,6 +23,7 @@ def returnCellIndices(output):
     return indices.ravel()
 
 def getLatLon(output):
+    """ Pull the latitude and longitude variables from an .nc file. """
     latCell = output.variables["latitude"][:1]
     latCell = latCell.ravel()
     lonCell = output.variables["longitude"][:1]

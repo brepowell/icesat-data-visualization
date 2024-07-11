@@ -23,8 +23,8 @@ meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and
 outputFileName = r"\satellite_data_preprocessed\icesat_E3SM_spring_2008_02_22_16.nc" # Satellite Track
 
 # Change these to save without overwriting your files
-animationFileName   = "satellite_track_2008_02_22_16_animation.gif"             # Should be a .gif extension
-mapImageFileName    = "satellite_track_2008_02_22_16.png"             # Should be a .png file extension
+animationFileName   = "satellite_track_2008_02_22_animation.gif"   # Should be a .gif extension
+mapImageFileName    = "satellite_track_2008_02_22.png"             # Should be a .png file extension
 
 # Constants
 MAXLONGITUDE    =  180

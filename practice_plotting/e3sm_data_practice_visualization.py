@@ -132,7 +132,7 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
-    fig.subplots_adjust(bottom=0.05, top=0.95, left=0.04, right=0.95, wspace=0.02)
+    fig.subplots_adjust(bottom=0.05, top=0.85, left=0.04, right=0.95, wspace=0.02)
 
     # Set your viewpoint (the bounding box for what you will see).
     # You want to see the full range of longitude values, since this is a polar plot.
@@ -157,12 +157,14 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
         plt.colorbar(northPoleScatter, ax=northMap)
         plt.colorbar(southPoleScatter, ax=southMap)
 
+    plt.suptitle(VARIABLETOPLOT.upper(), size="x-large", fontweight="bold")
+
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
 
     return northPoleScatter, southPoleScatter
 
-def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1):
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=1, oceanFeature=1, landFeature=1, grid=1, coastlines=1, dot_size=0.4):
     """ Generate one map of the north pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -180,11 +182,13 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
     # Map thehemispheres.
-    scatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap)     # Map northern hemisphere
+    scatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap, dot_size)     # Map northern hemisphere
 
     # Set Color Bar
     if colorBarOn:
         plt.colorbar(scatter, ax=northMap)
+
+    plt.suptitle(VARIABLETOPLOT)
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
@@ -193,12 +197,11 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
 
 def main():
 
-
     # Load the mesh and data to plot.
     latCell, lonCell = loadMesh(runDir, meshFileName)
     output = loadData(runDir, outputFileName)
     print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
-    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
+    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0)
     
     # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
