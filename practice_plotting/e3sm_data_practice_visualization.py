@@ -128,8 +128,10 @@ def generateNorthPoleAxes():
     northMap = fig.add_subplot(1, 1, 1, projection=map_projection_north)
     return fig, northMap
 
-def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=COLORBARON, 
-                                      oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES, dot_size=DOT_SIZE):
+def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, 
+                                  timeStamp="YYYY:DD:HH:MM", colorBarOn=COLORBARON, grid=GRIDON,
+                                  oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, 
+                                  coastlines=COASTLINES, dot_size=DOT_SIZE):
     """ Generate 2 maps; one of the north pole and one of the south pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
@@ -158,6 +160,12 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
         plt.colorbar(northPoleScatter, ax=northMap)
         plt.colorbar(southPoleScatter, ax=southMap)
 
+    # # Add time textbox
+    # if timeStamp!="":
+    #     props = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
+    #     northMap.text(0.05, 0.95, str(timeStamp), transform=northMap.transAxes, fontsize=14,
+    #             verticalalignment='top', bbox=props)
+
     plt.suptitle(VARIABLETOPLOT.upper(), size="x-large", fontweight="bold")
 
     # Save the maps as an image.
@@ -165,8 +173,10 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
 
     return northPoleScatter, southPoleScatter
 
-def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, colorBarOn=COLORBARON, 
-                                      oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES, dot_size=DOT_SIZE):
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, 
+                         timeStamp="YYYY:DD:HH:MM", colorBarOn=COLORBARON, grid=GRIDON,
+                         oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, 
+                         coastlines=COASTLINES, dot_size=DOT_SIZE):
     """ Generate one map of the north pole. """
 
     # Adjust the margins around the plots (as a fraction of the width or height).
