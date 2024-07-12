@@ -203,15 +203,15 @@ def main():
     latCell, lonCell = loadMesh(runDir, meshFileName)
     output = loadData(runDir, outputFileName)
     print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
-    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0)
+    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=9)
     
     # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
-    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles")
+    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", dot_size=0.4)
 
     # Plot just the arctic
     fig, northMap = generateNorthPoleAxes()
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole")
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", dot_size=0.4)
 
 if __name__ == "__main__":
     main()
