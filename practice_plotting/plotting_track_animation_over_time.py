@@ -1,4 +1,8 @@
-# Work in progress
+
+
+
+# Takes 30-60 seconds for plotting a day
+# Takes 3218 seconds  for plotting a week (without downsampling)
 
 import matplotlib.animation as animation
 from e3sm_data_practice_visualization import *
