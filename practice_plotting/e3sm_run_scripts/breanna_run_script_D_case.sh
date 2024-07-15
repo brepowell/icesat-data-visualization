@@ -27,7 +27,7 @@ readonly COMPSET="DTESTM-JRA1p5"                                                
 readonly RESOLUTION="TL319_IcoswISC30E3r5" # Mesh used for satellite data
 
 readonly NL_MAPS=false   ### nonlinear maps for tri-grid
-readonly CASE_NAME="Breanna_D_test_10_nodes_1_nyears_redo2" # Change for each run
+readonly CASE_NAME="Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes" # Change for each run
 
 # Code and compilation
 #readonly CHECKOUT="20240502"
@@ -64,7 +64,8 @@ readonly JOB_QUEUE="regular" # 'debug' or 'regular' https://docs.nersc.gov/jobs/
 #readonly run='custom-4_1x1_ndays'
 #readonly run='S_1x5_ndays'              # Ran this for Breanna_D_test_1 - try bigger runs
 #readonly run='M_1x10_ndays'             # Ran this for Breanna_D_test_1x10
-readonly run='custom-10_1x1_nyears'      # Ran this for Breanna_D_test_10_nodes_1_nyears
+#readonly run='custom-10_1x1_nyears'      # Ran this for Breanna_D_test_10_nodes_1_nyears
+readonly run='custom-5_1x1_nyears'
 
 #readonly run='custom-52_1x10_ndays'
 #readonly run='custom-104_1x10_ndays'
@@ -231,8 +232,8 @@ then
 
     # Number of cores per node (machine specific)
     if [ "${MACHINE}" == "pm-cpu" ]; then        # Changed from "chrysalis"
-        ncore=64 # changed from 32
-        hthrd=2  # hyper-threading
+        ncore=128   # Changed from 32 to 128
+        hthrd=1     # hyper-threading changed from 2 to 1
     else
         echo 'ERROR: MACHINE = '${MACHINE}' is not supported for current custom PE layout setting.'
         exit 400
@@ -251,19 +252,19 @@ then
     ./xmlchange MAX_TASKS_PER_NODE=$(( $ncore * $hthrd))
 
     # Layout-specific customization
-    if [ "${nnodes}" == "10" ]; then      # Changed from 3 to 10
+    if [ "${nnodes}" == "5" ]; then      # Changed from 3 to 10
 
-       echo Using custom 10 nodes layout   # Changed from 3 to 10
+       echo Using custom 5 nodes layout   # Changed from 3 to 10
 
        ### Current defaults for L
-      ./xmlchange CPL_NTASKS=1280         # Changed next 6 lines from 384 to 1280
-      ./xmlchange ATM_NTASKS=1280
-      ./xmlchange OCN_NTASKS=1280
+      ./xmlchange CPL_NTASKS=640         # Changed next 6 lines from 384 to 1280 to 640
+      ./xmlchange ATM_NTASKS=640
+      ./xmlchange OCN_NTASKS=640
 
       ### Added by Xue for tri-grid
-      ./xmlchange LND_NTASKS=1280
-      ./xmlchange ROF_NTASKS=1280
-      ./xmlchange ICE_NTASKS=1280
+      ./xmlchange LND_NTASKS=640
+      ./xmlchange ROF_NTASKS=640
+      ./xmlchange ICE_NTASKS=640
       
       # ADDED BY ERIN for WW3 COMPSET
       #./xmlchange WAV_NTASKS=320
@@ -276,13 +277,13 @@ then
       ./xmlchange ICE_ROOTPE=0
       ./xmlchange WAV_ROOTPE=0
 
-      ./xmlchange CPL_NTHRDS=2
-      ./xmlchange ATM_NTHRDS=2
-      ./xmlchange OCN_NTHRDS=2
-      ./xmlchange LND_NTHRDS=2
-      ./xmlchange ROF_NTHRDS=2
-      ./xmlchange ICE_NTHRDS=2
-      ./xmlchange WAV_NTHRDS=2
+      ./xmlchange CPL_NTHRDS=1        # Changed from 2 to 1
+      ./xmlchange ATM_NTHRDS=1
+      ./xmlchange OCN_NTHRDS=1
+      ./xmlchange LND_NTHRDS=1
+      ./xmlchange ROF_NTHRDS=1
+      ./xmlchange ICE_NTHRDS=1
+      ./xmlchange WAV_NTHRDS=1
       
 #      ./xmlchange CPL_PSTRID=8
 
