@@ -84,8 +84,6 @@ def plotNorthAndSouthTrackAnimation():
         scatterNorth.set_offsets(np.c_[lonCell[:frame], latCell[:frame]])
         scatterSouth.set_offsets(np.c_[lonCell[:frame], latCell[:frame]])
 
-        
-
         # Update the text box with the current time
         textBoxString = "Time: " + str(convertTime(timeCell[frame]))
         textBox.set_text(textBoxString)
@@ -102,7 +100,6 @@ def plotNorthAndSouthTrackAnimation():
 
     # =======================
     print("Saved .gif file")
-
 
 def plotNorthPoleTrackAnimation():
     
