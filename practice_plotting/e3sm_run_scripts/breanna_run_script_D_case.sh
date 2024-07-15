@@ -27,13 +27,13 @@ readonly COMPSET="DTESTM-JRA1p5"                                                
 readonly RESOLUTION="TL319_IcoswISC30E3r5" # Mesh used for satellite data
 
 readonly NL_MAPS=false   ### nonlinear maps for tri-grid
-readonly CASE_NAME="Breanna_D_test_10_nodes_1_nyears_redo" # Change for each run
+readonly CASE_NAME="Breanna_D_test_10_nodes_1_nyears_redo2" # Change for each run
 
 # Code and compilation
 #readonly CHECKOUT="20240502"
 #readonly BRANCH="be04e23443ce39d04bb43bb3ec341fdd23d06c31"  ## Erins V3 Wave Momentum branch rebased w/master as of May 2 2024
 readonly CHERRY=( )
-readonly DEBUG_COMPILE=false # Change to true when adding code to model
+readonly DEBUG_COMPILE=true # Change to true when adding code to model; Changed to true 7/15
 
 # Run options
 readonly MODEL_START_TYPE="initial"  # 'initial', 'continue', 'branch', 'hybrid'
