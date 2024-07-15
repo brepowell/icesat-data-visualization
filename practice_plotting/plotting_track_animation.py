@@ -35,13 +35,14 @@ def getLatLon(output):
 def printDateTime(output):
     """ Prints and returns the date from the .nc file's time_string variable. """
     rawTime = output.variables["time_string"][:1].ravel()
-    timeString = "time_stamp decoded: "
+    timeString = ""
     for i in range(len(rawTime)):
         timeString += rawTime[i].decode()
     print(timeString)
     return timeString 
 
 def convertTime(start):
+    """ Convert time from proleptic_gregorian to a human-readable string"""
     base_date = datetime(2000, 1, 1)
     d = base_date + timedelta(hours=start)
     timeString = d.strftime("%Y-%m-%d %H:%M:%S")
@@ -49,7 +50,7 @@ def convertTime(start):
     return timeString
 
 def getTime(output, length):
-    """ Pull the timestamp from the .nc file. Populate an array with times. """
+    """ Pull the starting timestamp from the .nc file. Populate an array with times. """
     start = float(output.variables["time"][:1])
     stop = output.variables["time"][:1] + length
     step = .00036 # How much time elapses between pulses (there are 10,000 pulses per second)

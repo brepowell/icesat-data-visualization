@@ -31,8 +31,8 @@ outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_
 subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 
 # Change these to save without overwriting your files
-animationFileName   = "satellite_track_2008_02_22_14_animation.gif"   # Should be a .gif extension
-mapImageFileName    = "satellite_track_2008_02_22_14.png"             # Should be a .png file extension
+animationFileName   = "satellite_track_2008_02_22_animation.gif"   # Should be a .gif extension
+mapImageFileName    = "satellite_track_2008_02_22.png"             # Should be a .png file extension
 
 # animationFileName   = "satellite_track_2008_02_22_14_animation.gif"   # Should be a .gif extension
 # mapImageFileName    = "satellite_track_2008_02_22_14.png"             # Should be a .png file extension
