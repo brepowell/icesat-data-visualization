@@ -15,6 +15,7 @@
 
 import numpy as np
 import time
+from datetime import datetime, timedelta 
 import matplotlib.animation as animation
 from e3sm_data_practice_visualization import *
 
@@ -39,8 +40,6 @@ def printDateTime(output):
         timeString += rawTime[i].decode()
     print(timeString)
     return timeString 
-
-from datetime import datetime, timedelta 
 
 def convertTime(start):
     base_date = datetime(2000, 1, 1)
