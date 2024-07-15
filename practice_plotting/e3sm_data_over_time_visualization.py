@@ -31,8 +31,6 @@ def createGIFAnimation(fileName, runDir, meshFileName, outputFileName):
 
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
 
-    boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
-
     addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
     addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
         

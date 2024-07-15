@@ -213,7 +213,7 @@ def main():
     latCell, lonCell = loadMesh(runDir, meshFileName)
     output = loadData(runDir, outputFileName)
     print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
-    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=9)
+    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
     
     # Plot the north and south poles
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
