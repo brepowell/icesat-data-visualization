@@ -7,8 +7,9 @@
 
 # Use the config.py file to specify max latitude, max longitude, file paths, etc.
 # Make sure that you navigate to the directory that contains plotting_track_animation_over_time.py
-# Make sure that the e3sm_data_practice_visualization.py file is also in the same directory.
+# Make sure that the e3sm_data_visualization.py file is also in the same directory.
 # Make sure that plotting_track_animation.py is in the same directory.
+# Make sure that utility.py is in the same directory.
 
 # $ python plotting_track_animation_over_time.py
 
@@ -17,24 +18,12 @@
 # TODO: Add a downsampling option to speed up the process
 
 import matplotlib.animation as animation
-from e3sm_data_practice_visualization import *
+from e3sm_data_visualization import *
+from utility import *
 from plotting_track_animation import *
 
 import time
 import os
-import netCDF4
-
-path = runDir + subdirectory
-
-def gatherFiles():
-    """ Use the subdirectory specified in the config file. Get all files in that folder. """
-    
-    filesToPlot = []
-    for root, dirs, files in os.walk(path, topdown=False):
-        for name in files:
-            filesToPlot.append(os.path.join(root, name))
-
-    return filesToPlot
 
 def animateTrackLinesNorthAndSouth(filePaths):
     """ Animates all tracks for a given period of time (one day or one month). 

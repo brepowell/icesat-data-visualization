@@ -6,61 +6,20 @@
 ##########
 
 # Use the config.py file to specify max latitude, max longitude, file paths, etc.
-# Make sure that you navigate to the directory that contains e3sm-data-practice-visualization.py
-# Have a folder labeled "netCDF_files" in that directory
-# The data folder must contain the mesh file and the output file
 # Ensure that you are looking for a variable that exists in the output file
+# Make sure that you navigate to the directory that contains e3sm-data-visualization.py
+# Make sure that utility.py is in the same directory
 
-# $ python e3sm-data-practice-visualization.py
+# $ python e3sm-data-visualization.py
 
 import numpy as np                  # For working with arrays
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt     # For plotting
-import netCDF4                      # For opening .nc files for numpy
 
 # Cartopy for map features, like land and ocean
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from config import *
-
-def loadMesh(runDir, meshFileName):
-    """ Load the mesh from an .nc file. The mesh must have the same resolution as the output file. """
-    print('read: ', runDir, meshFileName)
-
-    dataset = netCDF4.Dataset(runDir + meshFileName)
-    latCell = np.degrees(dataset.variables['latCell'][:]) # Convert from radians to degrees.
-    lonCell = np.degrees(dataset.variables['lonCell'][:]) # Convert from radians to degrees.
-
-    return latCell, lonCell
-
-def loadData(runDir, outputFileName):
-    """ Load the data from an .nc output file. Returns a 1D array of the variable you want to plot of size nCells.
-    The indices of the 1D array match with those of the latitude and longitude arrays, which are also size nCells."""
-    print('read: ', runDir, outputFileName)
-
-    return netCDF4.Dataset(runDir + outputFileName)
-
-def printAllAvailableVariables(output):
-    """ See what variables you can use in this netCDF file. 
-    Requires having loaded a netCDF file into an output variable. """
-    print(output.variables) # See all variables available in the netCDF file
-
-def getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT):
-    """ Find out how many days are in the simulation by looking at the netCDF file and at the variable
-     you have chosen to plot. """
-    variableForAllDays = output.variables[keyVariableToPlot][:]
-    return variableForAllDays.shape[0]
-
-def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
-    """ Reduce the variable to one day's worth of data so we can plot using each indice per cell. 
-        The indices for each cell of the variableToPlot1Day array coincide with the indices 
-        of the latCell and lonCell. """
-    
-    variableForAllDays = output.variables[keyVariableToPlot][:]
-    variableToPlot1Day = variableForAllDays[dayNumber,:]                                     
-    # print("variableToPlot1Day", variableToPlot1Day[0:5])
-
-    return variableToPlot1Day
+from utility import *
 
 def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap, dot_size=DOT_SIZE):
     """ Map one hemisphere onto a matplotlib figure. 
@@ -160,12 +119,7 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
         plt.colorbar(northPoleScatter, ax=northMap)
         plt.colorbar(southPoleScatter, ax=southMap)
 
-    # # Add time textbox
-    # if timeStamp!="":
-    #     props = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
-    #     northMap.text(0.05, 0.95, str(timeStamp), transform=northMap.transAxes, fontsize=14,
-    #             verticalalignment='top', bbox=props)
-
+    # Add time textbox
     plt.suptitle(VARIABLETOPLOT.upper(), size="x-large", fontweight="bold")
 
     # Save the maps as an image.

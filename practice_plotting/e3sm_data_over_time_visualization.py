@@ -7,14 +7,15 @@
 
 # Use the config.py file to specify max latitude, max longitude, file paths, etc.
 # Make sure that you navigate to the directory that contains e3sm_data_over_time_visualization.py
-# Make sure that the e3sm_data_practice_visualization.py file is also in the same directory.
+# Make sure that the e3sm_data_visualization.py file is also in the same directory.
+# Make sure that utility.py is in the same directory
 
 # $ python e3sm_data_over_time_visualization.py
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from e3sm_data_practice_visualization import *
-from config import *
+from e3sm_data_visualization import *
+from utility import *
 import time
 
 def createGIFAnimation(fileName, runDir, meshFileName, outputFileName):

@@ -1,4 +1,4 @@
-from e3sm_data_practice_visualization import *
+from utility import *
 
 runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
 

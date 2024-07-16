@@ -6,8 +6,12 @@
 import os
 
 # Change these for different runs if you want to narrow down your focus
-#VARIABLETOPLOT  = 'timeDaily_avg_iceAreaCell'   # The variable to plot from the E3SM data
-VARIABLETOPLOT  = 'freeboard'                   # The variable to plot from the satellite data
+#VARIABLETOPLOT     = 'timeDaily_avg_iceAreaCell'   # The variable to plot from the E3SM data
+VARIABLETOPLOT      = 'freeboard'                   # The variable to plot from the satellite data
+TIMESTRINGVARIABLE  = "time_string"
+TIMEVARIABLE        = "time"
+LATITUDEVARIABLE    = "latitude"
+LONGITUDEVARIABLE   = "longitude"
 
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
@@ -27,15 +31,12 @@ meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and
 outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 
 # subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
-subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one day
-#subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
+#subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one day
+subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 
 # Change these to save without overwriting your files
-animationFileName   = "satellite_track_2005_03_01_week_animation.gif"   # Should be a .gif extension
-mapImageFileName    = "satellite_track_2008_03_01_week.png"             # Should be a .png file extension
-
-# animationFileName   = "satellite_track_2008_02_22_14_animation.gif"   # Should be a .gif extension
-# mapImageFileName    = "satellite_track_2008_02_22_14.png"             # Should be a .png file extension
+animationFileName   = "animation.gif"                # Should be a .gif extension
+mapImageFileName    = "static_image.png"             # Should be a .png file extension
 
 ################
 # Map settings #
@@ -57,4 +58,3 @@ MAXLONGITUDE    =  180
 MINLONGITUDE    = -180
 NORTHPOLE       =  90
 SOUTHPOLE       = -90
-

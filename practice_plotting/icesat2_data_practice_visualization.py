@@ -18,7 +18,8 @@
 # Have e3sm-data-practice-visualization.py in the same directory
 
 import icepyx as ipx
-from e3sm_data_practice_visualization import *
+from practice_plotting.e3sm_data_visualization import *
+from utility import *
 
 ######################
 # ALL ABOUT ICESAT-2 #
