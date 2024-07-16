@@ -1,8 +1,20 @@
+# Author:   Breanna Powell
+# Date:     07/15/2024
 
+##########
+# TO RUN #
+##########
 
+# Use the config.py file to specify max latitude, max longitude, file paths, etc.
+# Make sure that you navigate to the directory that contains plotting_track_animation_over_time.py
+# Make sure that the e3sm_data_practice_visualization.py file is also in the same directory.
+# Make sure that plotting_track_animation.py is in the same directory.
+
+# $ python plotting_track_animation_over_time.py
 
 # Takes 30-60 seconds for plotting a day
-# Takes 3218 seconds  for plotting a week (without downsampling)
+# Takes 3218 seconds or 53 minutes for plotting a week (without downsampling)
+# TODO: Add a downsampling option to speed up the process
 
 import matplotlib.animation as animation
 from e3sm_data_practice_visualization import *

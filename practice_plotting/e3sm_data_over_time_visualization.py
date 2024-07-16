@@ -7,8 +7,6 @@
 
 # Use the config.py file to specify max latitude, max longitude, file paths, etc.
 # Make sure that you navigate to the directory that contains e3sm_data_over_time_visualization.py
-# Have a folder labeled "netCDF_files" in that directory
-# The data folder must contain the mesh file and the output file
 # Make sure that the e3sm_data_practice_visualization.py file is also in the same directory.
 
 # $ python e3sm_data_over_time_visualization.py
