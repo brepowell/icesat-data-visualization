@@ -6,6 +6,7 @@ icesat*.nc
 e3sm*.nc
 deck*.nc
 seaice*.nc
+mpassi*.nc
 
 # Directories to ignore
 example_code/
