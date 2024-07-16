@@ -7,7 +7,11 @@ This folder contains some generic matplotlib and cartopy examples that I used to
 ## practice_plotting
 This folder has my initial mapping of some netCDF files. 
 
-e3sm_data_practice_visualization.py is where I put several utility functions to use to create simple maps of the north and south pole and overlay them with scatterplots of e3sm data. 
+utility.py is where I put several utility functions to use with netCDF files, such as loading or querying.
+
+config.py is where I can list the mesh file, output file, file name, etc. or modify the variables that I want to map.
+
+e3sm_data_visualization.py is used to create simple maps of the north and south pole and overlay them with scatterplots of e3sm data. 
 
 <img src="\practice_plotting\images_and_animations\seaice_both_poles.png" width = "400">
 
