@@ -37,8 +37,9 @@ VMAX = 0.7
 #  File Paths  #
 ################
 
-# Change these for different runs if you want to grab other .nc files
 runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+
+# Change these for different runs if you want to grab other .nc files
 
 #meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
 meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh (doesn't match)
