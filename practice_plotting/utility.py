@@ -4,6 +4,7 @@ import netCDF4                      # For opening .nc files for numpy
 import numpy as np
 from datetime import datetime, timedelta 
 import time
+import matplotlib as mpl
 
 FULL_PATH = runDir + subdirectory
 

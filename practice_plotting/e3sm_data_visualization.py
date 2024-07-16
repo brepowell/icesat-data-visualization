@@ -12,7 +12,6 @@
 
 # $ python e3sm-data-visualization.py
 
-import numpy as np                  # For working with arrays
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt     # For plotting
 
@@ -33,7 +32,11 @@ def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemis
     else:
         return
     
-    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], c=variableToPlot1Day[indices], cmap='bwr', s=dot_size, transform=ccrs.PlateCarree())
+    norm=mpl.colors.Normalize(VMIN, VMAX)
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], 
+                               c=variableToPlot1Day[indices], cmap='bwr', 
+                               s=dot_size, transform=ccrs.PlateCarree(),
+                               norm=norm)
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
 

@@ -29,6 +29,10 @@ DOT_SIZE        = 7.0  # Good for satellite tracks
 # Change if you want to downsample the amount of data by a certain factor
 DEFAULT_DOWNSAMPLE_FACTOR = 100
 
+# Color Bar Range
+VMIN = 0
+VMAX = 0.7
+
 ################
 #  File Paths  #
 ################
