@@ -35,11 +35,11 @@ plotting_track_animation.py is where I plot the path of one satellite track as i
 
 plotting_track_animation_over_time.py is where I plot the path of one satellite track as it travels over the Arctic for a day or month. Note that a month takes a while to run.
 
-> Here's an animated version of the satellite paths:
+> Here's an animated version of the satellite paths for one day:
 
 <img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day_animation.gif" width = "400">
 
-> Here's a static version of the satellite paths:
+> Here's a static version of the satellite paths for one day:
 
 <img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day.png" width = "400">
 
