@@ -13,9 +13,9 @@ def loadMesh(runDir, meshFileName):
     The mesh must have the same resolution as the output file. """
     print('read: ', runDir, meshFileName)
 
-    if meshFileName[0]=="~"
+    if meshFileName[0]=="~":
         runDir = "~"
-        
+
     dataset = netCDF4.Dataset(runDir + meshFileName)
     latCell = np.degrees(dataset.variables['latCell'][:]) # Convert from radians to degrees.
     lonCell = np.degrees(dataset.variables['lonCell'][:]) # Convert from radians to degrees.
