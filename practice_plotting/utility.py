@@ -63,13 +63,13 @@ def gatherFiles():
 
     return filesToPlot
 
-def downsampleData(latCell, lonCell, timeCell, variableToPlot1Day, factor):
+def downsampleData(latCell, lonCell, timeCell, variableToPlot1Day, factor=DEFAULT_DOWNSAMPLE_FACTOR):
     """ Downsample the data arrays by the given factor. """
     return latCell[::factor], lonCell[::factor], timeCell[::factor], variableToPlot1Day[::factor]
 
 def returnCellIndices(output):
     """ Get only the indices that correspond to the E3SM mesh. """
-    indices = output.variables["cell"][:1]
+    indices = output.variables[CELLVARIABLE][:1]
     return indices.ravel()
 
 def getLatLon(output):
@@ -90,16 +90,17 @@ def printDateTime(output):
     print(timeString)
     return timeString 
 
-def convertTime(start):
-    """ Convert time from proleptic_gregorian to a human-readable string"""
+def convertTime(timeToConvert):
+    """ Convert time from proleptic_gregorian to a human-readable string."""
     base_date = datetime(2000, 1, 1)
-    d = base_date + timedelta(hours=start)
+    d = base_date + timedelta(hours=timeToConvert)
     timeString = d.strftime("%Y-%m-%d %H:%M:%S")
     print("Time converted", timeString)
     return timeString
 
 def getTimeArrayFromStartTime(output, length):
-    """ Pull the starting timestamp from the .nc file. Populate an array with times. """
+    """ Pull the starting timestamp from the .nc file. 
+    Populate an array with times. (These are approximate, not real)"""
     start = float(output.variables["time"][:1])
     stop = output.variables[TIMEVARIABLE][:1] + length
     step = .00036 # How much time elapses between pulses (there are 10,000 pulses per second)

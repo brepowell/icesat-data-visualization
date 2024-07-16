@@ -5,20 +5,33 @@
 
 import os
 
+####################
+# NetCDF Variables #
+####################
+
 # Change these for different runs if you want to narrow down your focus
-#VARIABLETOPLOT     = 'timeDaily_avg_iceAreaCell'   # The variable to plot from the E3SM data
-VARIABLETOPLOT      = 'freeboard'                   # The variable to plot from the satellite data
+#VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
+VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 TIMESTRINGVARIABLE  = "time_string"
 TIMEVARIABLE        = "time"
 LATITUDEVARIABLE    = "latitude"
 LONGITUDEVARIABLE   = "longitude"
+CELLVARIABLE        = "cell"
 
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
 LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
 
+# Change if you want larger or smaller dots for the scatterplot
 #DOT_SIZE        = 0.4  # Good for the ice area variable
 DOT_SIZE        = 7.0  # Good for satellite tracks
+
+# Change if you want to downsample the amount of data by a certain factor
+DEFAULT_DOWNSAMPLE_FACTOR = 100
+
+################
+#  File Paths  #
+################
 
 # Change these for different runs if you want to grab other .nc files
 runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
@@ -41,6 +54,7 @@ mapImageFileName    = "static_image.png"             # Should be a .png file ext
 ################
 # Map settings #
 ################
+
 boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
 
 # These features are on
