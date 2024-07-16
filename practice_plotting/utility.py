@@ -14,7 +14,7 @@ def loadMesh(runDir, meshFileName):
     print('read: ', runDir, meshFileName)
 
     if meshFileName[0]=="~":
-        runDir = "~"
+        runDir = ""
 
     dataset = netCDF4.Dataset(runDir + meshFileName)
     latCell = np.degrees(dataset.variables['latCell'][:]) # Convert from radians to degrees.
