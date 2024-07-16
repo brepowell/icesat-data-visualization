@@ -35,12 +35,16 @@ plotting_track_animation.py is where I plot the path of one satellite track as i
 
 plotting_track_animation_over_time.py is where I plot the path of one satellite track as it travels over the Arctic for a day or month. Note that a month takes a while to run.
 
-> Here's an animated version of the satellite paths:
+> Here's an animated version of the satellite paths for one day:
 
 <img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day_animation.gif" width = "400">
 
-> Here's a static version of the satellite paths:
+> Here's a static version of the satellite paths for one day:
 
 <img src="\practice_plotting\images_and_animations\satellite_track_2008_02_22_day.png" width = "400">
+
+Here is the same program running for one week.
+
+<img src="\practice_plotting\images_and_animations\satellite_track_2005_03_01_week_animation.gif" width = "400">
 
 icesat2_data_practice_visualization.py is where I first queried NASA satellite ICESat-2. That part of the project is on hiatus as other parts of the project have taken priority.
