@@ -1,16 +1,17 @@
 
 # Files to ignore
 variables.txt
-# Breanna*.nc
-# icesat*.nc
-# e3sm*.nc
-# deck*.nc
-# seaice*.nc
+Breanna*.nc
+icesat*.nc
+e3sm*.nc
+deck*.nc
+seaice*.nc
 
 # Directories to ignore
 example_code/
+practice_plotting/files_from_Andrew
 practice_plotting/__pycache__
-practice_plotting/mesh_files
-practice_plotting/output_files
+# practice_plotting/mesh_files
+# practice_plotting/output_files
 practice_plotting/satellite_data_raw_from_NASA
 practice_plotting/satellite_data_preprocessed

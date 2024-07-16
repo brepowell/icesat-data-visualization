@@ -1,0 +1,1 @@
+This folder is for adding E3SM mesh files.

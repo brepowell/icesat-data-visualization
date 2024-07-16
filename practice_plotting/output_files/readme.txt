@@ -1,0 +1,1 @@
+This folder is for adding .nc files that contain some sort of output variable you want to visualize.
