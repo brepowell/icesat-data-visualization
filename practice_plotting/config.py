@@ -6,8 +6,8 @@
 import os
 
 ####################
-# NetCDF Variables #
-####################
+# NetCDF Variables #  
+####################                                                                                                                            ####################
 
 # Change these for different runs if you want to narrow down your focus
 VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
