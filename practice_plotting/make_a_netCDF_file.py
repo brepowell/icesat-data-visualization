@@ -12,7 +12,7 @@ from utility import *
 
 USER        = os. getlogin()                        #TODO: check if this is ok
 SOURCE      = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
-CELLCOUNT   = 235160
+CELLCOUNT   = 233365 #235160
 
 #TODO: Make sure the data types are correct; there should be an "f" after many of them.
 
@@ -78,29 +78,53 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 satelliteFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 satelliteData       = loadData(runDir, satelliteFileName)
 freeBoardReadings   = reduceToOneDay(satelliteData, keyVariableToPlot=VARIABLETOPLOT)
-modIndices          = reduceToOneDay(satelliteData, "modcell")
-cellIndices         = returnCellIndices(satelliteData)
+cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
+cellIndicesForAllObservations = returnCellIndices(satelliteData)
 
 ############################
 # SATELLITE ONLY VARIABLES #
 ############################
+# These variables are easy to pull directly from the satellite data.
 
-# Sample model freeboard is the # of times that cell was passed over (once in a day) in the full time
-samplemf = np.bincount(modIndices) # Collect one count of the satellite passing overhead.
+# Sample model freeboard is the # of times that cell was passed over 
+# (ex. once in a day) in the full time
+samplemf[:] = np.bincount(cellIndicesForAllSamples) # Collect one count of the satellite passing overhead.
 
 # Sample observation freeboard is the # of photon reads per cell over full time
-sampleof = np.bincount(cellIndices) # Collect all photon counts into bins using cell indices.
+sampleof[:] = np.bincount(cellIndicesForAllObservations) # Collect all photon counts into bins using cell indices.
 
-# Observed freeboard mean is
-#meanof = 
+# Observed freeboard mean is the sum of all photon readings 
+# in that cell over all time / sampleof
+means = []
+for cellIndex in range(CELLCOUNT):
+    freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
+    if freeBoardIndices.size > 0:
+        means.append(np.mean(freeBoardIndices))
+    else:
+        means.append(np.nan)  # Use np.nan for empty cells to indicate missing data
+meanof[:] = means
 
 # Model freeboard mean is 
-#meanmf = 
+#meanmf = sum of the meanof for that cell over all time / samplemf
+#=> hf = hi (ρw-ρi)/ρw + hs (ρw-ρs)/ρw
+
+#######################################
+# CALCULATE FREEBOARD FROM MODEL DATA #
+#######################################
+# TODO: Future work could be to add this variable to E3SM's variables
+
+# E3SM ice volume / E3SM ice area of cell = ice thickness
+
+# height ice + height snow = height water + height of freeboard
+
+# freeboard = ice thickness + snow height - water height (which is 0?)
+
+
 
 # Read data back from variable, print min and max
 print("-- Min/Max values:", samplemf[:].min(), samplemf[:].max())
 print("-- Min/Max values:", sampleof[:].min(), sampleof[:].max())
-print("-- Min/Max values:", stdof[:].min(), stdof[:].max())
+print("-- Min/Max values:", meanof[:].min(), meanof[:].max())
 
 # close the Dataset
 ncfile.close()
