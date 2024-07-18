@@ -39,14 +39,14 @@ VMAX = 1
 #  File Paths  #
 ################
 
-#runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-runDir = "REPLACE WITH PERLMUTTER PATH"
+runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+#runDir = "REPLACE WITH PERLMUTTER PATH"
 
 # Change these for different runs if you want to grab other .nc files
 
 #meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
-#meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh (doesn't match)
-meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter
+meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh (doesn't match)
+#meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter
 
 
 #outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
