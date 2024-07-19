@@ -12,7 +12,8 @@ from utility import *
 
 USER        = os. getlogin()                        #TODO: check if this is ok
 SOURCE      = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
-CELLCOUNT   = 233365 #235160
+CELLCOUNT   = 233365 #236853                        #TODO: Depends on mesh size
+FILL_VALUE = fill_value = -99999.0
 
 #TODO: Make sure the data types are correct; there should be an "f" after many of them.
 
@@ -55,31 +56,37 @@ def createVariableForNetCDF(shortName, longName, vmax, vmin = 0.0, fillvalue = N
     return variable
 
 effmf   = createVariableForNetCDF("effmf", "model freeboard effective sample size", 
-                        vmax = 29.88248, fillvalue = -99999.0)
+                        vmax = 29.88248, fillvalue = FILL_VALUE)
 effof   = createVariableForNetCDF("effof", "observed freeboard effective sample size", 
-                        vmax = 22321.38, vmin = 0.2787585, fillvalue = -99999.0)
+                        vmax = 22321.38, vmin = 0.2787585, fillvalue = FILL_VALUE)
 meanmf  = createVariableForNetCDF("meanmf", "model freeboard mean", 
-                        vmax = 0.9041953, vmin = 0.01583931, fillvalue = -99999.0)
+                        vmax = 0.9041953, vmin = 0.01583931, fillvalue = FILL_VALUE)
 meanof  = createVariableForNetCDF("meanof", "observed freeboard mean", 
-                        vmax = 1.14699, vmin = 0.1046828, fillvalue = -99999.0)
+                        vmax = 1.14699, vmin = 0.1046828, fillvalue = FILL_VALUE)
 samplemf = createVariableForNetCDF("samplemf", "model freeboard sample count", 
                         vmax = 296)
 sampleof = createVariableForNetCDF("sampleof", "observed freeboard sample count", 
                         vmax = 46893)
 stdmf   = createVariableForNetCDF("stdmf", "model freeboard standard deviation", 
-                        vmax = 0.2506092, vmin = 0.005416268, fillvalue = -99999.0)
+                        vmax = 0.2506092, vmin = 0.005416268, fillvalue = FILL_VALUE)
 stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviation", 
-                        vmax = 0.9629242, vmin = 0.01656876, fillvalue = -99999.0)
+                        vmax = 0.9629242, vmin = 0.01656876, fillvalue = FILL_VALUE)
 
 ########################
 # STATISTICAL ANALYSIS #
 ########################
 
-satelliteFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
+latCell, lonCell    = loadMesh(runDir, meshFileName)
+satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 satelliteData       = loadData(runDir, satelliteFileName)
 freeBoardReadings   = reduceToOneDay(satelliteData, keyVariableToPlot=VARIABLETOPLOT)
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
+
+print("Shape of mesh:                          ", latCell.shape)
+print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
+print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
+print("Shape of cellIndicesForAllObservations: ", cellIndicesForAllObservations.shape)
 
 ############################
 # SATELLITE ONLY VARIABLES #
@@ -95,14 +102,19 @@ sampleof[:] = np.bincount(cellIndicesForAllObservations) # Collect all photon co
 
 # Observed freeboard mean is the sum of all photon readings 
 # in that cell over all time / sampleof
-means = []
+meanof[:] = np.full(meanof.shape, FILL_VALUE)
+reached = 0
 for cellIndex in range(CELLCOUNT):
+    # Find all the indices that contain freeboard data
     freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
-    if freeBoardIndices.size > 0:
-        means.append(np.mean(freeBoardIndices))
-    else:
-        means.append(np.nan)  # Use np.nan for empty cells to indicate missing data
-meanof[:] = means
+    if len(freeBoardIndices) > 0:
+        meanValue = np.mean(freeBoardReadings[freeBoardIndices])
+        reached +=1
+        meanof[cellIndex] = meanValue 
+
+print(reached)
+
+
 
 # Model freeboard mean is 
 #meanmf = sum of the meanof for that cell over all time / samplemf
@@ -124,7 +136,7 @@ meanof[:] = means
 # Read data back from variable, print min and max
 print("-- Min/Max values:", samplemf[:].min(), samplemf[:].max())
 print("-- Min/Max values:", sampleof[:].min(), sampleof[:].max())
-print("-- Min/Max values:", meanof[:].min(), meanof[:].max())
+print("-- Min/Max values:", meanof[:].min(),   meanof[:].max())
 
 # close the Dataset
 ncfile.close()
