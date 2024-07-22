@@ -6,8 +6,6 @@ from datetime import datetime, timedelta
 import time
 import matplotlib as mpl
 
-FULL_PATH = runDir + subdirectory
-
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. 
     The mesh must have the same resolution as the output file. """
@@ -81,9 +79,11 @@ def getLatLon(output):
     lonCell = lonCell.ravel()
     return latCell, lonCell
 
-def printDateTime(output):
+def printDateTime(output, timeStringVariable = TIMESTRINGVARIABLE):
     """ Prints and returns the date from the .nc file's time string variable. 
-    This assumes that the time needs to be decoded. """
+    This assumes that the time needs to be decoded and is the format
+    [b'0' b'0' b'0' b'1' b'-' b'0' b'1' b'-' b'0' b'2' b'_' b'0' b'0' b':' b'0' b'0' b':' b'0' b'0']
+    """
     rawTime = output.variables[TIMESTRINGVARIABLE][:1].ravel()
     timeString = ""
     for i in range(len(rawTime)):
