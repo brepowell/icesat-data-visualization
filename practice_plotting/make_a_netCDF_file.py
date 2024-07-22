@@ -118,8 +118,8 @@ for cellIndex in range(CELLCOUNT):
         meanValue = np.mean(freeBoardReadings[freeBoardIndices])
         meanof[cellIndex] = meanValue 
 
-# Observed freeboard mean is the sum of all photon readings 
-# in that cell over all time / sampleof
+# Observed freeboard standard deviation is similar to the mean
+# it also covers all photon readings per cell over all time
 stdof[:] = np.full(stdof.shape, FILL_VALUE)
 for cellIndex in range(CELLCOUNT):
     # Find all the indices that contain freeboard data
@@ -128,9 +128,17 @@ for cellIndex in range(CELLCOUNT):
         standardDeviation = np.std(freeBoardReadings[freeBoardIndices])
         stdof[cellIndex] = standardDeviation 
 
+# Read data back from variable, print min and max
+print("===== SATELLITE VARIABLES ======")
+print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
+print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
+print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
+print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
+
 ###################
 # MODEL VARIABLES #
 ###################
+CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
 modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
 modelData           = loadData(runDir, modelDailyDataFile)
@@ -144,30 +152,37 @@ print(iceAreaCells.shape)
 
 # TODO: Future work could be to add the Freeboard variable to E3SM's variables
 
-def getFreeboard(heightIce, heightWater, heightSnow):
+def getThickness(gridCellAveragedThickness, iceConcentration):
+    """ Grid cell averaged thickness is the same as the sea ice volume variable in E3SM.
+    Concentration is the same as the sea ice area variable in E3SM.
+    volume / area of cell = height (thickness) 
+    """
+    return gridCellAveragedThickness / iceConcentration
+
+def getFreeboard(heightIce, heightSnow):
     """Formula to calculate freeboard: hf = hi (pw-pi)/pw + hs (pw-ps)/pw.
     Where p means density; h is height, w is water, i is ice, s is snow"""
     return heightIce*(DENSITY_WATER-DENSITY_ICE)/DENSITY_WATER + heightSnow*(DENSITY_WATER-DENSITY_SNOW)/DENSITY_WATER
 
-def getThickness(volume, area):
-    """ volume / area of cell = height (thickness) """
-    return volume / area
-# Model freeboard mean is 
-
-iceHeightCells  = getThickness(iceVolumeCells, iceAreaCells)
-snowHeightCells = getThickness(snowVolumeCells, iceAreaCells)
-print("Ice Height Cells",  iceHeightCells.shape)
-print("Snow Height Cells", snowHeightCells.shape)
+# Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
+heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
+heightSnowCells = getThickness(snowVolumeCells, iceAreaCells)
+print("Ice Height Cells",   heightIceCells.shape)
+print("Snow Height Cells",  heightSnowCells.shape)
 
 # height ice + height snow = height water + height of freeboard
 # freeboard = ice thickness + snow height - water height (which is 0?)
+E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
+print("E3SM Freeboard Cells", E3SM_freeboard)
 
-# Read data back from variable, print min and max
-print("===== SATELLITE VARIABLES ======")
-print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
-print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
-print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
-print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
+
+
+
+# Model freeboard mean is 
+# Model freeboard standard deviation is
+# Model freeboard effective sample size is
+# Observation freeboard effective sample size is
+
 print("\n=====   MODEL VARIABLES   ======")
 
 # close the Dataset
