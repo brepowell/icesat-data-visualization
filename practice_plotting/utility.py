@@ -82,6 +82,10 @@ def downsampleData(latCell, lonCell, timeCell, variableToPlot1Day, factor=DEFAUL
     """ Downsample the data arrays by the given factor. """
     return latCell[::factor], lonCell[::factor], timeCell[::factor], variableToPlot1Day[::factor]
 
+def downsampleData(variable, factor=DEFAULT_DOWNSAMPLE_FACTOR):
+    """ Downsample the data arrays by the given factor. """
+    return variable[::factor]
+
 def returnCellIndices(output):
     """ Get only the indices that correspond to the E3SM mesh. """
     indices = output.variables[CELLVARIABLE][:1]
