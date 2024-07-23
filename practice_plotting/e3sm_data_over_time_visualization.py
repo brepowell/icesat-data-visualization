@@ -19,15 +19,18 @@ from utility import *
 import time
 
 def saveAnimation(fig, artists, animationFileName, interval=500):
-
+    """ Takes in a figure and a list of artists, then it saves those as a .gif. """
     ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
     ani.save(filename=animationFileName, writer="pillow")
     print("Saved .gif")
 
 def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, output, 
                          mapImageFileName, days, artists, colorBar = True):
-    """ This will make a scatter plot and time stamp per timestep of data in one .nc file.
-        It uses generateNorthandSouthPoleMaps to generate a map. """
+    """ For the north and south pole,
+    this will make a scatter plot and time stamp per timestep of data in one .nc file.
+    Cycle through each day in one output file and map a scatter plot of that full range of days.
+    It uses generateNorthandSouthPoleMaps to generate scatterplots to append to a 
+    list of artists for the matplotlib Animation package. """
 
     # Get list of all days / time values to plot that exist in one .nc file
     timeList = printDateTime(output, timeStringVariable=START_TIME_VARIABLE, days=days)
@@ -51,6 +54,11 @@ def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, outp
 
 def generateArtistsNorth(fig, northMap, latCell, lonCell, output, 
                  mapImageFileName, days, artists, colorbar=True):
+    """ For the north pole, 
+    this will make a scatter plot and time stamp per timestep of data in one .nc file.
+    Cycle through each day in one output file and map a scatter plot of that full range of days.
+    It uses generateNorthandSouthPoleMaps to generate scatterplots to append to a 
+    list of artists for the matplotlib Animation package. """
 
     # Get list of all days / time values to plot that exist in one .nc file
     timeList = printDateTime(output, timeStringVariable=START_TIME_VARIABLE, days=days)
@@ -72,7 +80,9 @@ def generateArtistsNorth(fig, northMap, latCell, lonCell, output,
     return artists
 
 def animateNorthAndSouth(runDir, meshFileName, outputFileName):
-
+    """ Animate the north and south pole, using a certain mesh and .nc output file
+     that has daily information for more than one day. """
+    
     artists = []    
     latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
 
@@ -85,6 +95,8 @@ def animateNorthAndSouth(runDir, meshFileName, outputFileName):
                          output, mapImageFileName, days, artists)
 
 def animateNorth(runDir, meshFileName, outputFileName):
+    """ Animate just the north pole, using a certain mesh and .nc output file
+     that has daily information for more than one day."""
     
     artists = []
     latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
@@ -94,6 +106,9 @@ def animateNorth(runDir, meshFileName, outputFileName):
     return fig, generateArtistsNorth(fig, northMap, latCell, lonCell, output, mapImageFileName, days, artists) 
     
 def animateFromMultipleFiles():
+    """ Reads in a subdirectory of files and maps those on a scatterplot 
+    of the north and south poles. Make sure that the subdirectory to the folder containing
+    all the data files is specified in the config file. """
     files = gatherFiles(0)
     artists = []
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
