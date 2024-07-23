@@ -88,27 +88,10 @@ def printDateTime(output, timeStringVariable = TIMESTRINGVARIABLE, days = 1):
     # Get all the time variables
     rawTime = output.variables[timeStringVariable][:days]
     rawTime = rawTime.ravel()
-
-    timeStrings = []
-
-    # For each day, return a string with the date
-    for day in range(days):
-        oneDay = ""
-        character = 0
-
-        # Go through each character one at a time
-        while character < 19:
-            oneCharacterIndex = day * 19 + character
-            oneCharacterIndex = day + character
-            oneCharacter = bytearray(rawTime[oneCharacterIndex:oneCharacterIndex+1])
-            if oneCharacter == b"\x00":
-                character +=1
-                break
-            oneDay += oneCharacter.decode()
-            character +=1
-        
-        timeStrings.append(oneDay)
-
+    rawTime = bytearray(rawTime).decode()
+    timeStrings = rawTime.split('\x00')
+    timeStrings[:] = [x for x in timeStrings if x]
+    
     if len(timeStrings) == 1:
         print(timeStrings[0])
         return timeStrings[0]
