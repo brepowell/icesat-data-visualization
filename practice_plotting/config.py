@@ -41,6 +41,7 @@ VMAX = 1       # Good for Ice Area
 #  File Paths  #
 ################
 
+#runDir = ""
 runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
 #runDir = "REPLACE WITH PERLMUTTER PATH"
 
@@ -56,7 +57,8 @@ outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSer
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 #outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 
-subdirectory = ""
+#subdirectory = ""
+subdirectory = r"/output_files/" # for plotting more than one output file
 # subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day

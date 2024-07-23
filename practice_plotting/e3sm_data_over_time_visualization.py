@@ -18,14 +18,11 @@ from e3sm_data_visualization import *
 from utility import *
 import time
 
-def saveAnimation(fig, artists, animationFileName, startTime, interval=500):
+def saveAnimation(fig, artists, animationFileName, interval=500):
 
     ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
     ani.save(filename=animationFileName, writer="pillow")
     print("Saved .gif")
-
-    endTime = time.time()
-    print("It took this much time: ", endTime-startTime)
 
 def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, output, 
                          mapImageFileName, days, artists, colorBar = True):
@@ -74,39 +71,61 @@ def generateArtistsNorth(fig, northMap, latCell, lonCell, output,
     print("Saved .png")
     return artists
 
-def animateFromMultipleFiles(artists):
-    files = gatherFiles()
+def animateNorthAndSouth(runDir, meshFileName, outputFileName):
+
+    artists = []    
+    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
+
+    fig, northMap, southMap = generateNorthandSouthPoleAxes()
+
+    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+
+    return fig, generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, 
+                         output, mapImageFileName, days, artists)
+
+def animateNorth(runDir, meshFileName, outputFileName):
+    
+    artists = []
+    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
+
+    fig, northMap = generateNorthPoleAxes()
+    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    return fig, generateArtistsNorth(fig, northMap, latCell, lonCell, output, mapImageFileName, days, artists) 
+    
+def animateFromMultipleFiles():
+    files = gatherFiles(0)
+    artists = []
+    fig, northMap, southMap = generateNorthandSouthPoleAxes()
+    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    addColorBar = False
+
+    for file in files:
+        latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, subdirectory+file)
+        
+        # This conditional ensures the colorbar is added only once.
+        if not addColorBar:
+            artists.extend(generateArtistsNorthAndSouth(
+                fig, northMap, southMap, latCell, lonCell, output, 
+                mapImageFileName, days, artists, colorBar=True))
+            
+            addColorBar = True
+        else:
+            artists.extend(generateArtistsNorthAndSouth(
+                fig, northMap, southMap, latCell, lonCell, output, 
+                mapImageFileName, days, artists, colorBar=False))
+            
+    return fig, artists
 
 def main():
 
     startTime = time.time()
-
-    artists = []
-    
-    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
-
-    ###################
-    # NORTH AND SOUTH #
-    ###################
-
-    # fig, northMap, southMap = generateNorthandSouthPoleAxes()
-
-    # addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
-    # addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
-
-    # artists = generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, 
-    #                      output, mapImageFileName, days, artists)
-
-    # saveAnimation(fig, artists, animationFileName, startTime)
-
-    ##############
-    # NORTH ONLY #
-    ##############
-
-    fig, northMap = generateNorthPoleAxes()
-    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
-    artists = generateArtistsNorth(fig, northMap, latCell, lonCell, output, mapImageFileName, days, artists) 
-    saveAnimation(fig, artists, animationFileName, startTime)
+    #fig, artists = animateNorthAndSouth(runDir, meshFileName, outputFileName)
+    fig, artists = animateFromMultipleFiles()
+    saveAnimation(fig, artists, animationFileName)
+    endTime = time.time()
+    print("It took this much time: ", endTime-startTime)
 
 if __name__ == "__main__":
     main()
