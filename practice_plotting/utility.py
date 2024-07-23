@@ -39,6 +39,14 @@ def getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT):
     variableForAllDays = output.variables[keyVariableToPlot][:]
     return variableForAllDays.shape[0]
 
+def loadAllDays(runDir, meshFileName, outputFileName):
+    """ Load the mesh and data to plot. """
+    latCell, lonCell    = loadMesh(runDir, meshFileName)
+    output              = loadData(runDir, outputFileName)
+    days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+
+    return latCell, lonCell, output, days
+
 def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
     """ Reduce the variable to one day's worth of data so we can plot 
     using each index per cell. The indices for each cell of the 

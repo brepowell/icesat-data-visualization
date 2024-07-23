@@ -14,6 +14,8 @@ VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from t
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 
 TIMESTRINGVARIABLE  = "time_string"
+START_TIME_VARIABLE = "xtime_startDaily"
+END_TIME_VARIABLE   = ""
 TIMEVARIABLE        = "time"
 LATITUDEVARIABLE    = "latitude"
 LONGITUDEVARIABLE   = "longitude"

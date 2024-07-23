@@ -18,28 +18,23 @@ from e3sm_data_visualization import *
 from utility import *
 import time
 
-def loadAllDays(runDir, meshFileName, outputFileName):
-    # Load the mesh and data to plot.
-    latCell, lonCell    = loadMesh(runDir, meshFileName)
-    output              = loadData(runDir, outputFileName)
-    days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+def saveAnimation(fig, artists, animationFileName, startTime, interval=500):
 
-    return latCell, lonCell, output, days
+    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
+    ani.save(filename=animationFileName, writer="pillow")
+    print("Saved .gif")
 
-def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
+    endTime = time.time()
+    print("It took this much time: ", endTime-startTime)
 
-    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
-    artists = []
+def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, output, 
+                         mapImageFileName, days, artists, colorBar = True):
+    """ This will make a scatter plot and time stamp per timestep of data in one .nc file.
+        It uses generateNorthandSouthPoleMaps to generate a map. """
 
-    startTime = time.time()
+    # Get list of all days / time values to plot that exist in one .nc file
+    timeList = printDateTime(output, timeStringVariable=START_TIME_VARIABLE, days=days)
 
-    timeList = printDateTime(output, timeStringVariable="xtime_startDaily", days=days)
-
-    fig, northMap, southMap = generateNorthandSouthPoleAxes()
-
-    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
-    addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
-        
     for i in range(days):
         textBoxString = "Time: " + str(timeList[i])
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
@@ -50,31 +45,19 @@ def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
                                                                            mapImageFileName, 0,0,0,0,0,0)
         artists.append([northPoleScatter, southPoleScatter, textBox])
 
-    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=500)
-
-    plt.colorbar(northPoleScatter, ax=northMap)
-    plt.colorbar(southPoleScatter, ax=southMap)
+    if colorBar:
+        plt.colorbar(northPoleScatter, ax=northMap)
+        plt.colorbar(southPoleScatter, ax=southMap)
 
     print("Saved .png")
-    ani.save(filename=fileName, writer="pillow")
-    print("Saved .gif")
+    return artists
 
-    endTime = time.time()
-    print("It took this much time: ", endTime-startTime)
+def generateArtistsNorth(fig, northMap, latCell, lonCell, output, 
+                 mapImageFileName, days, artists, colorbar=True):
 
-def animateNorth(fileName, runDir, meshFileName, outputFileName):
-
-    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
-    artists = []
-
-    startTime = time.time()
-
-    timeList = printDateTime(output, timeStringVariable="xtime_startDaily", days=days)
-
-    fig, northMap = generateNorthPoleAxes()
-
-    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
-
+    # Get list of all days / time values to plot that exist in one .nc file
+    timeList = printDateTime(output, timeStringVariable=START_TIME_VARIABLE, days=days)
+    
     for i in range(days):
         textBoxString = "Time: " + str(timeList[i])
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
@@ -85,25 +68,45 @@ def animateNorth(fileName, runDir, meshFileName, outputFileName):
                                                                            mapImageFileName, 0,0,0,0,0,0)
         artists.append([northPoleScatter, textBox])
 
-    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=500)
-
-    plt.colorbar(northPoleScatter, ax=northMap)
-
+    if colorbar:
+        plt.colorbar(northPoleScatter, ax=northMap)
+    
     print("Saved .png")
-    ani.save(filename=fileName, writer="pillow")
-    print("Saved .gif")
+    return artists
 
-    endTime = time.time()
-    print("It took this much time: ", endTime-startTime)
-
-def animateFromMultipleFiles():
+def animateFromMultipleFiles(artists):
     files = gatherFiles()
 
 def main():
 
-    # Change file name in config file
-    animateNorthAndSouth(animationFileName, runDir, meshFileName, outputFileName) 
-    #animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
+    startTime = time.time()
+
+    artists = []
+    
+    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
+
+    ###################
+    # NORTH AND SOUTH #
+    ###################
+
+    # fig, northMap, southMap = generateNorthandSouthPoleAxes()
+
+    # addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    # addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+
+    # artists = generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, 
+    #                      output, mapImageFileName, days, artists)
+
+    # saveAnimation(fig, artists, animationFileName, startTime)
+
+    ##############
+    # NORTH ONLY #
+    ##############
+
+    fig, northMap = generateNorthPoleAxes()
+    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    artists = generateArtistsNorth(fig, northMap, latCell, lonCell, output, mapImageFileName, days, artists) 
+    saveAnimation(fig, artists, animationFileName, startTime)
 
 if __name__ == "__main__":
     main()
