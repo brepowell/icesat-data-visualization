@@ -94,13 +94,18 @@ def printDateTime(output, timeStringVariable = TIMESTRINGVARIABLE, days = 1):
     # For each day, return a string with the date
     for day in range(days):
         oneDay = ""
+        character = 0
 
         # Go through each character one at a time
-        for character in range(19):
+        while character < 19:
+            oneCharacterIndex = day * 19 + character
             oneCharacterIndex = day + character
             oneCharacter = bytearray(rawTime[oneCharacterIndex:oneCharacterIndex+1])
-            if oneCharacter != b"\x00":
-                oneDay += oneCharacter.decode()
+            if oneCharacter == b"\x00":
+                character +=1
+                break
+            oneDay += oneCharacter.decode()
+            character +=1
         
         timeStrings.append(oneDay)
 

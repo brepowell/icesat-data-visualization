@@ -33,13 +33,15 @@ def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
 
     startTime = time.time()
 
+    timeList = printDateTime(output, timeStringVariable="xtime_startDaily", days=days)
+
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
 
     addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
     addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
         
     for i in range(days):
-        textBoxString = "Day: " + str(i+1)
+        textBoxString = "Time: " + str(timeList[i])
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
                 verticalalignment='top', bbox=boxStyling)
         variableForOneDay = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=i)
@@ -48,7 +50,7 @@ def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
                                                                            mapImageFileName, 0,0,0,0,0,0)
         artists.append([northPoleScatter, southPoleScatter, textBox])
 
-    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=1000)
+    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=500)
 
     plt.colorbar(northPoleScatter, ax=northMap)
     plt.colorbar(southPoleScatter, ax=southMap)
@@ -67,12 +69,14 @@ def animateNorth(fileName, runDir, meshFileName, outputFileName):
 
     startTime = time.time()
 
+    timeList = printDateTime(output, timeStringVariable="xtime_startDaily", days=days)
+
     fig, northMap = generateNorthPoleAxes()
 
     addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
 
     for i in range(days):
-        textBoxString = "Day: " + str(i+1)
+        textBoxString = "Time: " + str(timeList[i])
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
                 verticalalignment='top', bbox=boxStyling)
         variableForOneDay = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=i)
@@ -81,7 +85,7 @@ def animateNorth(fileName, runDir, meshFileName, outputFileName):
                                                                            mapImageFileName, 0,0,0,0,0,0)
         artists.append([northPoleScatter, textBox])
 
-    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=1000)
+    ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=500)
 
     plt.colorbar(northPoleScatter, ax=northMap)
 
@@ -97,12 +101,9 @@ def animateFromMultipleFiles():
 
 def main():
 
-    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
-    timeString = printDateTime(output, timeStringVariable="xtime_startDaily", days=5)
-
     # Change file name in config file
     #animateNorthAndSouth(animationFileName, runDir, meshFileName, outputFileName) 
-    #animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
+    animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
 
 if __name__ == "__main__":
     main()
