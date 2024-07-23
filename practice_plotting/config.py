@@ -10,8 +10,8 @@ import os
 ####################                                                                                                                            ####################
 
 # Change these for different runs if you want to narrow down your focus
-#VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
-VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
+VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
+#VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 
 TIMESTRINGVARIABLE  = "time_string"
 TIMEVARIABLE        = "time"
@@ -20,20 +20,20 @@ LONGITUDEVARIABLE   = "longitude"
 CELLVARIABLE        = "cell"
 
 # Change if you want a wider or narrower view
-#LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
-LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
+LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
+#LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
 
 # Change if you want larger or smaller dots for the scatterplot
-#DOT_SIZE        = 0.4  # Good for the ice area variable
-DOT_SIZE        = 7.0  # Good for satellite tracks
+DOT_SIZE        = 0.4  # Good for the ice area variable
+#DOT_SIZE        = 7.0  # Good for satellite tracks
 
 # Change if you want to downsample the amount of data by a certain factor
 DEFAULT_DOWNSAMPLE_FACTOR = 100
 
 # Color Bar Range
 VMIN = 0
-#VMAX = 1       # Good for Ice Area
-VMAX = 0.7   # Good for Freeboard
+VMAX = 1       # Good for Ice Area
+#VMAX = 0.7   # Good for Freeboard
 
 ################
 #  File Paths  #
@@ -49,15 +49,15 @@ meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and
 #meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter
 
 
-#outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
+outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 10-day Ice Area
-outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
+#outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 #outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 
 subdirectory = ""
 # subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
-subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
+#subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 
 FULL_PATH = runDir + subdirectory
 

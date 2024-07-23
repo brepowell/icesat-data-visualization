@@ -79,17 +79,37 @@ def getLatLon(output):
     lonCell = lonCell.ravel()
     return latCell, lonCell
 
-def printDateTime(output, timeStringVariable = TIMESTRINGVARIABLE):
+def printDateTime(output, timeStringVariable = TIMESTRINGVARIABLE, days = 1):
     """ Prints and returns the date from the .nc file's time string variable. 
     This assumes that the time needs to be decoded and is the format
     [b'0' b'0' b'0' b'1' b'-' b'0' b'1' b'-' b'0' b'2' b'_' b'0' b'0' b':' b'0' b'0' b':' b'0' b'0']
     """
-    rawTime = output.variables[TIMESTRINGVARIABLE][:1].ravel()
-    timeString = ""
-    for i in range(len(rawTime)):
-        timeString += rawTime[i].decode()
-    print(timeString)
-    return timeString 
+
+    # Get all the time variables
+    rawTime = output.variables[timeStringVariable][:days]
+    rawTime = rawTime.ravel()
+
+    timeStrings = []
+
+    # For each day, return a string with the date
+    for day in range(days):
+        oneDay = ""
+
+        # Go through each character one at a time
+        for character in range(19):
+            oneCharacterIndex = day + character
+            oneCharacter = bytearray(rawTime[oneCharacterIndex:oneCharacterIndex+1])
+            if oneCharacter != b"\x00":
+                oneDay += oneCharacter.decode()
+        
+        timeStrings.append(oneDay)
+
+    if len(timeStrings) == 1:
+        print(timeStrings[0])
+        return timeStrings[0]
+    
+    print(timeStrings)
+    return timeStrings
 
 def convertTime(timeToConvert):
     """ Convert time from proleptic_gregorian to a human-readable string."""

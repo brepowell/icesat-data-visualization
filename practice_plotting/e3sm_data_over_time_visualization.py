@@ -18,12 +18,17 @@ from e3sm_data_visualization import *
 from utility import *
 import time
 
-def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
-
+def loadAllDays(runDir, meshFileName, outputFileName):
     # Load the mesh and data to plot.
     latCell, lonCell    = loadMesh(runDir, meshFileName)
     output              = loadData(runDir, outputFileName)
     days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+
+    return latCell, lonCell, output, days
+
+def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
+
+    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
     artists = []
 
     startTime = time.time()
@@ -57,10 +62,7 @@ def animateNorthAndSouth(fileName, runDir, meshFileName, outputFileName):
 
 def animateNorth(fileName, runDir, meshFileName, outputFileName):
 
-    # Load the mesh and data to plot.
-    latCell, lonCell    = loadMesh(runDir, meshFileName)
-    output              = loadData(runDir, outputFileName)
-    days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
     artists = []
 
     startTime = time.time()
@@ -90,11 +92,17 @@ def animateNorth(fileName, runDir, meshFileName, outputFileName):
     endTime = time.time()
     print("It took this much time: ", endTime-startTime)
 
+def animateFromMultipleFiles():
+    files = gatherFiles()
+
 def main():
+
+    latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, outputFileName)
+    timeString = printDateTime(output, timeStringVariable="xtime_startDaily", days=5)
 
     # Change file name in config file
     #animateNorthAndSouth(animationFileName, runDir, meshFileName, outputFileName) 
-    animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
+    #animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
 
 if __name__ == "__main__":
     main()
