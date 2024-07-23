@@ -102,8 +102,8 @@ def animateFromMultipleFiles():
 def main():
 
     # Change file name in config file
-    #animateNorthAndSouth(animationFileName, runDir, meshFileName, outputFileName) 
-    animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
+    animateNorthAndSouth(animationFileName, runDir, meshFileName, outputFileName) 
+    #animateNorth(animationFileName, runDir, meshFileName, outputFileName) 
 
 if __name__ == "__main__":
     main()
