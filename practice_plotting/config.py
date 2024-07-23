@@ -42,20 +42,20 @@ VMAX = 1       # Good for Ice Area
 ################
 
 #runDir = ""
-runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-#runDir = "REPLACE WITH PERLMUTTER PATH"
+#runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+runDir = "REPLACE WITH PERLMUTTER PATH"
 
 # Change these for different runs if you want to grab other .nc files
 
-meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
+#meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
 #meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh (doesn't match)
-#meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter
+meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter
 
 
-outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
+#outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 10-day Ice Area
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
-#outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
+outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 
 #subdirectory = ""
 subdirectory = r"/output_files/" # for plotting more than one output file
