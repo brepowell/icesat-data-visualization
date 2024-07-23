@@ -7,6 +7,7 @@ e3sm*.nc
 deck*.nc
 seaice*.nc
 mpassi*.nc
+perlmutterpath.py
 
 # Directories to ignore
 example_code/

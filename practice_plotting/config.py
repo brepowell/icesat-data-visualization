@@ -4,6 +4,7 @@
 # Make sure to set these variables to the proper file locations.
 
 import os
+from perlmutterpath import *
 
 ####################
 # NetCDF Variables #  
@@ -43,7 +44,7 @@ VMAX = 1       # Good for Ice Area
 
 #runDir = ""
 #runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-runDir = "REPLACE WITH PERLMUTTER PATH"
+runDir = perlmutterpath # For perlmutter only
 
 # Change these for different runs if you want to grab other .nc files
 
