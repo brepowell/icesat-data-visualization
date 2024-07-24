@@ -8,6 +8,7 @@ deck*.nc
 seaice*.nc
 mpassi*.nc
 perlmutterpath.py
+batchScriptForPython.sh
 
 # Directories to ignore
 example_code/
