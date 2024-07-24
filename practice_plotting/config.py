@@ -38,6 +38,10 @@ VMIN = 0
 VMAX = 1       # Good for Ice Area
 #VMAX = 0.7   # Good for Freeboard
 
+# Animation speed
+#INTERVALS = 500 # good for smaller animations, like 5 to 10 days
+INTERVALS = 25 # used for year-long animation
+
 ################
 #  File Paths  #
 ################

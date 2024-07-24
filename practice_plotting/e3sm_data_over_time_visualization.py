@@ -18,7 +18,7 @@ from e3sm_data_visualization import *
 from utility import *
 import time
 
-def saveAnimation(fig, artists, animationFileName, interval=500):
+def saveAnimation(fig, artists, animationFileName, interval=INTERVAL):
     """ Takes in a figure and a list of artists, then it saves those as a .gif. """
     ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
     ani.save(filename=animationFileName, writer="pillow")
@@ -138,7 +138,7 @@ def main():
     startTime = time.time()
     #fig, artists = animateNorthAndSouth(runDir, meshFileName, outputFileName)
     fig, artists = animateFromMultipleFiles()
-    saveAnimation(fig, artists, animationFileName, interval=25)
+    saveAnimation(fig, artists, animationFileName)
     endTime = time.time()
     print("It took this much time: ", endTime-startTime)
 
