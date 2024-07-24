@@ -1,6 +1,7 @@
 # Author:   Breanna Powell
 # Date:     07/03/2024
 # Use this in conjunction with e3sm_data_over_time_visualization.py and e3sm_data_practice_visualization.py
+# and other files in the repo.
 # Make sure to set these variables to the proper file locations.
 
 import os
@@ -53,8 +54,8 @@ runDir = perlmutterpath # For perlmutter only
 # Change these for different runs if you want to grab other .nc files
 
 #meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
-#meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # .nc file for the mesh (doesn't match)
-meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter
+#meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"     # 
+meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perlmutter for the 1 year mesh
 
 
 #outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
@@ -63,10 +64,10 @@ meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perl
 outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 
 #subdirectory = ""
-subdirectory = r"/output_files/" # for plotting more than one output file
-# subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
+#subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
+subdirectory = r"/output_files/" # for plotting more than one output file (1 year for Perlmutter)
 
 FULL_PATH = runDir + subdirectory
 

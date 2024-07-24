@@ -13,7 +13,7 @@ from utility import *
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
 NETCDF_FILE_NAME    = "new.nc"                              #TODO: make this dynamic
-CELLCOUNT           = 233365 #236853                        #TODO: make this dynamic
+CELLCOUNT           = 368265 #233365 #236853                #TODO: make this dynamic
 
 FILL_VALUE      = -99999.0
 DENSITY_WATER   = 1026
@@ -88,7 +88,7 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 
 satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 satelliteData       = loadData(runDir, satelliteFileName)
-freeBoardReadings   = reduceToOneDay(satelliteData, keyVariableToPlot="freeboard")
+freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
 
@@ -135,9 +135,10 @@ print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
 print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
 print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
-###################
-# MODEL VARIABLES #
-###################
+######################################
+# CALCULATE FREEBOARD FROM THE MODEL #
+######################################
+
 CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
 modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
@@ -146,9 +147,9 @@ snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg
 iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell")
 iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell")
 
-print(snowVolumeCells.shape)
-print(iceVolumeCells.shape)
-print(iceAreaCells.shape)
+print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
+print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
+print("Ice Area Cells shape:       ", iceAreaCells.shape)
 
 # TODO: Future work could be to add the Freeboard variable to E3SM's variables
 
@@ -167,16 +168,26 @@ def getFreeboard(heightIce, heightSnow):
 # Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
 heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
 heightSnowCells = getThickness(snowVolumeCells, iceAreaCells)
-print("Ice Height Cells",   heightIceCells.shape)
-print("Snow Height Cells",  heightSnowCells.shape)
+print("Ice Height Cells shape:     ",   heightIceCells.shape)
+print("Snow Height Cells shape:    ",  heightSnowCells.shape)
 
 # height ice + height snow = height water + height of freeboard
 # freeboard = ice thickness + snow height - water height (which is 0?)
-E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
-print("E3SM Freeboard Cells", E3SM_freeboard)
+all_E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
+print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
 
+########################
+# Use the synchronizer #
+########################
 
+synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
+synchData               = loadData(runDir, synchronizerFile)
+timeG = synchData.variables["time"]
+print("time cells: ", timeG.shape)
+print(timeG[0:5])
 
+freeBoardAlongSatelliteTracks = all_E3SM_freeboard
+print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
 
 # Model freeboard mean is 
 # Model freeboard standard deviation is
