@@ -22,6 +22,12 @@ DENSITY_SNOW    = 330
 
 #TODO: Make sure the data types are correct; there should be an "f" after many of them.
 
+#################
+# OPEN THE MESH #
+#################
+latCell, lonCell = loadMesh(runDir, meshFileName)
+print("nCells", latCell.shape)
+
 ########################
 # OPEN THE NETCDF FILE #
 ########################
@@ -86,7 +92,10 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # READ IN DATA #
 ################
 
-satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
+
+#satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
+satelliteFileName    = r"/satellite_data_preprocessed/icesat_E3SM_spring_2008_02_22_16.nc"
+
 satelliteData       = loadData(runDir, satelliteFileName)
 freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
@@ -141,7 +150,8 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
 CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
-modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
+#modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
+modelDailyDataFile  = r"/output_files/v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
 modelData           = loadData(runDir, modelDailyDataFile)
 snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell") 
 iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell")
