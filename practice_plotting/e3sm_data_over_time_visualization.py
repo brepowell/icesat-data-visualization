@@ -136,9 +136,9 @@ def animateFromMultipleFiles():
 def main():
 
     startTime = time.time()
-    fig, artists = animateNorthAndSouth(runDir, meshFileName, outputFileName)
-    #fig, artists = animateFromMultipleFiles()
-    saveAnimation(fig, artists, animationFileName)
+    #fig, artists = animateNorthAndSouth(runDir, meshFileName, outputFileName)
+    fig, artists = animateFromMultipleFiles()
+    saveAnimation(fig, artists, animationFileName, interval=25)
     endTime = time.time()
     print("It took this much time: ", endTime-startTime)
 
