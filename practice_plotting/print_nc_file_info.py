@@ -15,7 +15,7 @@ runDir = perlmutterpath # For perlmutter only
 # FILES FOR 5 OR 10 DAY SIMULATION:
 # fileName = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"     # Size in grid cells: 236853
 # fileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 236853
-fileName = r"/output_files/v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
+fileName = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
 
 
 # FILES FOR 1 YEAR SIMULATION:
