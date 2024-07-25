@@ -94,9 +94,9 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 
 
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
-satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc"
+satelliteFileName    = r"/satellite_data_preprocessed/icesat_E3SM_spring_2008_02_22_16.nc"
 
-satelliteData       = loadData(perlmutterpath3, satelliteFileName)
+satelliteData       = loadData(perlmutterpath1, satelliteFileName)
 freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
@@ -190,7 +190,7 @@ print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
 # Use the synchronizer #
 ########################
 
-synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
+synchronizerFile        = r"\satellite_data_preprocessed\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
 synchData               = loadData(perlmutterpath1, synchronizerFile)
 timeG = synchData.variables["time"]
 print("time cells: ", timeG.shape)
