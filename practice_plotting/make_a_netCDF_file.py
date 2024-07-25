@@ -94,9 +94,9 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 
 
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
-satelliteFileName    = r"/satellite_data_preprocessed/icesat_E3SM_spring_2008_02_22_16.nc"
+satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc"
 
-satelliteData       = loadData(perlmutterpath1, satelliteFileName)
+satelliteData       = loadData(perlmutterpath3, satelliteFileName)
 freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
@@ -151,8 +151,8 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
 #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
-modelDailyDataFile  = r"/output_files/v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
-modelData           = loadData(perlmutterpath1, modelDailyDataFile)
+modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
+modelData           = loadData(perlmutterpath2, modelDailyDataFile)
 snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell") 
 iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell")
 iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell")
