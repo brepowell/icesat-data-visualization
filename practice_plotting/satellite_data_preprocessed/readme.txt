@@ -1,0 +1,1 @@
+This is the folder for adding data from the satellites.
