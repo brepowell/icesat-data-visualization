@@ -18,7 +18,7 @@ from e3sm_data_visualization import *
 from utility import *
 import time
 
-def saveAnimation(fig, artists, animationFileName, interval=INTERVAL):
+def saveAnimation(fig, artists, animationFileName, interval=INTERVALS):
     """ Takes in a figure and a list of artists, then it saves those as a .gif. """
     ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
     ani.save(filename=animationFileName, writer="pillow")
