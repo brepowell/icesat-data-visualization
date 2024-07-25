@@ -25,7 +25,8 @@ DENSITY_SNOW    = 330
 #################
 # OPEN THE MESH #
 #################
-latCell, lonCell = loadMesh(perlmutterpath1, meshFileName)
+latCell, lonCell = loadMesh(runDir, meshFileName)
+#latCell, lonCell = loadMesh(perlmutterpath1, meshFileName) #PM
 print("nCells", latCell.shape)
 
 ########################
@@ -93,10 +94,11 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 ################
 
 
-#satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
-satelliteFileName    = r"/satellite_data_preprocessed/icesat_E3SM_spring_2008_02_22_16.nc"
+satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
+#satelliteFileName    = r"/satellite_data_preprocessed/icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
-satelliteData       = loadData(perlmutterpath1, satelliteFileName)
+satelliteData       = loadData(runDir, satelliteFileName)
+#satelliteData       = loadData(perlmutterpath1, satelliteFileName) #PM
 freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
@@ -144,15 +146,33 @@ print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
 print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
 print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
+########################
+# Use the synchronizer #
+########################
+
+synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
+#synchronizerFile        = r"\satellite_data_preprocessed\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
+synchData               = loadData(runDir, synchronizerFile)
+#synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
+timeG = synchData.variables["time"]
+print("time cells: ", timeG.shape)
+print(timeG[0:5])
+
+# Model freeboard mean is 
+# Model freeboard standard deviation is
+# Model freeboard effective sample size is
+# Observation freeboard effective sample size is
+
 ######################################
 # CALCULATE FREEBOARD FROM THE MODEL #
 ######################################
 
 CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
-#modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
-modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
-modelData           = loadData(perlmutterpath2, modelDailyDataFile)
+modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
+#modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
+modelData           = loadData(runDir, modelDailyDataFile)
+#modelData           = loadData(perlmutterpath2, modelDailyDataFile) #PM
 snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell") 
 iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell")
 iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell")
@@ -186,23 +206,12 @@ print("Snow Height Cells shape:    ",  heightSnowCells.shape)
 all_E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
 print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
 
-########################
-# Use the synchronizer #
-########################
+#Use cellIndicesForAllSamples
+#Use cellIndicesForAllObservations
 
-synchronizerFile        = r"\satellite_data_preprocessed\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
-synchData               = loadData(perlmutterpath1, synchronizerFile)
-timeG = synchData.variables["time"]
-print("time cells: ", timeG.shape)
-print(timeG[0:5])
-
-freeBoardAlongSatelliteTracks = all_E3SM_freeboard
+freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
+print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
 print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
-
-# Model freeboard mean is 
-# Model freeboard standard deviation is
-# Model freeboard effective sample size is
-# Observation freeboard effective sample size is
 
 print("\n=====   MODEL VARIABLES   ======")
 
