@@ -41,7 +41,7 @@ VMAX = 1       # Good for Ice Area
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
-INTERVALS = 25 # used for year-long animation
+INTERVALS = 50 # used for year-long animation
 
 ################
 #  File Paths  #
