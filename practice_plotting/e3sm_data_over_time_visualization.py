@@ -20,6 +20,9 @@ import time
 
 def saveAnimation(fig, artists, animationFileName, interval=INTERVALS):
     """ Takes in a figure and a list of artists, then it saves those as a .gif. """
+    # Debug statements to check the inputs
+
+    print(f"Number of artists: {len(artists)}")
     ani = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
     ani.save(filename=animationFileName, writer="pillow")
     print("Saved .gif")

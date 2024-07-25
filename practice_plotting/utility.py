@@ -65,6 +65,7 @@ def gatherFiles(fullPath = True):
     filesToPlot = []
 
     if fullPath:
+        print("Full path is ", FULL_PATH)
         for root, dirs, files in os.walk(FULL_PATH, topdown=False):
             for name in files:
                 if name.endswith('.nc'):
@@ -75,6 +76,8 @@ def gatherFiles(fullPath = True):
             for name in files:
                 if name.endswith('.nc'):
                     filesToPlot.append(name)
+
+    print("Read this many files: ", len(filesToPlot))
 
     return filesToPlot
 

@@ -63,11 +63,11 @@ meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc"     # for Perl
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 
-#subdirectory = ""
+#subdirectory = "" # Use for 1 year Perlmutter
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
-subdirectory = r"/output_files/" # for plotting more than one output file (1 year for Perlmutter)
+subdirectory = r"/output_files/" # for plotting more than one output file
 
 FULL_PATH = runDir + subdirectory
 
