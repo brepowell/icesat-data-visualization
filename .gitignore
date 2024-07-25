@@ -9,6 +9,7 @@ seaice*.nc
 mpassi*.nc
 perlmutterpath.py
 batchScriptForPython.sh
+*.swp*
 
 # Directories to ignore
 example_code/
