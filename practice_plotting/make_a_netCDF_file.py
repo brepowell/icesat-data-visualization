@@ -139,7 +139,7 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
-satelliteFileName    = "icesat_E3SM_spring_" + str(year) + "_" + str(month)+ "_"+ str(day) +"_" + str(hour) + ".nc"
+satelliteFileName    = "icesat_E3SM_spring_" + str(year) + "_" + str(month).zfill(2)+ "_"+ str(day).zfill(2) + "_" + str(hour).zfill(2) + ".nc"
 
 #satelliteData       = loadData(runDir, satelliteFileName)
 satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
@@ -203,7 +203,7 @@ CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
 #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
 #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
-modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month)+ "-"+ str(day) + ".nc"
+modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(day).zfill(2) + ".nc"
 
 #modelData           = loadData(runDir, modelDailyDataFile)
 modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
