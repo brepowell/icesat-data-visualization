@@ -13,7 +13,7 @@ from utility import *
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
 NETCDF_FILE_NAME    = "new.nc"                              #TODO: make this dynamic
-CELLCOUNT           = 368265 #233365 #236853                #TODO: make this dynamic
+CELLCOUNT           = 295135 #368265 #233365 #236853        #TODO: make this dynamic
 
 FILL_VALUE      = -99999.0
 
@@ -199,7 +199,7 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 # CALCULATE FREEBOARD FROM THE MODEL #
 ######################################
 
-CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
+#CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
 #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
 #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
