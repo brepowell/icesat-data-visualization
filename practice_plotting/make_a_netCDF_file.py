@@ -205,9 +205,9 @@ modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.
 
 #modelData           = loadData(runDir, modelDailyDataFile)
 modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
-snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell", day = day) 
-iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell", day = day)
-iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell", day = day)
+snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day) 
+iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day)
+iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day)
 
 print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
 print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
