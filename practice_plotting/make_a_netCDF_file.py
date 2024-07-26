@@ -210,10 +210,10 @@ iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_a
 iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day)
 
 startTime = modelData.variables[START_TIME_VARIABLE]
-print("Start time:                 ", startTime.shape)
+print("Start Time shape at that day:                 ", startTime.shape)
 
 times     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day)
-print(times)
+printDateTime(times)
 
 print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
 print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
