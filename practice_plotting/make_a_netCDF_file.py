@@ -96,7 +96,7 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 ###################
 
 files = gatherFiles(0, perlmutterpathSatellites)
-fileIndex = 0 # Change to focus on different satellite files
+fileIndex = 5689 # Change to focus on different satellite files
 
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
