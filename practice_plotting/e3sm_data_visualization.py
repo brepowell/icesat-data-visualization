@@ -169,16 +169,24 @@ def main():
     # Load the mesh and data to plot.
     latCell, lonCell = loadMesh(runDir, meshFileName)
     output = loadData(runDir, outputFileName)
-    print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
-    variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
+
+    # For regular runs of E3SM Model data (like Ice Area)    
+    #print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
+    #variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
     
+    # For plotting the new.nc results that I've made
+    print("nCells total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
+    variableToPlot1Day = output.variables[VARIABLETOPLOT][:]
+    variableToPlot1Day.ravel()
+    print(variableToPlot1Day.shape)
+
     # Plot the north and south poles
-    fig, northMap, southMap = generateNorthandSouthPoleAxes()
-    generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", dot_size=0.4)
+    #fig, northMap, southMap = generateNorthandSouthPoleAxes()
+    #generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", dot_size=0.4)
 
     # Plot just the arctic
     fig, northMap = generateNorthPoleAxes()
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, "seaice_north_pole", dot_size=0.4)
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, dot_size=0.4)
 
 if __name__ == "__main__":
     main()
