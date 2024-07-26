@@ -43,24 +43,31 @@ synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
 shapeOfSynchData = synchData.variables["time_string"].shape
 print("Shape of synch file data (time_string variable): ", shapeOfSynchData)
 timeStrings  = printDateTime(synchData, "time_string", shapeOfSynchData[0])
-print("How many time strings are there? ", len(timeStrings))
-timeCluster = synchData.variables["seasonalcluster"]
-timeYear    = synchData.variables["year"]
-timeMonth   = synchData.variables["month"]
-timeDay     = synchData.variables["day"]
+#print("How many time strings are there? ", len(timeStrings))
+timeCluster     = synchData.variables["seasonalcluster"]
+timeYear        = synchData.variables["year"]
+timeMonth       = synchData.variables["month"]
+timeDay         = synchData.variables["day"]
+timeHour        = synchData.variables["hour"]
+timeGregorian   = synchData.variables["time"]
 
-dateInQuestion = "22-Feb-2008 01:00:00"
-fileIndex = timeStrings.index(dateInQuestion)
+index = convertTime(timeGregorian)
 
+#dateInQuestion = "22-Feb-2008 01:00:00"
+#fileIndex = timeStrings.index(dateInQuestion)
+fileIndex = 0
+
+print("File index is  ", fileIndex)
 print("Number of satellite details in Synch file: ", timeCluster.shape)
 
-print("Times within   ", dateInQuestion)
-print("Time String:   ", timeStrings[fileIndex])
-print("Cluster:       ", timeCluster[fileIndex])
-print("Year:          ", timeYear[fileIndex])
-print("Month:         ", timeMonth[fileIndex])
-print("Day:           ", timeDay[fileIndex])
-
+#print("Times within   ", dateInQuestion)
+print("Time String:     ", timeStrings[fileIndex])
+print("Cluster:         ", timeCluster[fileIndex])
+print("Year:            ", timeYear[fileIndex])
+print("Month:           ", timeMonth[fileIndex])
+print("Day:             ", timeDay[fileIndex])
+print("Hour:            ", timeHour[fileIndex])
+print("Gregorian Time:  ", timeGregorian[fileIndex])
 
 ########################
 # OPEN THE NETCDF FILE #
