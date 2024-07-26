@@ -94,11 +94,11 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 ################
 
 
-satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
-#satelliteFileName    = r"/satellite_data_preprocessed/icesat_E3SM_spring_2008_02_22_16.nc" #PM
+#satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
+satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
-satelliteData       = loadData(runDir, satelliteFileName)
-#satelliteData       = loadData(perlmutterpath1, satelliteFileName) #PM
+#satelliteData       = loadData(runDir, satelliteFileName)
+satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
 freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
@@ -150,10 +150,10 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 # Use the synchronizer #
 ########################
 
-synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
-#synchronizerFile        = r"\satellite_data_preprocessed\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
-synchData               = loadData(runDir, synchronizerFile)
-#synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
+#synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
+synchronizerFile        = r"E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
+#synchData               = loadData(runDir, synchronizerFile)
+synchData               = loadData(perlmutterpathSatellites, synchronizerFile) #PM
 timeG = synchData.variables["time"]
 print("time cells: ", timeG.shape)
 print(timeG[0:5])
@@ -169,10 +169,10 @@ print(timeG[0:5])
 
 CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
-modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
-#modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2003-02-01.nc"
-modelData           = loadData(runDir, modelDailyDataFile)
-#modelData           = loadData(perlmutterpath2, modelDailyDataFile) #PM
+#modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
+modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
+#modelData           = loadData(runDir, modelDailyDataFile)
+modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
 snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell") 
 iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell")
 iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell")
