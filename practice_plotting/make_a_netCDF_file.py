@@ -203,7 +203,7 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
 #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
 #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
-modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(day).zfill(2) + ".nc"
+modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
 
 #modelData           = loadData(runDir, modelDailyDataFile)
 modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
