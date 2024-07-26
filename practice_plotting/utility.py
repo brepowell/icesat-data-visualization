@@ -122,6 +122,22 @@ def printDateTime(output, timeStringVariable = TIMESTRINGVARIABLE, days = 1):
     print(timeStrings)
     return timeStrings
 
+def convertDateBytesToString(bytesTime):
+    """ Prints and returns the date from a byte string. 
+    This assumes that the time needs to be decoded and is the format
+    [b'0' b'0' b'0' b'1' b'-' b'0' b'1' b'-' b'0' b'2' b'_' b'0' b'0' b':' b'0' b'0' b':' b'0' b'0']
+    """
+    bytesTime = bytearray(bytesTime).decode()
+    timeStrings = bytesTime.split('\x00')
+    timeStrings[:] = [x for x in timeStrings if x]
+    
+    if len(timeStrings) == 1:
+        print(timeStrings[0])
+        return timeStrings[0]
+    
+    print(timeStrings)
+    return timeStrings
+
 def convertTime(timeToConvert):
     """ Convert time from proleptic_gregorian to a human-readable string."""
     base_date = datetime(2000, 1, 1)
