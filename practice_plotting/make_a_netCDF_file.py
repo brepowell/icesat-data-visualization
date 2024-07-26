@@ -41,7 +41,6 @@ synchronizerFile        = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synch
 synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
 
 shapeOfSynchData = synchData.variables["time_string"].shape
-print("Shape of synch file data (time_string variable): ", shapeOfSynchData)
 timeStrings  = printDateTime(synchData, "time_string", shapeOfSynchData[0])
 
 # For ALL satellite data files:
@@ -52,10 +51,11 @@ timeDay         = synchData.variables["day"]
 timeHour        = synchData.variables["hour"]
 timeGregorian   = synchData.variables["time"]
 
+print("===== SYNCH FILE DETAILS ======")
 # Looking at one specific satellite file
 fileIndex = 0
-print("File index is  ", fileIndex)
-print("Number of satellite details in Synch file: ", timeCluster.shape)
+print("File index is    ", fileIndex)
+print("Number of satellite details in Synch file: ", shapeOfSynchData[0])
 
 timeString  = timeStrings[fileIndex]
 cluster     = timeCluster[fileIndex]
@@ -199,17 +199,15 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 # CALCULATE FREEBOARD FROM THE MODEL #
 ######################################
 
-#CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
-
 #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
 #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
 modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
 
 #modelData           = loadData(runDir, modelDailyDataFile)
 modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
-snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell") 
-iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell")
-iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell")
+snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell", day = day) 
+iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceVolumeCell", day = day)
+iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_iceAreaCell", day = day)
 
 print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
 print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
