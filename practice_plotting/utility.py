@@ -63,9 +63,9 @@ def gatherFiles(fullPath = True):
     """ Use the subdirectory specified in the config file. 
     Get all files in that folder. """
     filesToPlot = []
+    print("Full path is ", FULL_PATH)
 
     if fullPath:
-        print("Full path is ", FULL_PATH)
         for root, dirs, files in os.walk(FULL_PATH, topdown=False):
             for name in files:
                 if name.endswith('.nc'):
