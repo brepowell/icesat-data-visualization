@@ -40,8 +40,9 @@ synchronizerFile        = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synch
 #synchData               = loadData(runDir, synchronizerFile)
 synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
 
-print(synchData.variables["time_string"].shape)
-timeStrings  = printDateTime(synchData, "time_string", len(cellIndicesForAllObservations))
+shapeOfSynchData = synchData.variables["time_string"].shape
+print("Shape of synch file data (time_string variable): ", shapeOfSynchData)
+timeStrings  = printDateTime(synchData, "time_string", shapeOfSynchData[0])
 print("How many time strings are there? ", len(timeStrings))
 timeCluster = synchData.variables["seasonalcluster"]
 timeYear    = synchData.variables["year"]
