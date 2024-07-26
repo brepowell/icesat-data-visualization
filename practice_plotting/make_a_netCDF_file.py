@@ -32,6 +32,36 @@ print("nCells", latCell.shape[0])
 #CELLCOUNT = latCell.shape[0]
 
 ########################
+# Use the synchronizer #
+########################
+
+#synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
+synchronizerFile        = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
+#synchData               = loadData(runDir, synchronizerFile)
+synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
+
+print(synchData.variables["time_string"].shape)
+timeStrings  = printDateTime(synchData, "time_string", len(cellIndicesForAllObservations))
+print("How many time strings are there? ", len(timeStrings))
+timeCluster = synchData.variables["seasonalcluster"]
+timeYear    = synchData.variables["year"]
+timeMonth   = synchData.variables["month"]
+timeDay     = synchData.variables["day"]
+
+dateInQuestion = "22-Feb-2008 01:00:00"
+fileIndex = timeStrings.index(dateInQuestion)
+
+print("Number of satellite details in Synch file: ", timeCluster.shape)
+
+print("Times within   ", dateInQuestion)
+print("Time String:   ", timeStrings[fileIndex])
+print("Cluster:       ", timeCluster[fileIndex])
+print("Year:          ", timeYear[fileIndex])
+print("Month:         ", timeMonth[fileIndex])
+print("Day:           ", timeDay[fileIndex])
+
+
+########################
 # OPEN THE NETCDF FILE #
 ########################
 
@@ -151,33 +181,6 @@ print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
 print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
 print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
 print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
-
-########################
-# Use the synchronizer #
-########################
-
-#synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
-synchronizerFile        = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
-#synchData               = loadData(runDir, synchronizerFile)
-synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
-
-print(synchData.variables["time_string"].shape)
-timeStrings  = printDateTime(synchData, "time_string", len(cellIndicesForAllObservations))
-print("How many time strings are there? ", len(timeStrings))
-timeCluster = synchData.variables["seasonalcluster"]
-timeYear    = synchData.variables["year"]
-timeMonth   = synchData.variables["month"]
-timeDay     = synchData.variables["day"]
-
-print("Number of satellite details in Synch file: ", timeCluster.shape)
-
-print("Times within   ", files[fileIndex])
-print("Time String:   ", timeStrings[fileIndex])
-print("Cluster:       ", timeCluster[fileIndex])
-print("Year:          ", timeYear[fileIndex])
-print("Month:         ", timeMonth[fileIndex])
-print("Day:           ", timeDay[fileIndex])
-
 
 # Model freeboard mean is 
 # Model freeboard standard deviation is
