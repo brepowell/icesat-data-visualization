@@ -29,7 +29,7 @@ DENSITY_SNOW    = 330
 latCell, lonCell = loadMesh(runDir, meshFileName)
 #latCell, lonCell = loadMesh(perlmutterpath1, meshFileName) #PM
 print("nCells", latCell.shape[0])
-#CELLCOUNT = latCell.shape[0]
+CELLCOUNT = latCell.shape[0]
 
 ########################
 # Use the synchronizer #
@@ -158,10 +158,10 @@ print("Shape of cellIndicesForAllObservations: ", cellIndicesForAllObservations.
 
 # Sample model freeboard is the # of times that cell was passed over 
 # (ex. once in a day) in the full time
-samplemf[:] = np.bincount(cellIndicesForAllSamples) # Collect one count of the satellite passing overhead.
+samplemf[:] = np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
 
 # Sample observation freeboard is the # of photon reads per cell over full time
-sampleof[:] = np.bincount(cellIndicesForAllObservations) # Collect all photon counts into bins using cell indices.
+sampleof[:] = np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
 # Observed freeboard mean is the sum of all photon readings 
 # in that cell over all time / sampleof
