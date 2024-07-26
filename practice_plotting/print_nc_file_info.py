@@ -1,7 +1,7 @@
 from utility import *
 
 #runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-runDir = perlmutterpath # For perlmutter only
+runDir = perlmutterpath1 # For perlmutter only
 
 # fileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"
 #fileName = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
