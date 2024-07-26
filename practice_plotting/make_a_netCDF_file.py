@@ -205,14 +205,14 @@ modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.
 
 #modelData           = loadData(runDir, modelDailyDataFile)
 modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
-snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day) 
-iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day)
-iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day)
+snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
+iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
+iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
 
 startTime = modelData.variables[START_TIME_VARIABLE]
 print("Days in that month:         ", startTime.shape[0])
 
-modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day)
+modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
 convertDateBytesToString(modelTime)
 
 print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
@@ -244,14 +244,18 @@ print("Snow Height Cells shape:    ",  heightSnowCells.shape)
 all_E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
 print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
 
+meanmf[:] = all_E3SM_freeboard
+
 #Use cellIndicesForAllSamples
 #Use cellIndicesForAllObservations
 
+print("\n=====   MODEL VARIABLES   ======")
+print("Meanof   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
+
+print("\n=====   ALONG TRACK   ======")
 freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
 print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
 print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
-
-print("\n=====   MODEL VARIABLES   ======")
 
 # close the Dataset
 ncfile.close()
