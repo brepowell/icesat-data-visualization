@@ -97,16 +97,17 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 
 files = gatherFiles(0, perlmutterpathSatellites)
 fileIndex = 0 # Change to focus on different satellite files
-print(files)
 
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
+print("index of icesat_E3SM_spring_2008_02_22_16 is ", files.index("icesat_E3SM_spring_2008_02_22_16"))
+
 #satelliteData       = loadData(runDir, satelliteFileName)
 satelliteData       = loadData(perlmutterpathSatellites, files[fileIndex]) #PM
-freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
-cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
-cellIndicesForAllObservations = returnCellIndices(satelliteData)
+freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
+cellIndicesForAllSamples        = reduceToOneDay(satelliteData, "modcell")
+cellIndicesForAllObservations   = returnCellIndices(satelliteData)
 
 print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
 print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
