@@ -10,6 +10,7 @@ mpassi*.nc
 perlmutterpath.py
 batchScriptForPython.sh
 *.swp*
+*Synchronizer.nc
 
 # Directories to ignore
 example_code/
