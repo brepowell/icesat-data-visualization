@@ -13,9 +13,10 @@ from utility import *
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
 NETCDF_FILE_NAME    = "new.nc"                              #TODO: make this dynamic
-CELLCOUNT           = 368265 #233365 #236853                #TODO: make this dynamic
+#CELLCOUNT           = 368265 #233365 #236853                #TODO: make this dynamic
 
 FILL_VALUE      = -99999.0
+
 DENSITY_WATER   = 1026
 DENSITY_ICE     = 917
 DENSITY_SNOW    = 330
@@ -27,7 +28,8 @@ DENSITY_SNOW    = 330
 #################
 latCell, lonCell = loadMesh(runDir, meshFileName)
 #latCell, lonCell = loadMesh(perlmutterpath1, meshFileName) #PM
-print("nCells", latCell.shape)
+print("nCells", latCell.shape[0])
+CELLCOUNT = latCell.shape[0]
 
 ########################
 # OPEN THE NETCDF FILE #
@@ -89,16 +91,19 @@ stdmf   = createVariableForNetCDF("stdmf", "model freeboard standard deviation",
 stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviation", 
                         vmax = 0.9629242, vmin = 0.01656876, fillvalue = FILL_VALUE)
 
-################
-# READ IN DATA #
-################
+###################
+# SATELLITE FILES #
+###################
 
+files = gatherFiles(0)
+fileIndex = 0 # Change to focus on different satellite files
+print(files)
 
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
 satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
 #satelliteData       = loadData(runDir, satelliteFileName)
-satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
+satelliteData       = loadData(perlmutterpathSatellites, files[fileIndex]) #PM
 freeBoardReadings   = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples      = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations = returnCellIndices(satelliteData)
@@ -156,7 +161,8 @@ synchronizerFile        = r"E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" 
 synchData               = loadData(perlmutterpathSatellites, synchronizerFile) #PM
 timeG = synchData.variables["time"]
 print("time cells: ", timeG.shape)
-print(timeG[0:5])
+print(timeG[fileIndex])
+
 
 # Model freeboard mean is 
 # Model freeboard standard deviation is
