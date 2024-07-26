@@ -157,13 +157,13 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 ########################
 
 #synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
-synchronizerFile        = r"E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
+synchronizerFile        = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
 #synchData               = loadData(runDir, synchronizerFile)
-synchData               = loadData(perlmutterpathSatellites, synchronizerFile) #PM
+synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
 
 print(synchData.variables["time_string"].shape)
 timeStrings  = printDateTime(synchData, "time_string", len(cellIndicesForAllObservations))
-print(len(timeStrings))
+print("How many time strings are there? ", len(timeStrings))
 timeCluster = synchData.variables["seasonalcluster"]
 timeYear    = synchData.variables["year"]
 timeMonth   = synchData.variables["month"]
