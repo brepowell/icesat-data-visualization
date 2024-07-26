@@ -162,7 +162,7 @@ synchronizerFile        = r"E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" 
 synchData               = loadData(perlmutterpathSatellites, synchronizerFile) #PM
 
 print(synchData.variables["time_string"].shape)
-timeStrings  = printDateTime(synchData, "time_string", 0)
+timeStrings  = printDateTime(synchData, "time_string", len(cellIndicesForAllObservations))
 print(len(timeStrings))
 timeCluster = synchData.variables["seasonalcluster"]
 timeYear    = synchData.variables["year"]
