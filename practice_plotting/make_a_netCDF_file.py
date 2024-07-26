@@ -13,7 +13,7 @@ from utility import *
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
 NETCDF_FILE_NAME    = "new.nc"                              #TODO: make this dynamic
-#CELLCOUNT           = 368265 #233365 #236853                #TODO: make this dynamic
+CELLCOUNT           = 368265 #233365 #236853                #TODO: make this dynamic
 
 FILL_VALUE      = -99999.0
 
@@ -29,7 +29,7 @@ DENSITY_SNOW    = 330
 latCell, lonCell = loadMesh(runDir, meshFileName)
 #latCell, lonCell = loadMesh(perlmutterpath1, meshFileName) #PM
 print("nCells", latCell.shape[0])
-CELLCOUNT = latCell.shape[0]
+#CELLCOUNT = latCell.shape[0]
 
 ########################
 # OPEN THE NETCDF FILE #
