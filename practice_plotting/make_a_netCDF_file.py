@@ -95,7 +95,7 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-files = gatherFiles(0)
+files = gatherFiles(0, perlmutterpathSatellites)
 fileIndex = 0 # Change to focus on different satellite files
 print(files)
 

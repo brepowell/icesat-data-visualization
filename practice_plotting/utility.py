@@ -59,20 +59,20 @@ def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
 
     return variableToPlot1Day
 
-def gatherFiles(fullPath = True):
+def gatherFiles(useFullPath = True, path = FULL_PATH):
     """ Use the subdirectory specified in the config file. 
     Get all files in that folder. """
     filesToPlot = []
-    print("Full path is ", FULL_PATH)
+    print("Path to files is ", path)
 
-    if fullPath:
-        for root, dirs, files in os.walk(FULL_PATH, topdown=False):
+    if useFullPath:
+        for root, dirs, files in os.walk(path, topdown=False):
             for name in files:
                 if name.endswith('.nc'):
                     filesToPlot.append(os.path.join(root, name))
 
     else:
-        for root, dirs, files in os.walk(FULL_PATH, topdown=False):
+        for root, dirs, files in os.walk(path, topdown=False):
             for name in files:
                 if name.endswith('.nc'):
                     filesToPlot.append(name)
