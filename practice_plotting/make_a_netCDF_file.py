@@ -160,9 +160,22 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 synchronizerFile        = r"E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
 #synchData               = loadData(runDir, synchronizerFile)
 synchData               = loadData(perlmutterpathSatellites, synchronizerFile) #PM
-timeG = synchData.variables["time"]
-print("time cells: ", timeG.shape)
-print(timeG[fileIndex])
+
+timeString  = synchData.variables["time_string"]
+timeCluster = synchData.variables["seasonalcluster"]
+timeYear    = synchData.variables["year"]
+timeMonth   = synchData.variables["month"]
+timeDay     = synchData.variables["day"]
+
+print("Number of satellite cells in Synch file: ", timeString.shape)
+print("Number of satellite cells in Synch file: ", timeCluster.shape)
+
+print("Times within   ", files[fileIndex])
+print("Time String:   ", timeString[fileIndex])
+print("Cluster:       ", timeCluster[fileIndex])
+print("Year:          ", timeYear[fileIndex])
+print("Month:         ", timeMonth[fileIndex])
+print("Day:           ", timeDay[fileIndex])
 
 
 # Model freeboard mean is 
