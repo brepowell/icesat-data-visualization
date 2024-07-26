@@ -63,11 +63,11 @@ meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc" # for PM Perlm
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 
-#subdirectory = "" # Use for make_a_netCDF_file.py
+subdirectory = "" # Use for make_a_netCDF_file.py
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
-subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
+#subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
 
 FULL_PATH = runDir + subdirectory
 
