@@ -161,17 +161,16 @@ synchronizerFile        = r"E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" 
 #synchData               = loadData(runDir, synchronizerFile)
 synchData               = loadData(perlmutterpathSatellites, synchronizerFile) #PM
 
-timeString  = synchData.variables["time_string"]
+timeStrings  = printDateTime(synchData, "time_string", 1)
 timeCluster = synchData.variables["seasonalcluster"]
 timeYear    = synchData.variables["year"]
 timeMonth   = synchData.variables["month"]
 timeDay     = synchData.variables["day"]
 
-print("Number of satellite cells in Synch file: ", timeString.shape)
-print("Number of satellite cells in Synch file: ", timeCluster.shape)
+print("Number of satellite details in Synch file: ", timeCluster.shape)
 
 print("Times within   ", files[fileIndex])
-print("Time String:   ", timeString[fileIndex])
+print("Time String:   ", timeStrings[fileIndex])
 print("Cluster:       ", timeCluster[fileIndex])
 print("Year:          ", timeYear[fileIndex])
 print("Month:         ", timeMonth[fileIndex])
