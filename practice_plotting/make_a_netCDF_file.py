@@ -43,7 +43,8 @@ synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
 shapeOfSynchData = synchData.variables["time_string"].shape
 print("Shape of synch file data (time_string variable): ", shapeOfSynchData)
 timeStrings  = printDateTime(synchData, "time_string", shapeOfSynchData[0])
-#print("How many time strings are there? ", len(timeStrings))
+
+# For ALL satellite data files:
 timeCluster     = synchData.variables["seasonalcluster"]
 timeYear        = synchData.variables["year"]
 timeMonth       = synchData.variables["month"]
@@ -51,23 +52,26 @@ timeDay         = synchData.variables["day"]
 timeHour        = synchData.variables["hour"]
 timeGregorian   = synchData.variables["time"]
 
-index = convertTime(timeGregorian)
-
-#dateInQuestion = "22-Feb-2008 01:00:00"
-#fileIndex = timeStrings.index(dateInQuestion)
+# Looking at one specific satellite file
 fileIndex = 0
-
 print("File index is  ", fileIndex)
 print("Number of satellite details in Synch file: ", timeCluster.shape)
 
-#print("Times within   ", dateInQuestion)
-print("Time String:     ", timeStrings[fileIndex])
-print("Cluster:         ", timeCluster[fileIndex])
-print("Year:            ", timeYear[fileIndex])
-print("Month:           ", timeMonth[fileIndex])
-print("Day:             ", timeDay[fileIndex])
-print("Hour:            ", timeHour[fileIndex])
-print("Gregorian Time:  ", timeGregorian[fileIndex])
+timeString  = timeStrings[fileIndex]
+cluster     = timeCluster[fileIndex]
+year        = timeYear[fileIndex]
+month       = timeMonth[fileIndex]
+day         = timeDay[fileIndex]
+hour        = timeHour[fileIndex]
+gregorian   = timeGregorian[fileIndex]
+
+print("Time String:     ", timeString)
+print("Cluster:         ", cluster)
+print("Year:            ", year)
+print("Month:           ", month)
+print("Day:             ", day)
+print("Hour:            ", hour)
+print("Gregorian Time:  ", gregorian)
 
 ########################
 # OPEN THE NETCDF FILE #
@@ -133,16 +137,12 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-files = gatherFiles(0, perlmutterpathSatellites)
-fileIndex = 5689 # Change to focus on different satellite files
-
 #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
-satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
-
-print("index of icesat_E3SM_spring_2008_02_22_16 is ", files.index("icesat_E3SM_spring_2008_02_22_16.nc"))
+#satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
+satelliteFileName    = "icesat_E3SM_spring_" + str(year) + "_" + str(month)+ "_"+ str(day) +"_" + str(hour) + ".nc"
 
 #satelliteData       = loadData(runDir, satelliteFileName)
-satelliteData       = loadData(perlmutterpathSatellites, files[fileIndex]) #PM
+satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
 freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
 cellIndicesForAllSamples        = reduceToOneDay(satelliteData, "modcell")
 cellIndicesForAllObservations   = returnCellIndices(satelliteData)
@@ -202,7 +202,9 @@ print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 CELLCOUNT           = 236853 #TODO: REMOVE THIS LATER WHEN COMPATIBLE
 
 #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
-modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
+#modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
+modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month)+ "-"+ str(day) + ".nc"
+
 #modelData           = loadData(runDir, modelDailyDataFile)
 modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
 snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot="timeDaily_avg_snowVolumeCell") 
