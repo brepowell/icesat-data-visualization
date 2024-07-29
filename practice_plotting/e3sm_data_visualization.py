@@ -20,17 +20,30 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from utility import *
 
-def mapHemisphere(latCell, lonCell, variableToPlot1Day, hemisphere, title, hemisphereMap, dot_size=DOT_SIZE):
-    """ Map one hemisphere onto a matplotlib figure. 
-    You do not need to include the minus sign if mapping southern hemisphere. 
+def mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, title, hemisphereMap, dot_size=DOT_SIZE):
+    """ Map the northern hemisphere onto a matplotlib figure. 
     This requires latCell and lonCell to be filled by a mesh file.
     It also requires variableToPlot1Day to be filled by an output .nc file. """
-    if hemisphere == "n":
-        indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
-    elif hemisphere == "s":
-        indices = np.where(latCell < -LAT_LIMIT)    # Only capture points between the lat limit and the pole.
-    else:
-        return
+
+    indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
+    
+    norm=mpl.colors.Normalize(VMIN, VMAX)
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], 
+                               c=variableToPlot1Day[indices], cmap='bwr', 
+                               s=dot_size, transform=ccrs.PlateCarree(),
+                               norm=norm)
+    hemisphereMap.set_title(title)
+    hemisphereMap.axis('off')
+
+    return sc
+
+def mapSouthernHemisphere(latCell, lonCell, variableToPlot1Day, title, hemisphereMap, dot_size=DOT_SIZE):
+    """ Map one hemisphere onto a matplotlib figure. 
+    You do not need to include the minus sign for lower latitudes. 
+    This requires latCell and lonCell to be filled by a mesh file.
+    It also requires variableToPlot1Day to be filled by an output .nc file. """
+
+    indices = np.where(latCell < -LAT_LIMIT)    # Only capture points between the lat limit and the pole.
     
     norm=mpl.colors.Normalize(VMIN, VMAX)
     sc = hemisphereMap.scatter(lonCell[indices], latCell[indices], 
@@ -114,8 +127,8 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
     southMap.set_boundary(makeCircle(), transform=southMap.transAxes)
 
     # Map the 2 hemispheres.
-    northPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap, dot_size=dot_size)     # Map northern hemisphere
-    southPoleScatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "s", "Antarctic Sea Ice", southMap, dot_size=dot_size)  # Map southern hemisphere
+    northPoleScatter = mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, "Arctic Sea Ice", northMap, dot_size=dot_size)     # Map northern hemisphere
+    southPoleScatter = mapSouthernHemisphere(latCell, lonCell, variableToPlot1Day, "Antarctic Sea Ice", southMap, dot_size=dot_size)  # Map southern hemisphere
 
     # Set Color Bar
     if colorBarOn:
@@ -151,7 +164,7 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
     # Map the hemisphere
-    scatter = mapHemisphere(latCell, lonCell, variableToPlot1Day, "n", "Arctic Sea Ice", northMap, dot_size)     # Map northern hemisphere
+    scatter = mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, "Arctic Sea Ice", northMap, dot_size)     # Map northern hemisphere
 
     # Set Color Bar
     if colorBarOn:

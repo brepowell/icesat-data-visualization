@@ -13,9 +13,9 @@ from perlmutterpath import *
 
 # Change these for different runs if you want to narrow down your focus
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
-#VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
+VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "meanmf"
-VARIABLETOPLOT      = "sampleof"
+#VARIABLETOPLOT      = "sampleof"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -26,9 +26,9 @@ LONGITUDEVARIABLE   = "longitude"
 CELLVARIABLE        = "cell"
 
 # Change if you want a wider or narrower view
-#LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
+LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
 #LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
-LAT_LIMIT        =  80  # Extreme closeup for the freeboard of one satellite track
+#LAT_LIMIT        =  80  # Extreme closeup for the freeboard of one satellite track
 
 # Change if you want larger or smaller dots for the scatterplot
 DOT_SIZE        = 0.4  # Good for the ice area variable
@@ -39,8 +39,8 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 
 # Color Bar Range
 VMIN = 0
-VMAX = 1       # Good for Ice Area
-#VMAX = 0.7   # Good for Freeboard
+#VMAX = 1       # Good for Ice Area
+VMAX = 0.7   # Good for Freeboard
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
@@ -51,8 +51,8 @@ INTERVALS = 50 # used for year-long animation
 ################
 
 #runDir = ""
-runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-#runDir = perlmutterpath1 # For perlmutter (PM) only
+#runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+runDir = perlmutterpath1 # For perlmutter (PM) only
 
 # Change these for different runs if you want to grab other .nc files
 
@@ -64,7 +64,7 @@ meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"  # for satelli
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 10-day Ice Area
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 #outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
-outputFileName = r"\new.nc" # Satellite emulator
+#outputFileName = r"\new.nc" # Satellite emulator
 
 subdirectory = "" # Use for make_a_netCDF_file.py
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
@@ -76,7 +76,7 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-mapImageFileName    = "freeboard_sampleof_2003_02_22.png"             # Should be a .png file extension
+mapImageFileName    = "static_image.png"             # Should be a .png file extension
 
 ################
 # Map settings #
