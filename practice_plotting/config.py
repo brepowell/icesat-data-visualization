@@ -40,10 +40,12 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 
 # Color Bar Range
 VMIN = 0
-#VMAX = 1       # Good for Ice Area
-#VMAX = 0.7   # Good for Freeboard
-#VMAX = 150    # for samplemf the max is 295, but there are not many tracks that go above 200 samples; 100 is too low
-VMAX = 15000  # for sampleof the max is 46893, but there are not that many tracks that go about 30000 samples; 20000 looks ok 
+#VMAX = 1      # Good for Ice Area
+#VMAX = 0.7    # Good for Freeboard
+#VMAX = 150    # for samplemf the max is 295, but there are not many tracks that go above 150 samples; 100 is too low
+#VMAX = 15000  # for sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
+VMAX = 1.1 # for meanof
+#VMAX = 1   # for stdof
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days

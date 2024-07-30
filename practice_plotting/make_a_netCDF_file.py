@@ -121,8 +121,8 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-stoppingPoint = fileCount
-#stoppingPoint = 100
+#stoppingPoint = fileCount
+stoppingPoint = 409
 
 samples      = np.zeros(CELLCOUNT)
 observations = np.zeros(CELLCOUNT)
@@ -150,10 +150,13 @@ for fileIndex in range(0, stoppingPoint):
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
     # Find the file using the file name pattern
-    filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
+    #filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
+    filenamePattern = f"icesat_E3SM_spring_2003_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"   
+
     searchPattern = os.path.join(perlmutterpathSatellites, filenamePattern)
     matchingFiles = glob.glob(searchPattern)
-    satelliteFileName = matchingFiles[0] if matchingFiles else None
+    #satelliteFileName = matchingFiles[0] if matchingFiles else None
+    satelliteFileName = matchingFiles[fileIndex] if matchingFiles else None
 
     print("Satellite file name: ", satelliteFileName)
 
