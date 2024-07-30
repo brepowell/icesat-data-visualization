@@ -121,6 +121,9 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
+files = gatherFiles(0)
+print("Gathered all files")
+
 stoppingPoint = fileCount
 #stoppingPoint = 100
 
@@ -148,8 +151,11 @@ for fileIndex in range(0, stoppingPoint):
 
     #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
+    fileNamePattern = f"*{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
+    satelliteFileName = FULL_PATH.rglob(fileNamePattern)
 
-    satelliteFileName = list(Path(runDir+subdirectory).rglob(f"*{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"))[0]
+    print(satelliteFileName)
+    print("Does the file exist?", satelliteFileName in files)
 
     #satelliteData       = loadData(runDir, satelliteFileName)
     satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
