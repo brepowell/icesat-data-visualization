@@ -126,6 +126,7 @@ stoppingPoint = 409
 
 samples      = np.zeros(CELLCOUNT)
 observations = np.zeros(CELLCOUNT)
+allFreeboard = np.zeros((CELLCOUNT, fileCount)) 
 
 for fileIndex in range(0, stoppingPoint):
     print("File index is    ", fileIndex)
@@ -170,11 +171,11 @@ for fileIndex in range(0, stoppingPoint):
     cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
 
     # Debugging and checking what cells have samples
-    for index in cellIndicesForAllSamples:
-        samples[index] = 1
+    # for index in cellIndicesForAllSamples:
+    #     samples[index] = 1
 
-    for index in cellIndicesForAllObservations:
-        observations[index] = 1
+    # for index in cellIndicesForAllObservations:
+    #     observations[index] = 1
 
     print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
     print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
@@ -187,13 +188,25 @@ for fileIndex in range(0, stoppingPoint):
 
     # Sample model freeboard is the # of times that cell was passed over 
     # (ex. once in a day) in the full time
-    #samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
+    samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
 
     # Sample observation freeboard is the # of photon reads per cell over full time
-    #observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
+    observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
+
+    # Observed freeboard mean is the sum of all photon readings 
+    # in that cell over all time / sampleof
+    allFreeboard[cellIndicesForAllSamples][fileIndex] = freeBoardReadings[fileIndex]  
 
 samplemf[:] = samples
 sampleof[:] = observations
+
+print("Shape of allFreeboard", allFreeboard.shape)
+sumTotal = allFreeboard.sum(axis=1, dtype='float')
+print("Shape of sumTotal: ", sumTotal.shape)
+means = sumTotal / len(sumTotal)
+print("Shape of means: ", means.shape)
+
+meanof[:] = means
 
 # # Observed freeboard mean is the sum of all photon readings 
 # # in that cell over all time / sampleof
