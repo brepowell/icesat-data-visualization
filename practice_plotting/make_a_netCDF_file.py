@@ -121,6 +121,9 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 #stoppingPoint = fileCount
 stoppingPoint = 100
 
+samples      = np.zeros(CELLCOUNT)
+observations = np.zeros(CELLCOUNT)
+
 for fileIndex in range(0, stoppingPoint):
     print("File index is    ", fileIndex)
     
@@ -161,12 +164,13 @@ for fileIndex in range(0, stoppingPoint):
 
     # Sample model freeboard is the # of times that cell was passed over 
     # (ex. once in a day) in the full time
-    samples = np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
-    samplemf[:] += samples
+    samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
     
     # Sample observation freeboard is the # of photon reads per cell over full time
-    observations = np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
-    sampleof[:] += observations
+    observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
+    
+samplemf[:] = samples
+sampleof[:] = observations
 
 # # Observed freeboard mean is the sum of all photon readings 
 # # in that cell over all time / sampleof
