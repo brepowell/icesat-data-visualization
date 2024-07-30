@@ -13,7 +13,6 @@ from utility import *
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
 NETCDF_FILE_NAME    = "new.nc"                              #TODO: make this dynamic
-CELLCOUNT           = 295135 #368265 #233365 #236853        #TODO: make this dynamic
 
 FILL_VALUE      = -99999.0
 
@@ -21,13 +20,12 @@ DENSITY_WATER   = 1026
 DENSITY_ICE     = 917
 DENSITY_SNOW    = 330
 
-#TODO: Make sure the data types are correct; there should be an "f" after many of them.
+#TODO: Make sure the data types are correct; there should be an "f" after many of them (from Andrew's example file)
 
-#################
-# OPEN THE MESH #
-#################
-latCell, lonCell = loadMesh(runDir, meshFileName)
-#latCell, lonCell = loadMesh(perlmutterpath1, meshFileName) #PM
+##################################
+# OPEN THE MESH & SET CELL COUNT #
+##################################
+latCell, lonCell = loadMesh(runDir, meshFileName) # Make sure that runDir is set to perlmutterpath1
 print("nCells", latCell.shape[0])
 CELLCOUNT = latCell.shape[0]
 
@@ -37,8 +35,7 @@ CELLCOUNT = latCell.shape[0]
 
 #synchronizerFile        = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
 synchronizerFile        = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
-#synchData               = loadData(runDir, synchronizerFile)
-synchData               = loadData(perlmutterpath1, synchronizerFile) #PM
+synchData               = loadData(runDir, synchronizerFile) # Make sure that runDir is set to perlmutterpath1
 
 shapeOfSynchData = synchData.variables["time_string"].shape
 timeStrings  = printDateTime(synchData, "time_string", shapeOfSynchData[0])
@@ -53,25 +50,9 @@ timeGregorian   = synchData.variables["time"]
 
 print("===== SYNCH FILE DETAILS ======")
 # Looking at one specific satellite file
-fileIndex = 0
-print("File index is    ", fileIndex)
-print("Number of satellite details in Synch file: ", shapeOfSynchData[0])
+fileCount = shapeOfSynchData[0]
 
-timeString  = timeStrings[fileIndex]
-cluster     = timeCluster[fileIndex]
-year        = timeYear[fileIndex]
-month       = timeMonth[fileIndex]
-day         = timeDay[fileIndex]
-hour        = timeHour[fileIndex]
-gregorian   = timeGregorian[fileIndex]
-
-print("Time String:     ", timeString)
-print("Cluster:         ", cluster)
-print("Year:            ", year)
-print("Month:           ", month)
-print("Day:             ", day)
-print("Hour:            ", hour)
-print("Gregorian Time:  ", gregorian)
+print("Number of satellite tracks in Synch file: ", fileCount)
 
 ########################
 # OPEN THE NETCDF FILE #
@@ -137,125 +118,149 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-#satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
-#satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
-satelliteFileName    = "icesat_E3SM_spring_" + str(year) + "_" + str(month).zfill(2)+ "_"+ str(day).zfill(2) + "_" + str(hour).zfill(2) + ".nc"
+#stoppingPoint = fileCount
+stoppingPoint = 100
 
-#satelliteData       = loadData(runDir, satelliteFileName)
-satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
-freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
-cellIndicesForAllSamples        = reduceToOneDay(satelliteData, "modcell")
-cellIndicesForAllObservations   = returnCellIndices(satelliteData)
+for fileIndex in range(0, stoppingPoint):
+    print("File index is    ", fileIndex)
+    
+    timeString  = timeStrings[fileIndex]
+    cluster     = timeCluster[fileIndex]
+    year        = timeYear[fileIndex]
+    month       = timeMonth[fileIndex]
+    day         = timeDay[fileIndex]
+    hour        = timeHour[fileIndex]
+    gregorian   = timeGregorian[fileIndex]
 
-print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
-print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
-print("Shape of cellIndicesForAllObservations: ", cellIndicesForAllObservations.shape)
+    print("Time String:     ", timeString)
+    print("Cluster:         ", cluster)
+    print("Year:            ", year)
+    print("Month:           ", month)
+    print("Day:             ", day)
+    print("Hour:            ", hour)
+    print("Gregorian Time:  ", gregorian)
 
-############################
-# SATELLITE-ONLY VARIABLES #
-############################
-# These variables are easy to pull directly from the satellite data.
+    #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
+    #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
+    satelliteFileName    = "icesat_E3SM_spring_" + str(year) + "_" + str(month).zfill(2)+ "_"+ str(day).zfill(2) + "_" + str(hour).zfill(2) + ".nc"
 
-# Sample model freeboard is the # of times that cell was passed over 
-# (ex. once in a day) in the full time
-samplemf[:] = np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
+    #satelliteData       = loadData(runDir, satelliteFileName)
+    satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
+    freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
+    cellIndicesForAllSamples        = reduceToOneDay(satelliteData, "modcell")
+    cellIndicesForAllObservations   = returnCellIndices(satelliteData)
 
-# Sample observation freeboard is the # of photon reads per cell over full time
-sampleof[:] = np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
+    print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
+    print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
+    print("Shape of cellIndicesForAllObservations: ", cellIndicesForAllObservations.shape)
 
-# Observed freeboard mean is the sum of all photon readings 
-# in that cell over all time / sampleof
-meanof[:] = np.full(meanof.shape, FILL_VALUE)
-for cellIndex in range(CELLCOUNT):
-    # Find all the indices that contain freeboard data
-    freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
-    if len(freeBoardIndices) > 0:
-        meanValue = np.mean(freeBoardReadings[freeBoardIndices])
-        meanof[cellIndex] = meanValue 
+    ############################
+    # SATELLITE-ONLY VARIABLES #
+    ############################
+    # These variables are easy to pull directly from the satellite data.
 
-# Observed freeboard standard deviation is similar to the mean
-# it also covers all photon readings per cell over all time
-stdof[:] = np.full(stdof.shape, FILL_VALUE)
-for cellIndex in range(CELLCOUNT):
-    # Find all the indices that contain freeboard data
-    freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
-    if len(freeBoardIndices) > 0:
-        standardDeviation = np.std(freeBoardReadings[freeBoardIndices])
-        stdof[cellIndex] = standardDeviation 
+    # Sample model freeboard is the # of times that cell was passed over 
+    # (ex. once in a day) in the full time
+    samples = np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
+    samplemf[:] += samples
+    
+    # Sample observation freeboard is the # of photon reads per cell over full time
+    observations = np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
+    sampleof[:] += observations
 
-# Read data back from variable, print min and max
+# # Observed freeboard mean is the sum of all photon readings 
+# # in that cell over all time / sampleof
+# meanof[:] = np.full(meanof.shape, FILL_VALUE)
+# for cellIndex in range(CELLCOUNT):
+#     # Find all the indices that contain freeboard data
+#     freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
+#     if len(freeBoardIndices) > 0:
+#         meanValue = np.mean(freeBoardReadings[freeBoardIndices])
+#         meanof[cellIndex] = meanValue 
+
+# # Observed freeboard standard deviation is similar to the mean
+# # it also covers all photon readings per cell over all time
+# stdof[:] = np.full(stdof.shape, FILL_VALUE)
+# for cellIndex in range(CELLCOUNT):
+#     # Find all the indices that contain freeboard data
+#     freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
+#     if len(freeBoardIndices) > 0:
+#         standardDeviation = np.std(freeBoardReadings[freeBoardIndices])
+#         stdof[cellIndex] = standardDeviation 
+
+# # Read data back from variable, print min and max
 print("===== SATELLITE VARIABLES ======")
 print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
 print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
-print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
-print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
+# print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
+# print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
-# Model freeboard mean is 
-# Model freeboard standard deviation is
-# Model freeboard effective sample size is
-# Observation freeboard effective sample size is
+# # Model freeboard mean is 
+# # Model freeboard standard deviation is
+# # Model freeboard effective sample size is
+# # Observation freeboard effective sample size is
 
-######################################
-# CALCULATE FREEBOARD FROM THE MODEL #
-######################################
+# ######################################
+# # CALCULATE FREEBOARD FROM THE MODEL #
+# ######################################
 
-#modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
-#modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
-modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
+# #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
+# #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
+# modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
 
-#modelData           = loadData(runDir, modelDailyDataFile)
-modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
-snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
-iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
-iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
+# #modelData           = loadData(runDir, modelDailyDataFile)
+# modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
+# snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
+# iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
+# iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
 
-startTime = modelData.variables[START_TIME_VARIABLE]
-print("Days in that month:         ", startTime.shape[0])
+# startTime = modelData.variables[START_TIME_VARIABLE]
+# print("Days in that month:         ", startTime.shape[0])
 
-modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
-convertDateBytesToString(modelTime)
+# modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
+# convertDateBytesToString(modelTime)
 
-print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
-print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
-print("Ice Area Cells shape:       ", iceAreaCells.shape)
+# print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
+# print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
+# print("Ice Area Cells shape:       ", iceAreaCells.shape)
 
-# TODO: Future work could be to add the Freeboard variable to E3SM's variables
+# # TODO: Future work could be to add the Freeboard variable to E3SM's variables
 
-def getThickness(gridCellAveragedThickness, iceConcentration):
-    """ Grid cell averaged thickness is the same as the sea ice volume variable in E3SM.
-    Concentration is the same as the sea ice area variable in E3SM.
-    volume / area of cell = height (thickness) 
-    """
-    return gridCellAveragedThickness / iceConcentration
+# def getThickness(gridCellAveragedThickness, iceConcentration):
+#     """ Grid cell averaged thickness is the same as the sea ice volume variable in E3SM.
+#     Concentration is the same as the sea ice area variable in E3SM.
+#     volume / area of cell = height (thickness) 
+#     """
+#     return gridCellAveragedThickness / iceConcentration
 
-def getFreeboard(heightIce, heightSnow):
-    """Formula to calculate freeboard: hf = hi (pw-pi)/pw + hs (pw-ps)/pw.
-    Where p means density; h is height, w is water, i is ice, s is snow"""
-    return heightIce*(DENSITY_WATER-DENSITY_ICE)/DENSITY_WATER + heightSnow*(DENSITY_WATER-DENSITY_SNOW)/DENSITY_WATER
+# def getFreeboard(heightIce, heightSnow):
+#     """Formula to calculate freeboard: hf = hi (pw-pi)/pw + hs (pw-ps)/pw.
+#     Where p means density; h is height, w is water, i is ice, s is snow"""
+#     return heightIce*(DENSITY_WATER-DENSITY_ICE)/DENSITY_WATER + heightSnow*(DENSITY_WATER-DENSITY_SNOW)/DENSITY_WATER
 
-# Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
-heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
-heightSnowCells = getThickness(snowVolumeCells, iceAreaCells)
-print("Ice Height Cells shape:     ",   heightIceCells.shape)
-print("Snow Height Cells shape:    ",  heightSnowCells.shape)
+# # Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
+# heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
+# heightSnowCells = getThickness(snowVolumeCells, iceAreaCells)
+# print("Ice Height Cells shape:     ",   heightIceCells.shape)
+# print("Snow Height Cells shape:    ",  heightSnowCells.shape)
 
-# height ice + height snow = height water + height of freeboard
-# freeboard = ice thickness + snow height - water height (which is 0?)
-all_E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
-print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
+# # height ice + height snow = height water + height of freeboard
+# # freeboard = ice thickness + snow height - water height (which is 0?)
+# all_E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
+# print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
 
-meanmf[:] = all_E3SM_freeboard
+# meanmf[:] = all_E3SM_freeboard
 
-#Use cellIndicesForAllSamples
-#Use cellIndicesForAllObservations
+# #Use cellIndicesForAllSamples
+# #Use cellIndicesForAllObservations
 
-print("\n=====   MODEL VARIABLES   ======")
-print("Meanof   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
+# print("\n=====   MODEL VARIABLES   ======")
+# print("Meanof   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
 
-print("\n=====   ALONG TRACK   ======")
-freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
-print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
-print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
+# print("\n=====   ALONG TRACK   ======")
+# freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
+# print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
+# print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
 
 # close the Dataset
 ncfile.close()
