@@ -189,6 +189,9 @@ for fileIndex in range(0, stoppingPoint):
 for index in cellIndicesForAllSamples:
     samples[index] = 1
 
+for index in cellIndicesForAllObservations:
+    observations[index] = 1
+
 samplemf[:] = samples
 sampleof[:] = observations
 
