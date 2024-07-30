@@ -155,11 +155,11 @@ for fileIndex in range(0, stoppingPoint):
     #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
-    # Find the file using the file name pattern
-    #filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
+    # ALL SATELLITE FILES - Find the file using the file name pattern
+    filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
     
-    # SPRING 2003 ONLY - SET stoppingPoint = 409
-    filenamePattern = f"icesat_E3SM_spring_2003_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"   
+    # SPRING 2003 ONLY - make sure to set stoppingPoint = 409
+    #filenamePattern = f"icesat_E3SM_spring_2003_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"   
 
     searchPattern = os.path.join(perlmutterpathSatellites, filenamePattern)
     matchingFiles = glob.glob(searchPattern)
