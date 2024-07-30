@@ -155,8 +155,7 @@ for fileIndex in range(0, stoppingPoint):
 
     searchPattern = os.path.join(perlmutterpathSatellites, filenamePattern)
     matchingFiles = glob.glob(searchPattern)
-    #satelliteFileName = matchingFiles[0] if matchingFiles else None
-    satelliteFileName = matchingFiles[fileIndex] if matchingFiles else None
+    satelliteFileName = matchingFiles[0] if matchingFiles else None
     print("Matching files: ", matchingFiles)
 
     print("Satellite file name: ", satelliteFileName)
