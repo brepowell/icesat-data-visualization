@@ -40,9 +40,10 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 
 # Color Bar Range
 VMIN = 0
-VMAX = 1       # Good for Ice Area
+#VMAX = 1       # Good for Ice Area
 #VMAX = 0.7   # Good for Freeboard
-#VMAX = 0.5
+VMAX = 296    # for samplemf
+# VMAX = 46893  # for sampleof
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days

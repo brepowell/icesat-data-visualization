@@ -121,9 +121,6 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-files = gatherFiles(0)
-print("Gathered all files")
-
 stoppingPoint = fileCount
 #stoppingPoint = 100
 
@@ -159,7 +156,6 @@ for fileIndex in range(0, stoppingPoint):
     satelliteFileName = matchingFiles[0] if matchingFiles else None
 
     print("Satellite file name: ", satelliteFileName)
-    print("Does the file exist?", satelliteFileName in files)
 
     #satelliteData       = loadData(runDir, satelliteFileName)
     satelliteData       = loadData("", satelliteFileName) #PM
