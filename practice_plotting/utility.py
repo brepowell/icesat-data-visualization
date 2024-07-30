@@ -89,9 +89,9 @@ def downsampleData(variable, factor=DEFAULT_DOWNSAMPLE_FACTOR):
     """ Downsample the data arrays by the given factor. """
     return variable[::factor]
 
-def returnCellIndices(output):
+def returnCellIndices(output, cellVariable = CELLVARIABLE):
     """ Get only the indices that correspond to the E3SM mesh. """
-    indices = output.variables[CELLVARIABLE][:1]
+    indices = output.variables[cellVariable][:1]
     return indices.ravel()
 
 def getLatLon(output):

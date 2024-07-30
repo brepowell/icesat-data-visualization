@@ -161,8 +161,8 @@ for fileIndex in range(0, stoppingPoint):
     satelliteData       = loadData("", satelliteFileName) #PM
 
     freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
-    cellIndicesForAllSamples        = reduceToOneDay(satelliteData, "modcell")
-    cellIndicesForAllObservations   = returnCellIndices(satelliteData)
+    cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
+    cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
 
     print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
     print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
