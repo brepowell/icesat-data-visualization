@@ -169,6 +169,13 @@ for fileIndex in range(0, stoppingPoint):
     cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
     cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
 
+    # Debugging and checking what cells have samples
+    for index in cellIndicesForAllSamples:
+        samples[index] = 1
+
+    for index in cellIndicesForAllObservations:
+        observations[index] = 1
+
     print("Shape of freeBoardReadings:             ", freeBoardReadings.shape)
     print("Shape of cellIndicesForAllSamples:      ", cellIndicesForAllSamples.shape)
     print("Shape of cellIndicesForAllObservations: ", cellIndicesForAllObservations.shape)
@@ -184,13 +191,6 @@ for fileIndex in range(0, stoppingPoint):
 
     # Sample observation freeboard is the # of photon reads per cell over full time
     #observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
-
-# Debugging and checking what cells have samples
-for index in cellIndicesForAllSamples:
-    samples[index] = 1
-
-for index in cellIndicesForAllObservations:
-    observations[index] = 1
 
 samplemf[:] = samples
 sampleof[:] = observations
