@@ -15,7 +15,8 @@ from perlmutterpath import *
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "meanmf"
-VARIABLETOPLOT      = "sampleof"
+#VARIABLETOPLOT      = "sampleof"
+VARIABLETOPLOT      = "samplemf"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -26,8 +27,8 @@ LONGITUDEVARIABLE   = "longitude"
 CELLVARIABLE        = "cell"
 
 # Change if you want a wider or narrower view
-LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
-#LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
+#LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
+LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
 #LAT_LIMIT        =  80  # Extreme closeup for the freeboard of one satellite track
 
 # Change if you want larger or smaller dots for the scatterplot
@@ -39,8 +40,9 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 
 # Color Bar Range
 VMIN = 0
-#VMAX = 1       # Good for Ice Area
-VMAX = 0.7   # Good for Freeboard
+VMAX = 1       # Good for Ice Area
+#VMAX = 0.7   # Good for Freeboard
+#VMAX = 0.5
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
