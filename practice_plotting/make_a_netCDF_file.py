@@ -151,6 +151,7 @@ for fileIndex in range(0, stoppingPoint):
 
     if previousday != day:
         dayCount += dayCount + 1
+    previousday = day
     
     #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
