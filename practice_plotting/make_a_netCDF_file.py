@@ -151,6 +151,8 @@ for fileIndex in range(0, stoppingPoint):
 
     # Find the file using the file name pattern
     #filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
+    
+    # SPRING 2003 ONLY - SET stoppingPoint = 409
     filenamePattern = f"icesat_E3SM_spring_2003_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"   
 
     searchPattern = os.path.join(perlmutterpathSatellites, filenamePattern)
@@ -178,11 +180,13 @@ for fileIndex in range(0, stoppingPoint):
 
     # Sample model freeboard is the # of times that cell was passed over 
     # (ex. once in a day) in the full time
-    samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
-    
+    #samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
+    samples = np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT)
+
     # Sample observation freeboard is the # of photon reads per cell over full time
-    observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
-    
+    #observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
+    observations = np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT)
+
 samplemf[:] = samples
 sampleof[:] = observations
 
