@@ -154,8 +154,8 @@ for fileIndex in range(0, stoppingPoint):
     fileNamePattern = f"*{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
     satelliteFileName = Path(FULL_PATH).rglob(fileNamePattern)
 
-    print(satelliteFileName)
-    print("Does the file exist?", satelliteFileName in files)
+    print(str(satelliteFileName))
+    print("Does the file exist?", str(satelliteFileName) in files)
 
     #satelliteData       = loadData(runDir, satelliteFileName)
     satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
