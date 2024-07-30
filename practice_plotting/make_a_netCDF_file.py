@@ -150,7 +150,8 @@ for fileIndex in range(0, stoppingPoint):
     # Find the file with that name
     filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
     searchPattern = os.path.join(runDir, filenamePattern)
-    satelliteFileName = glob.glob(searchPattern)[0]
+    matchingFiles = glob.glob(searchPattern)
+    satelliteFileName = matchingFiles[0] if matchingFiles else None
 
     #satelliteData       = loadData(runDir, satelliteFileName)
     satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
