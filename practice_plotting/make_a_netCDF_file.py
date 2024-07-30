@@ -210,7 +210,10 @@ sampleof[:] = observations
 # means = sumTotal / len(sumTotal)
 # print("Shape of means: ", means.shape)
 
-meanof[:] = means
+#meanof[:] = means
+
+
+
 
 # # Observed freeboard mean is the sum of all photon readings 
 # # in that cell over all time / sampleof
