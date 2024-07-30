@@ -152,7 +152,7 @@ for fileIndex in range(0, stoppingPoint):
     #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
     fileNamePattern = f"*{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
-    satelliteFileName = FULL_PATH.rglob(fileNamePattern)
+    satelliteFileName = Path(FULL_PATH).rglob(fileNamePattern)
 
     print(satelliteFileName)
     print("Does the file exist?", satelliteFileName in files)
