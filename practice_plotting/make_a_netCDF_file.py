@@ -9,7 +9,9 @@ from netCDF4 import Dataset
 from datetime import datetime
 import os
 from utility import *
+
 import glob
+from pathlib import Path
 
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
@@ -147,12 +149,7 @@ for fileIndex in range(0, stoppingPoint):
     #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
-    # Find the file with that name
-    filenamePattern = f"icesat_E3SM_*_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"
-    searchPattern = os.path.join(runDir, filenamePattern)
-    print("Searching for: ", searchPattern)
-    matchingFiles = glob.glob(searchPattern)
-    satelliteFileName = matchingFiles[0] if matchingFiles else None
+    satelliteFileName = list(Path(runDir+subdirectory).rglob(f"*{year}_{str(month).zfill(2)}_{str(day).zfill(2)}_{str(hour).zfill(2)}.nc"))[0]
 
     #satelliteData       = loadData(runDir, satelliteFileName)
     satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
