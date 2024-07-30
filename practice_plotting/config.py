@@ -13,9 +13,9 @@ from perlmutterpath import *
 
 # Change these for different runs if you want to narrow down your focus
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
-VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
+#VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "meanmf"
-#VARIABLETOPLOT      = "sampleof"
+VARIABLETOPLOT      = "sampleof"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
