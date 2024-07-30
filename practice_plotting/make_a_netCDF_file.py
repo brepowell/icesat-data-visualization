@@ -162,7 +162,7 @@ for fileIndex in range(0, stoppingPoint):
     print("Does the file exist?", satelliteFileName in files)
 
     #satelliteData       = loadData(runDir, satelliteFileName)
-    satelliteData       = loadData(perlmutterpathSatellites, satelliteFileName) #PM
+    satelliteData       = loadData("", satelliteFileName) #PM
 
     freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
     cellIndicesForAllSamples        = reduceToOneDay(satelliteData, "modcell")
