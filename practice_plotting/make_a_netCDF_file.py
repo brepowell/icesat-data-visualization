@@ -118,8 +118,8 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-#stoppingPoint = fileCount
-stoppingPoint = 100
+stoppingPoint = fileCount
+#stoppingPoint = 100
 
 samples      = np.zeros(CELLCOUNT)
 observations = np.zeros(CELLCOUNT)
