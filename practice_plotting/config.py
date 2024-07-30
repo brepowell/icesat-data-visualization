@@ -15,8 +15,8 @@ from perlmutterpath import *
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "meanmf"
-#VARIABLETOPLOT      = "sampleof"
-VARIABLETOPLOT      = "samplemf"
+VARIABLETOPLOT      = "sampleof"
+#VARIABLETOPLOT      = "samplemf"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -42,8 +42,8 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 VMIN = 0
 #VMAX = 1       # Good for Ice Area
 #VMAX = 0.7   # Good for Freeboard
-VMAX = 200    # for samplemf the max is 295 but there are not many tracks that go above 200 samples
-# VMAX = 46893  # for sampleof
+#VMAX = 200    # for samplemf the max is 295, but there are not many tracks that go above 200 samples
+VMAX = 30000  # for sampleof the max is 46893, but there are not that many tracks that go about 30000 samples 
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
