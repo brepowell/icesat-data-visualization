@@ -42,8 +42,8 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 VMIN = 0
 #VMAX = 1       # Good for Ice Area
 #VMAX = 0.7   # Good for Freeboard
-VMAX = 100    # for samplemf the max is 295, but there are not many tracks that go above 200 samples
-#VMAX = 20000  # for sampleof the max is 46893, but there are not that many tracks that go about 30000 samples 
+#VMAX = 150    # for samplemf the max is 295, but there are not many tracks that go above 200 samples; 100 is too low
+VMAX = 15000  # for sampleof the max is 46893, but there are not that many tracks that go about 30000 samples; 20000 looks ok 
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
@@ -80,7 +80,7 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-mapImageFileName    = "static_image.png"             # Should be a .png file extension
+mapImageFileName    = "sampleof_all_files_15000_max.png"             # Should be a .png file extension
 
 ################
 # Map settings #
