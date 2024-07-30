@@ -15,8 +15,8 @@ from perlmutterpath import *
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "meanmf"
-#VARIABLETOPLOT      = "samplemf"
-VARIABLETOPLOT      = "sampleof"
+VARIABLETOPLOT      = "samplemf"
+#VARIABLETOPLOT      = "sampleof"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -42,9 +42,9 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 VMIN = 0
 #VMAX = 1      # Good for Ice Area
 #VMAX = 0.7    # Good for Freeboard
-#VMAX = 150    # for samplemf the max is 295, but there are not many tracks that go above 150 samples; 100 is too low
+VMAX = 150    # for samplemf the max is 295, but there are not many tracks that go above 150 samples; 100 is too low
 #VMAX = 15000  # for sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
-VMAX = 1.1 # for meanof
+#VMAX = 1.1 # for meanof
 #VMAX = 1   # for stdof
 
 # Animation speed
@@ -82,7 +82,7 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-mapImageFileName    = "sampleof_all_files_15000_max.png"             # Should be a .png file extension
+mapImageFileName    = "samplemf_2003_spring_files_150_max_colorbar.png"             # Should be a .png file extension
 
 ################
 # Map settings #
