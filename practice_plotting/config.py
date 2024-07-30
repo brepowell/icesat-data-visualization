@@ -42,7 +42,7 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 VMIN = 0
 #VMAX = 1       # Good for Ice Area
 #VMAX = 0.7   # Good for Freeboard
-VMAX = 296    # for samplemf
+VMAX = 200    # for samplemf the max is 295 but there are not many tracks that go above 200 samples
 # VMAX = 46893  # for sampleof
 
 # Animation speed
