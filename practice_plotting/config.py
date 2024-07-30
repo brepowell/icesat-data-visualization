@@ -84,7 +84,7 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-mapImageFileName    = "sampleof_2003_spring_just_sampled_cells_max_1_colorbar.png"             # Should be a .png file extension
+mapImageFileName    = "sampleof_2003_spring_just_sampled_cells_max_1_colorbar_again_again.png"             # Should be a .png file extension
 
 ################
 # Map settings #
