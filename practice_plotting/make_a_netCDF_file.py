@@ -121,12 +121,14 @@ stdof   = createVariableForNetCDF("stdof", "observed freeboard standard deviatio
 # SATELLITE FILES #
 ###################
 
-#stoppingPoint = fileCount
-stoppingPoint = 409
+stoppingPoint = fileCount
+#stoppingPoint = 409
 
 samples      = np.zeros(CELLCOUNT)
 observations = np.zeros(CELLCOUNT)
 allFreeboard = np.zeros((CELLCOUNT, fileCount)) 
+dayCount = 1
+previousday = timeDay[0]
 
 for fileIndex in range(0, stoppingPoint):
     print("File index is    ", fileIndex)
@@ -147,6 +149,9 @@ for fileIndex in range(0, stoppingPoint):
     print("Hour:            ", hour)
     print("Gregorian Time:  ", gregorian)
 
+    if previousday != day:
+        dayCount += dayCount + 1
+    
     #satelliteFileName   = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_16.nc"
     #satelliteFileName    = r"icesat_E3SM_spring_2008_02_22_16.nc" #PM
 
@@ -193,18 +198,17 @@ for fileIndex in range(0, stoppingPoint):
     # Sample observation freeboard is the # of photon reads per cell over full time
     observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
-    # Observed freeboard mean is the sum of all photon readings 
-    # in that cell over all time / sampleof
-    allFreeboard[cellIndicesForAllSamples][fileIndex] = freeBoardReadings[fileIndex]  
+    # Collecting all freeboard readings into a matrix
+    # allFreeboard[fileIndex][:] = freeBoardReadings[:]
 
 samplemf[:] = samples
 sampleof[:] = observations
 
-print("Shape of allFreeboard", allFreeboard.shape)
-sumTotal = allFreeboard.sum(axis=1, dtype='float')
-print("Shape of sumTotal: ", sumTotal.shape)
-means = sumTotal / len(sumTotal)
-print("Shape of means: ", means.shape)
+# print("Shape of allFreeboard", allFreeboard.shape)
+# sumTotal = allFreeboard.sum(axis=1, dtype='float')
+# print("Shape of sumTotal: ", sumTotal.shape)
+# means = sumTotal / len(sumTotal)
+# print("Shape of means: ", means.shape)
 
 meanof[:] = means
 
@@ -228,8 +232,12 @@ meanof[:] = means
 #         standardDeviation = np.std(freeBoardReadings[freeBoardIndices])
 #         stdof[cellIndex] = standardDeviation 
 
+print("Number of days", dayCount)
+
 # # Read data back from variable, print min and max
 print("===== SATELLITE VARIABLES ======")
+print("Shape of samplemf", samplemf[:].shape)
+print("Shape of sampleof", sampleof[:].shape)
 print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
 print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
 # print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
