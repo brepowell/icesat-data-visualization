@@ -204,6 +204,7 @@ def main():
         freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
         cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
         print(cellIndicesForAllSamples)
+        cellIndicesForAllSamples = cellIndicesForAllSamples - 1
         cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
         
         # Debugging and checking what cells have samples
