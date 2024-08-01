@@ -194,9 +194,6 @@ def main():
     dayCount = 1
     previousday = timeDay[0]
 
-    print("latCell", latCell)
-    print("lonCell", lonCell)
-
     for fileIndex in range(0, stoppingPoint):
 
         satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
@@ -208,7 +205,10 @@ def main():
         cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
         print(cellIndicesForAllSamples)
         cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
-
+        satLat = reduceToOneDay(satelliteData, "latitude")
+        print("Latitude: ", satLat)
+        satLon = reduceToOneDay(satelliteData, "longitude")
+        print("Longitude: ", satLon)
         # Debugging and checking what cells have samples
         # for index in cellIndicesForAllSamples:
         #     samples[index] = 1
