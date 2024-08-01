@@ -7,8 +7,11 @@ def generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, g
                          oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, 
                          coastlines=COASTLINES):
     """ Just plot the lat and long of the satellite tracks from multiple satellite files."""
-
-    fileList = returnListOfSatFileNamesBySeasonAndYear("spring", 2003)
+    fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian = loadSynchronizer()
+    dayCount = 0
+    
+    #fileList = returnListOfSatFileNamesBySeasonAndYear("spring", 2003)
+    fileList = loadOneSatFile(0, 0, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian):
     print("Number of files read: ", len(fileList))
 
     # Adjust the margins around the plots (as a fraction of the width or height).
