@@ -110,7 +110,7 @@ def loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, t
     satelliteFileName = matchingFiles[0] if matchingFiles else None
     print("Matching files: ", matchingFiles)
     print("Satellite file name: ", satelliteFileName)
-    return satelliteFileName, previousday
+    return satelliteFileName, previousday, dayCount
 
 def main():
     
@@ -192,7 +192,7 @@ def main():
 
     for fileIndex in range(0, stoppingPoint):
 
-        satelliteFileName, previousday = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
+        satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
 
         #satelliteData       = loadData(runDir, satelliteFileName) #local
         satelliteData       = loadData("", satelliteFileName) #PM
