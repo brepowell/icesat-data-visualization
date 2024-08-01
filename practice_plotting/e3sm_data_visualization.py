@@ -193,35 +193,6 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
 
     return scatter
 
-def generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, grid=GRIDON,
-                         oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, 
-                         coastlines=COASTLINES, dot_size=DOT_SIZE):
-    """ Generate one map of the north pole. Without """
-
-    # Adjust the margins around the plots (as a fraction of the width or height).
-    fig.subplots_adjust(bottom=0.05, top=0.85, left=0.04, right=0.95, wspace=0.02)
-
-    # Set your viewpoint (the bounding box for what you will see).
-    # You want to see the full range of longitude values, since this is a polar plot.
-    # The range for the latitudes should be from your latitude limit (i.e. 50 degrees or -50 to the pole at 90 or -90).
-    northMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
-
-    # Add map features, like landFeature and oceanFeature.
-    addMapFeatures(northMap, oceanFeature, landFeature, grid, coastlines)
-
-    # Crop the map to be round instead of rectangular.
-    northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
-
-    # Map the hemisphere
-    scatter = mapNorthernHemisphere(latCell, lonCell, "Arctic_lat_long", northMap, 0.05)     # Map northern hemisphere
-
-    plt.suptitle("lat and long", size="x-large", fontweight="bold")
-
-    # Save the maps as an image.
-    plt.savefig(mapImageFileName)
-
-    return scatter
-
 def main():
 
     # Load the mesh and data to plot.
@@ -257,7 +228,7 @@ def main():
     #generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, dot_size=0.4)
     
     # Plotting just the lat and lon cells
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, dot_size=0.4)
+    generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, dot_size=0.4)
 
 if __name__ == "__main__":
     main()
