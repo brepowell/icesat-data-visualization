@@ -35,7 +35,7 @@ def generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, g
     for file in fileList:
         print("Satellite file: ", file)
         satelliteData       = loadData("", file) #PM
-        latCell, lonCell    = getLatLon(satelliteData)
+        latCell, lonCell    = getLatLon(meshFileName) #changed to meshFileName
         scatter = mapNorthernHemisphere(latCell, lonCell, "Arctic_lat_long", northMap, 0.01)     # Map northern hemisphere
 
     plt.suptitle("lat and long", size="x-large", fontweight="bold")
