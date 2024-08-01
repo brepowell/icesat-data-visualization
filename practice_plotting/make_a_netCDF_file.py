@@ -194,6 +194,9 @@ def main():
     dayCount = 1
     previousday = timeDay[0]
 
+    print(latCell)
+    print(lonCell)
+
     for fileIndex in range(0, stoppingPoint):
 
         satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
