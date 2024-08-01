@@ -205,9 +205,9 @@ def main():
         cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
         print(cellIndicesForAllSamples)
         cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
-        satLat = reduceToOneDay(satelliteData, "latCell")
+        
+        satLat, satLon = getLatLon(satelliteData)
         print("Latitude: ", satLat)
-        satLon = reduceToOneDay(satelliteData, "lonCell")
         print("Longitude: ", satLon)
         # Debugging and checking what cells have samples
         # for index in cellIndicesForAllSamples:
