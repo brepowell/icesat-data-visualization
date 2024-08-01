@@ -200,16 +200,12 @@ def main():
 
         #satelliteData       = loadData(runDir, satelliteFileName) #local
         satelliteData       = loadData("", satelliteFileName) #PM
-
+        
         freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
         cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
         print(cellIndicesForAllSamples)
         cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
         
-        satLat = reduceToOneDay(satelliteData, "latCell")
-        print("Latitude: ", satLat)
-        satLon = reduceToOneDay(satelliteData, "lonCell")
-        print("Longitude: ", satLon)
         # Debugging and checking what cells have samples
         # for index in cellIndicesForAllSamples:
         #     samples[index] = 1
@@ -235,6 +231,11 @@ def main():
 
         # Collecting all freeboard readings into a matrix
         # allFreeboard[fileIndex][:] = freeBoardReadings[:]
+
+    satLat = latCell[cellIndicesForAllSamples]
+    print("Latitude: ", satLat)
+    satLon = lonCell[cellIndicesForAllSamples]
+    print("Longitude: ", satLon)
 
     samplemf[:] = samples
     sampleof[:] = observations
