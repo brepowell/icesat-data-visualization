@@ -196,7 +196,8 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
 def main():
 
     # Load the mesh and data to plot.
-    latCell, lonCell = loadMesh(runDir, meshFileName)
+    #latCell, lonCell = loadMesh(runDir, meshFileName)
+    latCell, lonCell = loadMesh("", meshFileName)
     output = loadData(runDir, outputFileName)
 
     ####################################################
