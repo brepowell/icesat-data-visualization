@@ -46,7 +46,7 @@ def mapNorthernHemisphere(latCell, lonCell, title, hemisphereMap, dot_size=DOT_S
     
     norm=mpl.colors.Normalize(VMIN, VMAX)
     sc = hemisphereMap.scatter(lonCell[indices], latCell[indices],
-                               s=dot_size, c="r", transform=ccrs.PlateCarree(),
+                               s=dot_size, color = 'hotpink', transform=ccrs.PlateCarree(),
                                norm=norm)
     hemisphereMap.set_title(title)
     hemisphereMap.axis('off')
