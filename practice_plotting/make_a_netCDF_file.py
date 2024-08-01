@@ -233,8 +233,10 @@ def main():
         # allFreeboard[fileIndex][:] = freeBoardReadings[:]
 
     satLat = latCell[cellIndicesForAllSamples]
+    print("Length of latCell", len(latCell))
     print("Latitude: ", satLat)
     satLon = lonCell[cellIndicesForAllSamples]
+    print("Length of lonCell", len(lonCell))
     print("Longitude: ", satLon)
 
     samplemf[:] = samples
