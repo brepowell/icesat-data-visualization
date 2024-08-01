@@ -89,7 +89,7 @@ def returnMultipleSatFileNames(season = "spring", year = 2003):
     matchingFiles = glob.glob(searchPattern)
     return matchingFiles
 
-def loadOneSatFile(fileIndex, previousday, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian):
+def loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian):
     """ Assumes that the synch file was read and that arrays have been filled
     with the time information. """
 
@@ -192,7 +192,7 @@ def main():
 
     for fileIndex in range(0, stoppingPoint):
 
-        satelliteFileName, previousday = loadOneSatFile(fileIndex, previousday, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
+        satelliteFileName, previousday = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
 
         #satelliteData       = loadData(runDir, satelliteFileName) #local
         satelliteData       = loadData("", satelliteFileName) #PM
