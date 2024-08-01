@@ -9,6 +9,7 @@ def generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, g
     """ Just plot the lat and long of the satellite tracks from multiple satellite files."""
 
     fileList = returnListOfSatFileNamesBySeasonAndYear("fall", 2008)
+    print("Number of files read: ", len(fileList))
 
     # Adjust the margins around the plots (as a fraction of the width or height).
     fig.subplots_adjust(bottom=0.05, top=0.85, left=0.04, right=0.95, wspace=0.02)
@@ -25,6 +26,7 @@ def generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, g
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
     for file in fileList:
+        print("Satellite file: ", file)
         satelliteData       = loadData("", file) #PM
         latCell, lonCell    = getLatLon(satelliteData)
         scatter = mapNorthernHemisphere(latCell, lonCell, "Arctic_lat_long", northMap, 0.05)     # Map northern hemisphere
@@ -33,9 +35,9 @@ def generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, g
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
+    print("Saved .png")
 
     return scatter
-
 
 def main ():
 
