@@ -87,7 +87,7 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-mapImageFileName    = "justLatsandLons.png"             # Should be a .png file extension
+mapImageFileName    = "justLatsandLonsFALL2007.png"             # Should be a .png file extension
 
 ################
 # Map settings #
