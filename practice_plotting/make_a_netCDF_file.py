@@ -185,8 +185,7 @@ def main():
     fileCount = len(fileList)
     print("Number of files in the list: ", fileCount)
 
-    #stoppingPoint = fileCount
-    stoppingPoint = 1
+    stoppingPoint = fileCount
 
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
