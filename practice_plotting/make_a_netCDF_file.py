@@ -117,7 +117,7 @@ def main():
     ##################################
     # OPEN THE MESH & SET CELL COUNT #
     ##################################
-    latCell, lonCell = loadMesh(runDir, meshFileName) # Make sure that runDir is set to perlmutterpath1
+    latCell, lonCell = loadMesh("", meshFileName) # Make sure that runDir is set to perlmutterpath1
     print("nCells", latCell.shape[0])
     CELLCOUNT = latCell.shape[0]
 
