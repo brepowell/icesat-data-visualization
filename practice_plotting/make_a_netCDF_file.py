@@ -194,8 +194,8 @@ def main():
     dayCount = 1
     previousday = timeDay[0]
 
-    print(latCell)
-    print(lonCell)
+    print("latCell", latCell)
+    print("lonCell", lonCell)
 
     for fileIndex in range(0, stoppingPoint):
 
