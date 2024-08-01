@@ -45,3 +45,6 @@ def main ():
     generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, grid=GRIDON,
                          oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, 
                          coastlines=COASTLINES)
+    
+if __name__ == "__main__":
+    main()
