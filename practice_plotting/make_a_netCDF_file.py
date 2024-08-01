@@ -224,6 +224,8 @@ def main():
 
         # Sample model freeboard is the # of times that cell was passed over 
         # (ex. once in a day) in the full time
+
+
         samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
 
         # Sample observation freeboard is the # of photon reads per cell over full time
@@ -232,12 +234,14 @@ def main():
         # Collecting all freeboard readings into a matrix
         # allFreeboard[fileIndex][:] = freeBoardReadings[:]
 
-    satLat = latCell[cellIndicesForAllSamples]
-    print("Length of latCell", len(latCell))
-    print("Latitude: ", satLat)
-    satLon = lonCell[cellIndicesForAllSamples]
-    print("Length of lonCell", len(lonCell))
-    print("Longitude: ", satLon)
+        satLat = latCell[cellIndicesForAllSamples]
+        print("Length of latCell", len(latCell))
+        print("Latitude: ", satLat)
+        satLon = lonCell[cellIndicesForAllSamples]
+        print("Length of lonCell", len(lonCell))
+        print("Longitude: ", satLon)
+
+
 
     samplemf[:] = samples
     sampleof[:] = observations
