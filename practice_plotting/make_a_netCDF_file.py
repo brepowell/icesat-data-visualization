@@ -79,7 +79,7 @@ def printSatelliteTimeDetails(fileIndex, timeStrings, timeCluster, timeYear, tim
 
     return timeString, cluster, year, month, day, hour, gregorian
 
-def returnMultipleSatFileNames(season = "spring", year = 2003):
+def returnListOfSatFileNamesBySeasonAndYear(season = "spring", year = 2003):
     """ Assumes that the synch file was read and that arrays have been filled
     with the time information for all satellite files. This can be used to return a list of files that match a pattern. Uses glob for this. """
 
@@ -181,8 +181,11 @@ def main():
     # SATELLITE FILES #
     ###################
 
+    fileList = returnListOfSatFileNamesBySeasonAndYear("spring", 2003)
+    fileCount = len(fileList)
+    print("Number of files in the list: ", fileCount)
+
     stoppingPoint = fileCount
-    #stoppingPoint = 409
 
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
