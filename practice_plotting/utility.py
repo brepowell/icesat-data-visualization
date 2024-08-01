@@ -12,8 +12,11 @@ def loadMesh(runDir, meshFileName):
     print('Read Mesh: ', runDir, meshFileName)
 
     dataset = netCDF4.Dataset(runDir + meshFileName)
-    latCell = np.degrees(dataset.variables['latCell'][:]) # Convert from radians to degrees.
-    lonCell = np.degrees(dataset.variables['lonCell'][:]) # Convert from radians to degrees.
+    # latCell = np.degrees(dataset.variables['latCell'][:]) 
+    # lonCell = np.degrees(dataset.variables['lonCell'][:])
+
+    latCell = dataset.variables['latCell'][:]
+    lonCell = dataset.variables['lonCell'][:]
 
     return latCell, lonCell
 
