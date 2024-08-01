@@ -37,6 +37,22 @@ def mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, title, hemispher
 
     return sc
 
+def mapNorthernHemisphere(latCell, lonCell, title, hemisphereMap, dot_size=DOT_SIZE):
+    """ Map the northern hemisphere onto a matplotlib figure. 
+    This requires latCell and lonCell to be filled by a mesh file.
+    It also requires variableToPlot1Day to be filled by an output .nc file. """
+
+    indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
+    
+    norm=mpl.colors.Normalize(VMIN, VMAX)
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices],
+                               s=dot_size, transform=ccrs.PlateCarree(),
+                               norm=norm)
+    hemisphereMap.set_title(title)
+    hemisphereMap.axis('off')
+
+    return sc
+
 def mapSouthernHemisphere(latCell, lonCell, variableToPlot1Day, title, hemisphereMap, dot_size=DOT_SIZE):
     """ Map one hemisphere onto a matplotlib figure. 
     You do not need to include the minus sign for lower latitudes. 
@@ -177,29 +193,71 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
 
     return scatter
 
+def generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, grid=GRIDON,
+                         oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, 
+                         coastlines=COASTLINES, dot_size=DOT_SIZE):
+    """ Generate one map of the north pole. Without """
+
+    # Adjust the margins around the plots (as a fraction of the width or height).
+    fig.subplots_adjust(bottom=0.05, top=0.85, left=0.04, right=0.95, wspace=0.02)
+
+    # Set your viewpoint (the bounding box for what you will see).
+    # You want to see the full range of longitude values, since this is a polar plot.
+    # The range for the latitudes should be from your latitude limit (i.e. 50 degrees or -50 to the pole at 90 or -90).
+    northMap.set_extent([MINLONGITUDE, MAXLONGITUDE, LAT_LIMIT, NORTHPOLE], ccrs.PlateCarree())
+
+    # Add map features, like landFeature and oceanFeature.
+    addMapFeatures(northMap, oceanFeature, landFeature, grid, coastlines)
+
+    # Crop the map to be round instead of rectangular.
+    northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
+
+    # Map the hemisphere
+    scatter = mapNorthernHemisphere(latCell, lonCell, "Arctic_lat_long", northMap, dot_size)     # Map northern hemisphere
+
+    plt.suptitle("lat and long", size="x-large", fontweight="bold")
+
+    # Save the maps as an image.
+    plt.savefig(mapImageFileName)
+
+    return scatter
+
 def main():
 
     # Load the mesh and data to plot.
     latCell, lonCell = loadMesh(runDir, meshFileName)
     output = loadData(runDir, outputFileName)
 
-    # For regular runs of E3SM Model data (like Ice Area)    
+    ####################################################
+    # PLOTTING REGULAR E3SM OUTPUT DATA, LIKE ICE AREA #
+    ####################################################
     #print("Days total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
     #variableToPlot1Day = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=1)
     
-    # For plotting the new.nc results that I've made
+    ##############################
+    # PLOTTING MY NEW.NC RESULTS #
+    ##############################
     print("nCells total: ", getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT))
     variableToPlot1Day = output.variables[VARIABLETOPLOT][:]
     variableToPlot1Day.ravel()
     print(variableToPlot1Day.shape)
 
-    # Plot the north and south poles
+    #######################
+    # NORTH & SOUTH POLES #
+    #######################
     #fig, northMap, southMap = generateNorthandSouthPoleAxes()
     #generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, variableToPlot1Day, "seaice_both_poles", dot_size=0.4)
 
-    # Plot just the arctic
+    ###################
+    # ARTIC-ONLY PLOT #
+    ###################
     fig, northMap = generateNorthPoleAxes()
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, dot_size=0.4)
+
+    # Plotting with a variable
+    #generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, dot_size=0.4)
+    
+    # Plotting just the lat and lon cells
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, dot_size=0.4)
 
 if __name__ == "__main__":
     main()
