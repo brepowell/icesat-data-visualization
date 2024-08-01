@@ -213,7 +213,7 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, grid
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
     # Map the hemisphere
-    scatter = mapNorthernHemisphere(latCell, lonCell, "Arctic_lat_long", northMap, 0.1)     # Map northern hemisphere
+    scatter = mapNorthernHemisphere(latCell, lonCell, "Arctic_lat_long", northMap, 0.05)     # Map northern hemisphere
 
     plt.suptitle("lat and long", size="x-large", fontweight="bold")
 
