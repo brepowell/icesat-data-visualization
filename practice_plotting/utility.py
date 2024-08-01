@@ -9,7 +9,7 @@ import matplotlib as mpl
 def loadMesh(runDir, meshFileName):
     """ Load the mesh from an .nc file. 
     The mesh must have the same resolution as the output file. """
-    print('read: ', runDir, meshFileName)
+    print('Read Mesh: ', runDir, meshFileName)
 
     dataset = netCDF4.Dataset(runDir + meshFileName)
     latCell = np.degrees(dataset.variables['latCell'][:]) # Convert from radians to degrees.
@@ -22,7 +22,7 @@ def loadData(runDir, outputFileName):
     Returns a 1D array of the variable you want to plot of size nCells.
     The indices of the 1D array match with those of the latitude and longitude arrays, 
     which are also size nCells."""
-    print('read: ', runDir, outputFileName)
+    print('Read Output: ', runDir, outputFileName)
 
     return netCDF4.Dataset(runDir + outputFileName)
 
