@@ -234,10 +234,10 @@ def main():
         # Collecting all freeboard readings into a matrix
         # allFreeboard[fileIndex][:] = freeBoardReadings[:]
 
-        satLat = latCell[cellIndicesForAllSamples]
+        satLat = np.array(latCell[cellIndicesForAllSamples])
         print("Length of latCell", len(latCell))
         print("Latitude: ", satLat)
-        satLon = lonCell[cellIndicesForAllSamples]
+        satLon = np.array(lonCell[cellIndicesForAllSamples])
         print("Length of lonCell", len(lonCell))
         print("Longitude: ", satLon)
 
