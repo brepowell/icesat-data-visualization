@@ -12,7 +12,9 @@ def generateNorthPoleStaticPlotOfTrackLatLong(fig, northMap, mapImageFileName, g
 
     #fileList = returnListOfSatFileNamesBySeasonAndYear("spring", 2003)
     satelliteFileName, previousday, dayCount = loadOneSatFile(0, 0, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
-    fileList = list(satelliteFileName)
+    
+    fileList = []
+    fileList.append(satelliteFileName)
     
     print("Number of files read: ", len(fileList))
 
