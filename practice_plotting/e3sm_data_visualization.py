@@ -226,7 +226,8 @@ def main():
     fig, northMap = generateNorthPoleAxes()
 
     # Plotting with a variable
-    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName, dot_size=0.4)
+    generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName)
+    #generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, dot_size=0.4)
 
 if __name__ == "__main__":
     main()
