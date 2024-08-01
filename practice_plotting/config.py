@@ -22,8 +22,8 @@ TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
 END_TIME_VARIABLE   = ""
 TIMEVARIABLE        = "time"
-LATITUDEVARIABLE    = "latitude"
-LONGITUDEVARIABLE   = "longitude"
+LATITUDEVARIABLE    = "latCell"    #latitude
+LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
 # Change if you want a wider or narrower view
