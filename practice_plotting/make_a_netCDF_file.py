@@ -166,7 +166,7 @@ def main():
     meanmf  = createVariableForNetCDF(ncfile, "meanmf", "model freeboard mean", 
                             vmax = 0.9041953, vmin = 0.01583931, fillvalue = FILL_VALUE)
     meanof  = createVariableForNetCDF(ncfile, "meanof", "observed freeboard mean", 
-                            vmax = 1.14699, vmin = 0.1046828, fillvalue = FILL_VALUE)
+                            vmax = 1.14699, fillvalue = FILL_VALUE)
     samplemf = createVariableForNetCDF(ncfile, "samplemf", "model freeboard sample count", 
                             vmax = 296)
     sampleof = createVariableForNetCDF(ncfile, "sampleof", "observed freeboard sample count", 
