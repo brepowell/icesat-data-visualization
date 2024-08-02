@@ -253,29 +253,16 @@ def main():
     samplemf[:] = samples
     sampleof[:] = observations
 
-    print("Shape of allFreeboard:   ", allFreeboard.shape)
-    sumTotal = allFreeboard.sum(axis=0, dtype='float')
-    print("Shape of sumTotal:       ", sumTotal.shape)
-    print("Sum total Min/Max values:", sumTotal[:].min(),   sumTotal[:].max())
-
-    means = sumTotal / fileCount
-    print("Shape of means:          ", means.shape)
-    print("Means Min/Max values:", means[:].min(),   means[:].max())
-    print("min and max we want are like this 0.1046828, 1.14699")
+    # print("Shape of allFreeboard:   ", allFreeboard.shape)
+    # sumTotal = allFreeboard.sum(axis=0, dtype='float')
+    # means = sumTotal / fileCount
+    means = np.mean(allFreeboard, axis=0, dtype='float')
+    stdDeviations = np.std(allFreeboard, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
-    meanof[:] = means[:]
-
-    # # Observed freeboard standard deviation is similar to the mean
-    # # it also covers all photon readings per cell over all time
-    # stdof[:] = np.full(stdof.shape, FILL_VALUE)
-    # for cellIndex in range(CELLCOUNT):
-    #     # Find all the indices that contain freeboard data
-    #     freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
-    #     if len(freeBoardIndices) > 0:
-    #         standardDeviation = np.std(freeBoardReadings[freeBoardIndices])
-    #         stdof[cellIndex] = standardDeviation 
+    meanof[:] = means
+    stdof[:] = stdDeviations
 
     print("Number of days", dayCount)
 
@@ -286,7 +273,7 @@ def main():
     print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
     print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
     print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
-    # print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
+    print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
     # # Model freeboard mean is 
     # # Model freeboard standard deviation is
