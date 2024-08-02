@@ -180,9 +180,9 @@ def main():
     # SATELLITE FILES #
     ###################
 
-    #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
+    fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
     #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON)       # All years, specific season
-    fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
+    #fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
 
     fileCount = len(fileList)
     print("Number of files in the list: ", fileCount)
@@ -238,7 +238,7 @@ def main():
         observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
         # Collecting all freeboard readings into a matrix
-        # allFreeboard[fileIndex][:] = freeBoardReadings[:]
+        allFreeboard[fileIndex][:] = freeBoardReadings[:]
 
         # for debugging - checking the latitudes and longitudes indexed
         # satLat = np.array(latCell[cellIndicesForAllSamples])
@@ -251,13 +251,13 @@ def main():
     samplemf[:] = samples
     sampleof[:] = observations
 
-    # print("Shape of allFreeboard", allFreeboard.shape)
-    # sumTotal = allFreeboard.sum(axis=1, dtype='float')
-    # print("Shape of sumTotal: ", sumTotal.shape)
-    # means = sumTotal / len(sumTotal)
-    # print("Shape of means: ", means.shape)
+    print("Shape of allFreeboard:   ", allFreeboard.shape)
+    sumTotal = allFreeboard.sum(axis=1, dtype='float')
+    print("Shape of sumTotal:       ", sumTotal.shape)
+    means = sumTotal / len(sumTotal)
+    print("Shape of means:          ", means.shape)
 
-    #meanof[:] = means
+    meanof[:] = means
 
     # # Observed freeboard mean is the sum of all photon readings 
     # # in that cell over all time / sampleof
