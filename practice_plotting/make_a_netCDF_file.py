@@ -192,7 +192,7 @@ def main():
 
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
-    allFreeboard = np.zeros((CELLCOUNT, fileCount)) 
+    allFreeboard = np.zeros((fileCount, CELLCOUNT)) 
     dayCount = 1
     previousday = timeDay[0]
 
