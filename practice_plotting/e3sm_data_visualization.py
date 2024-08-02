@@ -37,21 +37,21 @@ def mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, title, hemispher
 
     return sc
 
-# def mapNorthernHemisphere(latCell, lonCell, title, hemisphereMap, dot_size=DOT_SIZE):
-#     """ Map the northern hemisphere onto a matplotlib figure. 
-#     This requires latCell and lonCell to be filled by a mesh file.
-#     It also requires variableToPlot1Day to be filled by an output .nc file. """
+def mapInOneColorLatsAndLons(latCell, lonCell, title, hemisphereMap, dot_size=DOT_SIZE):
+    """ Map the northern hemisphere onto a matplotlib figure. 
+    This requires latCell and lonCell to be filled by a mesh file.
+    It also requires variableToPlot1Day to be filled by an output .nc file. """
 
-#     indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
+    indices = np.where(latCell > LAT_LIMIT)     # Only capture points between the lat limit and the pole.
     
-#     norm=mpl.colors.Normalize(VMIN, VMAX)
-#     sc = hemisphereMap.scatter(lonCell[indices], latCell[indices],
-#                                s=dot_size, color = 'hotpink', transform=ccrs.PlateCarree(),
-#                                norm=norm)
-#     hemisphereMap.set_title(title)
-#     hemisphereMap.axis('off')
+    norm=mpl.colors.Normalize(VMIN, VMAX)
+    sc = hemisphereMap.scatter(lonCell[indices], latCell[indices],
+                               s=dot_size, color = 'hotpink', transform=ccrs.PlateCarree(),
+                               norm=norm)
+    hemisphereMap.set_title(title)
+    hemisphereMap.axis('off')
 
-#     return sc
+    return sc
 
 def mapSouthernHemisphere(latCell, lonCell, variableToPlot1Day, title, hemisphereMap, dot_size=DOT_SIZE):
     """ Map one hemisphere onto a matplotlib figure. 
@@ -227,7 +227,7 @@ def main():
 
     # Plotting with a variable
     generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, mapImageFileName)
-    #generateNorthPoleMap(fig, northMap, latCell, lonCell, mapImageFileName, dot_size=0.4)
+    #mapInOneColorLatsAndLons(latCell, lonCell, mapImageFileName, dot_size=0.4)
 
 if __name__ == "__main__":
     main()

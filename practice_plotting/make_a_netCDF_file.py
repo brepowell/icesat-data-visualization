@@ -15,7 +15,9 @@ from pathlib import Path
 
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
-NETCDF_FILE_NAME    = "new.nc"                              #TODO: make this dynamic
+SEASON              = "spring"
+YEAR                = "2003"
+
 
 FILL_VALUE      = -99999.0
 
@@ -79,11 +81,11 @@ def printSatelliteTimeDetails(fileIndex, timeStrings, timeCluster, timeYear, tim
 
     return timeString, cluster, year, month, day, hour, gregorian
 
-def returnListOfSatFileNamesBySeasonAndYear(season = "spring", year = 2003):
+def returnListOfSatFileNamesBySeasonAndYear(season = "*", year = "*"):
     """ Assumes that the synch file was read and that arrays have been filled
     with the time information for all satellite files. This can be used to return a list of files that match a pattern. Uses glob for this. """
 
-    filenamePattern = f"icesat_E3SM_{season}_{str(year)}_*.nc"   
+    filenamePattern = f"icesat_E3SM_{season}_{year}_*.nc"   
 
     searchPattern = os.path.join(perlmutterpathSatellites, filenamePattern)
     matchingFiles = glob.glob(searchPattern)
@@ -131,9 +133,11 @@ def main():
     # OPEN THE NETCDF FILE #
     ########################
 
+    new_NETCDF_file_name = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.nc"
+
     try: ncfile.close()  # just to be safe, make sure dataset is not already open.
     except: pass
-    ncfile = Dataset('new.nc',mode='w',format='NETCDF4_CLASSIC') 
+    ncfile = Dataset(new_NETCDF_file_name, mode='w', format='NETCDF4_CLASSIC') 
 
     ##############
     # DIMENSIONS #
@@ -181,12 +185,13 @@ def main():
     # SATELLITE FILES #
     ###################
 
-    fileList = returnListOfSatFileNamesBySeasonAndYear("spring", 2003)
+    fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR)
+
     fileCount = len(fileList)
     print("Number of files in the list: ", fileCount)
 
-    #stoppingPoint = fileCount
-    stoppingPoint = 1
+    stoppingPoint = fileCount # for plotting all files in a season / year
+    #stoppingPoint = 1 # for plotting just the first track
 
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
