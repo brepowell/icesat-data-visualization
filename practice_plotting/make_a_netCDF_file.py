@@ -15,9 +15,6 @@ from pathlib import Path
 
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
-SEASON              = "spring"
-YEAR                = "2003"
-
 
 FILL_VALUE      = -99999.0
 
@@ -133,11 +130,9 @@ def main():
     # OPEN THE NETCDF FILE #
     ########################
 
-    new_NETCDF_file_name = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.nc"
-
     try: ncfile.close()  # just to be safe, make sure dataset is not already open.
     except: pass
-    ncfile = Dataset(new_NETCDF_file_name, mode='w', format='NETCDF4_CLASSIC') 
+    ncfile = Dataset(NEW_NETCDF_FILE_NAME, mode='w', format='NETCDF4_CLASSIC') 
 
     ##############
     # DIMENSIONS #

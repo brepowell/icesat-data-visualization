@@ -26,6 +26,11 @@ LATITUDEVARIABLE    = "latCell"    #latitude
 LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
+SEASON              = "spring"
+YEAR                = "2003"
+NEW_NETCDF_FILE_NAME = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.nc"
+
+
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
 LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
@@ -76,7 +81,7 @@ SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
 #outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 #outputFileName = r"\new.nc" # Satellite emulator
-outputFileName = r"/new.nc" # Satellite emulator on PM
+outputFileName = f"/{NEW_NETCDF_FILE_NAME}.nc" # Satellite emulator on PM
 
 subdirectory = "" # Use for make_a_netCDF_file.py
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
