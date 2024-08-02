@@ -28,7 +28,7 @@ CELLVARIABLE        = "cell"
 
 SEASON              = "spring"
 YEAR                = "2003"
-NEW_NETCDF_FILE_NAME = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.nc"
+NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
 
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
