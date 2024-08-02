@@ -271,11 +271,16 @@ def main():
     print("===== SATELLITE VARIABLES ======")
     print("Shape of samplemf", samplemf[:].shape)
     print("Shape of sampleof", sampleof[:].shape)
-    
-    print("Samplemf Min/Max values:", samplemf[samplemf > 0].min(), samplemf[samplemf > 0].max())
-    print("Sampleof Min/Max values:", sampleof[sampleof > 0].min(), sampleof[sampleof > 0].max())
-    print("Meanof   Min/Max values:", meanof[np.isnan(meanof) == False].min(), meanof[np.isnan(meanof) == False].max())
-    print("Stdof    Min/Max values:", stdof[np.isnan(stdof) == False].min(), stdof[np.isnan(stdof) == False].max())
+
+    samplemf_array = samplemf[:]
+    sampleof_array = sampleof[:]
+    meanof_array   = meanof[:]
+    stdof_array    = stdof[:]
+
+    print("Samplemf Min/Max values:", samplemf_array[samplemf_array > 0].min(), samplemf_array[samplemf_array > 0].max())
+    print("Sampleof Min/Max values:", sampleof_array[sampleof_array > 0].min(), sampleof_array[sampleof_array > 0].max())
+    print("Meanof   Min/Max values:", meanof_array[np.isnan(meanof_array) == False].min(), meanof_array[np.isnan(meanof_array) == False].max())
+    print("Stdof    Min/Max values:", stdof_array[np.isnan(stdof_array) == False].min(), stdof_array[np.isnan(stdof_array) == False].max())
 
     # # Model freeboard mean is 
     # # Model freeboard standard deviation is
