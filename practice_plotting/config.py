@@ -54,7 +54,7 @@ VMIN = 0
 #VMAX = 15000  # sampleof for ALL FILES - the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000   # sampleof for spring 2003
 #VMAX = 0.01   # for meanof
-VMAX = 0.15    # for stdof
+VMAX = 0.2    # for stdof
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
