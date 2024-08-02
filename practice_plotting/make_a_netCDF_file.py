@@ -180,7 +180,9 @@ def main():
     # SATELLITE FILES #
     ###################
 
-    fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR)
+    #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
+    #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON)       # All years, specific season
+    fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
 
     fileCount = len(fileList)
     print("Number of files in the list: ", fileCount)
@@ -238,14 +240,13 @@ def main():
         # Collecting all freeboard readings into a matrix
         # allFreeboard[fileIndex][:] = freeBoardReadings[:]
 
-        satLat = np.array(latCell[cellIndicesForAllSamples])
-        print("Length of latCell", len(latCell))
-        print("Latitude: ", satLat)
-        satLon = np.array(lonCell[cellIndicesForAllSamples])
-        print("Length of lonCell", len(lonCell))
-        print("Longitude: ", satLon)
-
-
+        # for debugging - checking the latitudes and longitudes indexed
+        # satLat = np.array(latCell[cellIndicesForAllSamples])
+        # print("Length of latCell", len(latCell))
+        # print("Latitude: ", satLat)
+        # satLon = np.array(lonCell[cellIndicesForAllSamples])
+        # print("Length of lonCell", len(lonCell))
+        # print("Longitude: ", satLon)
 
     samplemf[:] = samples
     sampleof[:] = observations
