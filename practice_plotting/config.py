@@ -16,7 +16,7 @@ from perlmutterpath import *
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "meanmf"
 #VARIABLETOPLOT      = "samplemf"
-VARIABLETOPLOT      = "sampleof"
+#VARIABLETOPLOT      = "sampleof"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -28,7 +28,8 @@ CELLVARIABLE        = "cell"
 
 SEASON              = "spring"
 YEAR                = "2003"
-NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
+#NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
+NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
 
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
@@ -48,9 +49,9 @@ VMIN = 0
 #VMAX = 0.7    # Good for Freeboard
 #VMAX = 150    # for ALL FILES - samplemf the max is 295, but there are not many cells that go above 150 samples; 100 is too low
 #VMAX = 25      # for spring 2003 - there are not many cells that go above 45 samples;
-VMAX = 15000  # for ALL FILES - sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
+#VMAX = 15000  # for ALL FILES - sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000    # for spring 2003
-#VMAX = 1.1 # for meanof
+VMAX = 1.1 # for meanof
 #VMAX = 1   # for stdof
 
 # Animation speed
@@ -92,7 +93,7 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-#mapImageFileName    = "modelmf.png"             # Should be a .png file extension
+#mapImageFileName    = "samplemf_all_time.png"             # Should be a .png file extension
 mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
 
 
@@ -103,6 +104,8 @@ mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
 boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
 
 MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} {YEAR}"
+#MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} ALL TIME"
+
 
 # These features are on
 OCEANFEATURE    = 1   
