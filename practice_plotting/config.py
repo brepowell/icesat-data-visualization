@@ -14,9 +14,10 @@ from perlmutterpath import *
 # Change these for different runs if you want to narrow down your focus
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
-#VARIABLETOPLOT      = "samplemf"
+#VARIABLETOPLOT      = "samplemf" # make sure to set VMAX
 #VARIABLETOPLOT      = "sampleof"
-VARIABLETOPLOT       = "meanof"
+#VARIABLETOPLOT       = "meanof"
+VARIABLETOPLOT       = "stdof"
 #VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
@@ -52,8 +53,8 @@ VMIN = 0
 #VMAX = 25      # for spring 2003 - there are not many cells that go above 45 samples;
 #VMAX = 15000  # for ALL FILES - sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000    # for spring 2003
-VMAX = 0.01 # for meanof
-#VMAX = 1   # for stdof
+#VMAX = 0.01 # for meanof
+VMAX = 0.3   # for stdof
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
