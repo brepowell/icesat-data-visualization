@@ -263,17 +263,9 @@ def main():
     print("Means Min/Max values:", means[:].min(),   means[:].max())
     print("min and max we want are like this 0.1046828, 1.14699")
 
-    meanof[:] = means
-
-    # # Observed freeboard mean is the sum of all photon readings 
-    # # in that cell over all time / sampleof
-    # meanof[:] = np.full(meanof.shape, FILL_VALUE)
-    # for cellIndex in range(CELLCOUNT):
-    #     # Find all the indices that contain freeboard data
-    #     freeBoardIndices = np.where(cellIndicesForAllObservations == cellIndex)[0]
-    #     if len(freeBoardIndices) > 0:
-    #         meanValue = np.mean(freeBoardReadings[freeBoardIndices])
-    #         meanof[cellIndex] = meanValue 
+    # Observed freeboard mean is the sum of all photon readings per cell over time
+    # divided by the number of tracks (ex. 409 for spring 2003)
+    meanof[:] = means[:]
 
     # # Observed freeboard standard deviation is similar to the mean
     # # it also covers all photon readings per cell over all time
@@ -356,7 +348,7 @@ def main():
     # #Use cellIndicesForAllObservations
 
     # print("\n=====   MODEL VARIABLES   ======")
-    # print("Meanof   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
+    # print("Meanmf   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
 
     # print("\n=====   ALONG TRACK   ======")
     # freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
