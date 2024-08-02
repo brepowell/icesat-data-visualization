@@ -126,7 +126,7 @@ def main():
     fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian = loadSynchronizer()
     print("Number of satellite tracks in Synch file: ", fileCount)
     print("shape of timeCluster", timeCluster.shape)
-    timeClusters = timeCluster[:1]
+    timeClusters = np.array(timeCluster)
     print(timeClusters)
 
     ########################
