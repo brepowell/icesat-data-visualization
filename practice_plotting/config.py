@@ -47,7 +47,7 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 VMIN = 0
 #VMAX = 1      # Good for Ice Area
 #VMAX = 0.7    # Good for Freeboard
-VMAX = 150    # for ALL FILES - samplemf the max is 295, but there are not many tracks that go above 150 samples; 100 is too low
+VMAX = 120    # for ALL FILES - samplemf the max is 295, but there are not many tracks that go above 150 samples; 100 is too low
 #VMAX = 45      # for spring 2003
 #VMAX = 15000  # for ALL FILES - sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 5000    # for spring 2003
@@ -93,7 +93,9 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-mapImageFileName    = "modelmf.png"             # Should be a .png file extension
+#mapImageFileName    = "modelmf.png"             # Should be a .png file extension
+mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
+
 
 ################
 # Map settings #
