@@ -190,9 +190,9 @@ def main():
     stoppingPoint = fileCount # for plotting all files in a season / year
     #stoppingPoint = 1 # for plotting just the first track
 
-    samples      = np.full(CELLCOUNT, FILL_VALUE)
-    observations = np.full(CELLCOUNT, FILL_VALUE)
-    allFreeboard = np.full((fileCount, CELLCOUNT), FILL_VALUE)
+    samples      = np.zeros(CELLCOUNT)
+    observations = np.zeros(CELLCOUNT)
+    allFreeboard = np.full((fileCount, CELLCOUNT), np.nan)
 
     dayCount = 1
     previousday = timeDay[0]
@@ -257,8 +257,8 @@ def main():
     # print("Shape of allFreeboard:   ", allFreeboard.shape)
     # sumTotal = allFreeboard.sum(axis=0, dtype='float')
     # means = sumTotal / fileCount
-    means = np.mean(allFreeboard, axis=0, dtype='float')
-    stdDeviations = np.std(allFreeboard, axis=0, dtype='float')
+    means = np.nanmean(allFreeboard, axis=0, dtype='float')
+    stdDeviations = np.nanstd(allFreeboard, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
@@ -271,10 +271,11 @@ def main():
     print("===== SATELLITE VARIABLES ======")
     print("Shape of samplemf", samplemf[:].shape)
     print("Shape of sampleof", sampleof[:].shape)
-    print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
-    print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
-    print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
-    print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
+    
+    print("Samplemf Min/Max values:", samplemf[samplemf > 0].min(), samplemf[samplemf > 0].max())
+    print("Sampleof Min/Max values:", sampleof[sampleof > 0].min(), sampleof[sampleof > 0].max())
+    print("Meanof   Min/Max values:", meanof[np.isnan(meanof) == False].min(), meanof[np.isnan(meanof) == False].max())
+    print("Stdof    Min/Max values:", stdof[np.isnan(stdof) == False].min(), stdof[np.isnan(stdof) == False].max())
 
     # # Model freeboard mean is 
     # # Model freeboard standard deviation is
