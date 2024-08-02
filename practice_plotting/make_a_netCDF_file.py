@@ -190,9 +190,9 @@ def main():
     stoppingPoint = fileCount # for plotting all files in a season / year
     #stoppingPoint = 1 # for plotting just the first track
 
-    samples      = np.full(CELLCOUNT, np.nan)
-    observations = np.full(CELLCOUNT, np.nan)
-    allFreeboard = np.full((fileCount, CELLCOUNT), np.nan)
+    samples      = np.array(CELLCOUNT)
+    observations = np.array(CELLCOUNT)
+    allFreeboard = np.array((fileCount, CELLCOUNT))
 
     dayCount = 1
     previousday = timeDay[0]
@@ -257,8 +257,8 @@ def main():
     # print("Shape of allFreeboard:   ", allFreeboard.shape)
     # sumTotal = allFreeboard.sum(axis=0, dtype='float')
     # means = sumTotal / fileCount
-    means = np.nanmean(allFreeboard, axis=0, dtype='float')
-    stdDeviations = np.nanstd(allFreeboard, axis=0, dtype='float')
+    means = np.mean(allFreeboard, axis=0, dtype='float')
+    stdDeviations = np.std(allFreeboard, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
