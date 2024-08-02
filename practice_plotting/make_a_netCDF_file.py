@@ -125,6 +125,7 @@ def main():
     ########################
     fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian = loadSynchronizer()
     print("Number of satellite tracks in Synch file: ", fileCount)
+    print(timeCluster)
 
     ########################
     # OPEN THE NETCDF FILE #
@@ -189,6 +190,7 @@ def main():
     print("Number of files in the list: ", fileCount)
 
     stoppingPoint = fileCount # for plotting all files in a season / year
+
     #stoppingPoint = 1 # for plotting just the first track
 
     samples      = np.zeros(CELLCOUNT)
