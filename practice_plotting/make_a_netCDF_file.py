@@ -254,16 +254,13 @@ def main():
     samplemf[:] = samples
     sampleof[:] = observations
 
-    # print("Shape of allFreeboard:   ", allFreeboard.shape)
-    # sumTotal = allFreeboard.sum(axis=0, dtype='float')
-    # means = sumTotal / fileCount
     means = np.mean(allFreeboard, axis=0, dtype='float')
     stdDeviations = np.std(allFreeboard, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
-    meanof[:] = means
-    stdof[:] = stdDeviations
+    meanof[:] = means[means > 0]
+    stdof[:] = stdDeviations[stdDeviations > 0]
 
     print("Number of days", dayCount)
 
