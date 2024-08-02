@@ -256,11 +256,13 @@ def main():
     print("Shape of allFreeboard:   ", allFreeboard.shape)
     sumTotal = allFreeboard.sum(axis=0, dtype='float')
     print("Shape of sumTotal:       ", sumTotal.shape)
+    print("Sum total   Min/Max values:", sumTotal[:].min(),   sumTotal[:].max())
     print("Sum total: ", sumTotal)
 
     means = sumTotal / len(sumTotal)
     print("Shape of means:          ", means.shape)
     print("Means: ", means)
+    print("Sum total   Min/Max values:", means[:].min(),   means[:].max())
 
     meanof[:] = means
 
