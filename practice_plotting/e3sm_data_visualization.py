@@ -152,7 +152,7 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
         plt.colorbar(southPoleScatter, ax=southMap)
 
     # Add time textbox
-    plt.suptitle(VARIABLETOPLOT.upper(), size="x-large", fontweight="bold")
+    plt.suptitle(MAP_SUPTITLE_TOP, size="x-large", fontweight="bold")
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)
@@ -186,7 +186,7 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
     if colorBarOn:
         plt.colorbar(scatter, ax=northMap)
 
-    plt.suptitle(VARIABLETOPLOT.upper(), size="x-large", fontweight="bold")
+    plt.suptitle(MAP_SUPTITLE_TOP, size="x-large", fontweight="bold")
 
     # Save the maps as an image.
     plt.savefig(mapImageFileName)

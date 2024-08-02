@@ -30,6 +30,8 @@ SEASON              = "spring"
 YEAR                = "2003"
 NEW_NETCDF_FILE_NAME = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.nc"
 
+MAP_SUPTITLE_TOP = VARIABLETOPLOT.upper() + SEASON + YEAR
+
 
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
