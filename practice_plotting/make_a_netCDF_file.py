@@ -277,8 +277,8 @@ def main():
     meanof_array   = meanof[:]
     stdof_array    = stdof[:]
 
-    print("Samplemf Min/Max values:", samplemf_array[samplemf_array > 0].min(), samplemf_array[samplemf_array > 0].max())
-    print("Sampleof Min/Max values:", sampleof_array[sampleof_array > 0].min(), sampleof_array[sampleof_array > 0].max())
+    print("Samplemf Min/Max values:", samplemf_array[:].min(), samplemf_array[:].max())
+    print("Sampleof Min/Max values:", sampleof_array[:].min(), sampleof_array[:].max())
     print("Meanof   Min/Max values:", meanof_array[np.isnan(meanof_array) == False].min(), meanof_array[np.isnan(meanof_array) == False].max())
     print("Stdof    Min/Max values:", stdof_array[np.isnan(stdof_array) == False].min(), stdof_array[np.isnan(stdof_array) == False].max())
 
