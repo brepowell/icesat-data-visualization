@@ -52,7 +52,7 @@ VMIN = 0
 #VMAX = 25      # for spring 2003 - there are not many cells that go above 45 samples;
 #VMAX = 15000  # for ALL FILES - sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000    # for spring 2003
-VMAX = 0.5 # for meanof
+VMAX = 0.01 # for meanof
 #VMAX = 1   # for stdof
 
 # Animation speed
