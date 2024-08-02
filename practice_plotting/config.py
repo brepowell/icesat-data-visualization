@@ -14,9 +14,10 @@ from perlmutterpath import *
 # Change these for different runs if you want to narrow down your focus
 #VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
-#VARIABLETOPLOT      = "meanmf"
 #VARIABLETOPLOT      = "samplemf"
 #VARIABLETOPLOT      = "sampleof"
+VARIABLETOPLOT       = "meanof"
+#VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -28,8 +29,8 @@ CELLVARIABLE        = "cell"
 
 SEASON              = "spring"
 YEAR                = "2003"
-#NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
-NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
+NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
+#NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
 
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
@@ -93,9 +94,8 @@ FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
 animationFileName   = "animation.gif"                # Should be a .gif extension
-#mapImageFileName    = "samplemf_all_time.png"             # Should be a .png file extension
 mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
-
+#mapImageFileName    = "samplemf_all_time.png"             # Should be a .png file extension
 
 ################
 # Map settings #
