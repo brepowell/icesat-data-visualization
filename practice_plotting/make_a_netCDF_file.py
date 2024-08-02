@@ -192,8 +192,8 @@ def main():
 
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
-    allFreeboard = np.full((fileCount, CELLCOUNT), np.nan)
-
+    allFreeboard = np.zeros((fileCount, CELLCOUNT)) 
+    
     dayCount = 1
     previousday = timeDay[0]
 
@@ -257,8 +257,8 @@ def main():
     # print("Shape of allFreeboard:   ", allFreeboard.shape)
     # sumTotal = allFreeboard.sum(axis=0, dtype='float')
     # means = sumTotal / fileCount
-    means = np.nanmean(allFreeboard, axis=0, dtype='float')
-    stdDeviations = np.nanstd(allFreeboard, axis=0, dtype='float')
+    means = np.mean(allFreeboard, axis=0, dtype='float')
+    stdDeviations = np.std(allFreeboard, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
@@ -271,16 +271,10 @@ def main():
     print("===== SATELLITE VARIABLES ======")
     print("Shape of samplemf", samplemf[:].shape)
     print("Shape of sampleof", sampleof[:].shape)
-
-    samplemf_array = samplemf[:]
-    sampleof_array = sampleof[:]
-    meanof_array   = meanof[:]
-    stdof_array    = stdof[:]
-
-    print("Samplemf Min/Max values:", samplemf_array[:].min(), samplemf_array[:].max())
-    print("Sampleof Min/Max values:", sampleof_array[:].min(), sampleof_array[:].max())
-    print("Meanof   Min/Max values:", meanof_array[np.isnan(meanof_array) == False].min(), meanof_array[np.isnan(meanof_array) == False].max())
-    print("Stdof    Min/Max values:", stdof_array[np.isnan(stdof_array) == False].min(), stdof_array[np.isnan(stdof_array) == False].max())
+    print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
+    print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
+    print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
+    print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
     # # Model freeboard mean is 
     # # Model freeboard standard deviation is
