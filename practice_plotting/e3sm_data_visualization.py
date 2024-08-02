@@ -180,8 +180,8 @@ def generateNorthPoleMap(fig, northMap, latCell, lonCell, variableToPlot1Day, ma
     northMap.set_boundary(makeCircle(), transform=northMap.transAxes)
 
     # Map the hemisphere
-    scatter = mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, mapImageFileName, northMap, dot_size)     # Map northern hemisphere
-
+    scatter = mapNorthernHemisphere(latCell, lonCell, variableToPlot1Day, f"Arctic Sea Ice", northMap, dot_size)     # Map northern hemisphere
+    
     # Set Color Bar
     if colorBarOn:
         plt.colorbar(scatter, ax=northMap)
