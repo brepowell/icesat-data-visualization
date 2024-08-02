@@ -259,8 +259,8 @@ def main():
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
-    meanof[:] = means[means > 0]
-    stdof[:] = stdDeviations[stdDeviations > 0]
+    meanof[:] = means
+    stdof[:] = stdDeviations
 
     print("Number of days", dayCount)
 
