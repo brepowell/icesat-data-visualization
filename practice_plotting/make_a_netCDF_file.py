@@ -198,15 +198,19 @@ def main():
 
         satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
 
+        # Load the data from the satellite
         #satelliteData       = loadData(runDir, satelliteFileName) #local
         satelliteData       = loadData("", satelliteFileName) #PM
         
+        # Grab the variables from the satellite data file
         freeBoardReadings               = reduceToOneDay(satelliteData, "freeboard")
         cellIndicesForAllSamples        = returnCellIndices(satelliteData, "modcell")
-        print(cellIndicesForAllSamples)
-        cellIndicesForAllSamples = cellIndicesForAllSamples - 1
         cellIndicesForAllObservations   = returnCellIndices(satelliteData, "cell")
-        
+
+        # Account for off-by-one converstion from MATLAB to Python indexing
+        cellIndicesForAllSamples = cellIndicesForAllSamples - 1
+        cellIndicesForAllObservations = cellIndicesForAllObservations - 1
+
         # Debugging and checking what cells have samples
         # for index in cellIndicesForAllSamples:
         #     samples[index] = 1
@@ -225,7 +229,6 @@ def main():
 
         # Sample model freeboard is the # of times that cell was passed over 
         # (ex. once in a day) in the full time
-
 
         samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
 
