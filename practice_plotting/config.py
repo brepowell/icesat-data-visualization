@@ -102,7 +102,7 @@ mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
 
 boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
 
-MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON} {YEAR}"
+MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} {YEAR}"
 
 # These features are on
 OCEANFEATURE    = 1   
