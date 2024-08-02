@@ -240,7 +240,7 @@ def main():
         observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
         # Collecting all freeboard readings into a matrix
-        allFreeboard[:][fileIndex] = freeBoardReadings[:]
+        allFreeboard[fileIndex][cellIndicesForAllObservations] = freeBoardReadings
 
         # for debugging - checking the latitudes and longitudes indexed
         # satLat = np.array(latCell[cellIndicesForAllSamples])
