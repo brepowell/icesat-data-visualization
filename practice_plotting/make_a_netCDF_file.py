@@ -183,6 +183,7 @@ def main():
     fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
     #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON)       # All years, specific season
     #fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
+    print("Files in list", fileList)
 
     fileCount = len(fileList)
     print("Number of files in the list: ", fileCount)
