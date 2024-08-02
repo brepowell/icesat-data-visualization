@@ -289,7 +289,7 @@ def main():
     print("Shape of sampleof", sampleof[:].shape)
     print("Samplemf Min/Max values:", samplemf[:].min(), samplemf[:].max())
     print("Sampleof Min/Max values:", sampleof[:].min(), sampleof[:].max())
-    # print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
+    print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
     # print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
     # # Model freeboard mean is 
