@@ -49,12 +49,12 @@ DEFAULT_DOWNSAMPLE_FACTOR = 100
 VMIN = 0
 #VMAX = 1      # Good for Ice Area
 #VMAX = 0.7    # Good for Freeboard
-#VMAX = 150    # for ALL FILES - samplemf the max is 295, but there are not many cells that go above 150 samples; 100 is too low
-#VMAX = 25      # for spring 2003 - there are not many cells that go above 45 samples;
-#VMAX = 15000  # for ALL FILES - sampleof the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
-#VMAX = 4000    # for spring 2003
-#VMAX = 0.01 # for meanof
-VMAX = 0.3   # for stdof
+#VMAX = 150    # samplemf for ALL FILES - the max is 295, but there are not many cells that go above 150 samples; 100 is too low
+#VMAX = 25     # samplemf for spring 2003 - there are not many cells that go above 45 samples;
+#VMAX = 15000  # sampleof for ALL FILES - the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
+#VMAX = 4000   # sampleof for spring 2003
+#VMAX = 0.01   # for meanof
+VMAX = 0.25    # for stdof
 
 # Animation speed
 #INTERVALS = 500 # good for smaller animations, like 5 to 10 days
