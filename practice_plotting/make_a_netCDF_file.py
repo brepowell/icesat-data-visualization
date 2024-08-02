@@ -190,9 +190,10 @@ def main():
     stoppingPoint = fileCount # for plotting all files in a season / year
     #stoppingPoint = 1 # for plotting just the first track
 
-    samples      = np.zeros(CELLCOUNT)
-    observations = np.zeros(CELLCOUNT)
-    allFreeboard = np.zeros((fileCount, CELLCOUNT)) 
+    samples      = np.full(CELLCOUNT, np.nan)
+    observations = np.full(CELLCOUNT, np.nan)
+    allFreeboard = np.full((fileCount, CELLCOUNT), np.nan)
+
     dayCount = 1
     previousday = timeDay[0]
 
