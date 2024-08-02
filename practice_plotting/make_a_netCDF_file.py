@@ -256,8 +256,11 @@ def main():
     print("Shape of allFreeboard:   ", allFreeboard.shape)
     sumTotal = allFreeboard.sum(axis=0, dtype='float')
     print("Shape of sumTotal:       ", sumTotal.shape)
+    print("Sum total: ", sumTotal)
+
     means = sumTotal / len(sumTotal)
     print("Shape of means:          ", means.shape)
+    print("Means: ", means)
 
     meanof[:] = means
 
