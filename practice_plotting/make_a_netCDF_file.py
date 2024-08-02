@@ -254,7 +254,7 @@ def main():
     sampleof[:] = observations
 
     print("Shape of allFreeboard:   ", allFreeboard.shape)
-    sumTotal = allFreeboard.sum(axis=1, dtype='float')
+    sumTotal = allFreeboard.sum(axis=0, dtype='float')
     print("Shape of sumTotal:       ", sumTotal.shape)
     means = sumTotal / len(sumTotal)
     print("Shape of means:          ", means.shape)
