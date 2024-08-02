@@ -125,7 +125,7 @@ def main():
     ########################
     fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian = loadSynchronizer()
     print("Number of satellite tracks in Synch file: ", fileCount)
-    timeCluster = timeCluster.ravel()
+    timeCluster = timeCluster[:1].ravel()
     print(timeCluster)
 
     ########################
