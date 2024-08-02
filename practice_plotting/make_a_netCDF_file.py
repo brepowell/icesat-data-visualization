@@ -196,6 +196,8 @@ def main():
     dayCount = 1
     previousday = timeDay[0]
 
+    print("Shape of allFreeboard:   ", allFreeboard.shape)
+
     for fileIndex in range(0, stoppingPoint):
 
         satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
@@ -238,7 +240,7 @@ def main():
         observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
         # Collecting all freeboard readings into a matrix
-        allFreeboard[fileIndex][:] = freeBoardReadings[:]
+        allFreeboard[:][fileIndex] = freeBoardReadings[:]
 
         # for debugging - checking the latitudes and longitudes indexed
         # satLat = np.array(latCell[cellIndicesForAllSamples])
@@ -251,7 +253,7 @@ def main():
     samplemf[:] = samples
     sampleof[:] = observations
 
-    print("Shape of allFreeboard:   ", allFreeboard.shape)
+
     sumTotal = allFreeboard.sum(axis=1, dtype='float')
     print("Shape of sumTotal:       ", sumTotal.shape)
     means = sumTotal / len(sumTotal)
