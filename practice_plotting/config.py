@@ -30,9 +30,6 @@ SEASON              = "spring"
 YEAR                = "2003"
 NEW_NETCDF_FILE_NAME = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.nc"
 
-MAP_SUPTITLE_TOP = VARIABLETOPLOT.upper() + SEASON + YEAR
-
-
 # Change if you want a wider or narrower view
 #LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
 LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
@@ -104,6 +101,8 @@ mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
 ################
 
 boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha (sets transparency)
+
+MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON} {YEAR}"
 
 # These features are on
 OCEANFEATURE    = 1   
