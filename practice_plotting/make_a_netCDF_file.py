@@ -26,8 +26,8 @@ DENSITY_SNOW    = 330
 SEASONS = ["spring", "summer", "fall", "winter"]
 
 def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
-    """ Loads the synchronizer file that is organized in chronological order
-    returns arrays of the time details for each satellite track and the total number of files. """
+    """ Loads the synchronizer file that is organized in chronological order.
+    Returns arrays of the time details for each satellite track and the total number of files. """
     synchData        = loadData(runDir, synchronizerFile) # Make sure that runDir is set to perlmutterpath1
     shapeOfSynchData = synchData.variables["time_string"].shape
     timeStrings  = printDateTime(synchData, "time_string", shapeOfSynchData[0])
@@ -61,6 +61,7 @@ def getFileIndicesFromSynchronizerByYear(timeYears):
 
 # From https://www.geeksforgeeks.org/python-intersection-two-lists/#
 def intersection(lst1, lst2):
+    """ Return the intersection of two lists (what they have in common)."""
     lst3 = [value for value in lst1 if value in lst2]
     return lst3
 
@@ -222,12 +223,12 @@ def main():
 
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
-    allFreeboard = np.zeros((fileCount, CELLCOUNT)) 
+    allFreeboardFromSatelliteData = np.zeros((fileCount, CELLCOUNT)) 
     
     dayCount = 1
     previousday = timeDay[0]
 
-    print("Shape of allFreeboard:   ", allFreeboard.shape)
+    print("Shape of allFreeboardFromSatelliteData:   ", allFreeboardFromSatelliteData.shape)
 
     for fileIndex in fileIndices:
 
@@ -270,7 +271,7 @@ def main():
         observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
         # Collecting all freeboard readings into a matrix for caculating the mean and standard deviation
-        allFreeboard[fileIndex][cellIndicesForAllObservations] = freeBoardReadings[:]
+        allFreeboardFromSatelliteData[fileIndex][cellIndicesForAllObservations] = freeBoardReadings[:]
 
         # for debugging - checking the latitudes and longitudes indexed
         # satLat = np.array(latCell[cellIndicesForAllSamples])
@@ -283,8 +284,8 @@ def main():
     samplemf[:] = samples
     sampleof[:] = observations
 
-    means = np.mean(allFreeboard, axis=0, dtype='float')
-    stdDeviations = np.std(allFreeboard, axis=0, dtype='float')
+    means = np.mean(allFreeboardFromSatelliteData, axis=0, dtype='float')
+    stdDeviations = np.std(allFreeboardFromSatelliteData, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
