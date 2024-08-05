@@ -367,6 +367,15 @@ def main():
 
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
 
+    print("===   CALCULATING MEANMF AND STDMF   === ")
+    e3smMeans = np.mean(allFreeboardFromE3SM, axis=0, dtype='float')
+    e3smStdDeviations = np.std(allFreeboardFromE3SM, axis=0, dtype='float')
+
+    # Observed freeboard mean is the sum of all photon readings per cell over time
+    # divided by the number of tracks (ex. 409 for spring 2003)
+    meanmf[:] = e3smMeans
+    stdmf[:] = e3smStdDeviations
+
     # # Model freeboard mean is 
     # # Model freeboard standard deviation is
     # # Model freeboard effective sample size is
