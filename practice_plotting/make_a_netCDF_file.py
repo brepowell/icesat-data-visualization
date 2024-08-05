@@ -323,9 +323,8 @@ def main():
         temp.append(x)
         prev = x
 
-    days = np.array(daysList)
-    print(days)
-    print("Shape of days: ", days.shape)
+    print(daysList)
+    print("Shape of daysList: ", daysList.shape)
 
     # #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
     # #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
