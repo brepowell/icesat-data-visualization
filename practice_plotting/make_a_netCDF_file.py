@@ -344,14 +344,14 @@ def main():
         modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
 
         for dayIndex, day in enumerate(daysList[monthIndex]):
+            print("==============")
             print(f"Month and day: {month} {day} {YEAR}")
-            snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
-            iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
-            iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
+            snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day) 
+            iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day)
+            iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day)
 
-            modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
+            modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day)
             convertDateBytesToString(modelTime)
-            print("Day in model", modelTime)
             
             print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
             print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
