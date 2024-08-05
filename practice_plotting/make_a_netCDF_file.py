@@ -59,7 +59,7 @@ def getFileIndicesFromSynchronizerByYear(timeYear):
     year in specified in the config.py file. """
     print(timeYear)
 
-    return [i for i in range(len(timeYear)) if timeYear[i] == str(YEAR)]
+    return [i for i in range(len(timeYear)) if timeYear[i] == YEAR]
 
 # From https://www.geeksforgeeks.org/python-intersection-two-lists/#
 def intersection(lst1, lst2):
