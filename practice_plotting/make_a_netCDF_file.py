@@ -57,7 +57,7 @@ def getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters):
 def getFileIndicesFromSynchronizerByYear(timeYear):
     """ Look at the year array from the synch file. Return the indices for the
     year in specified in the config.py file. """
-    return [i for i in range(len(timeYear)) if timeYear[i] == YEAR]
+    return [i for i in range(len(timeYear)) if timeYear[i] == str(YEAR)]
 
 # From https://www.geeksforgeeks.org/python-intersection-two-lists/#
 def intersection(lst1, lst2):
