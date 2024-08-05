@@ -323,6 +323,9 @@ def main():
         temp.append(x)
         prev = x
 
+    daysList = np.array(daysList)
+    daysList = np.unique(daysList, axis=1)
+
     print(daysList)
     print("Shape of daysList: ", daysList.shape)
 
