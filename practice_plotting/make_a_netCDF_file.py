@@ -333,7 +333,7 @@ def main():
     dayCount = sum(len(x) for x in daysList)
     print(daysList)
 
-    allFreeboardFromE3SM = np.zeros((dayCount, CELLCOUNT))
+    allFreeboardFromE3SM = np.zeros((dayCount+1, CELLCOUNT))
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
 
     for monthIndex, month in enumerate(months):
@@ -344,11 +344,11 @@ def main():
 
         for dayIndex, day in enumerate(daysList[monthIndex]):
             print(f"Month and day: {month} {day} {YEAR}")
-            snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day) 
-            iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day)
-            iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day)
+            snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
+            iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
+            iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
 
-            modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day)
+            modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
             ConvertDateBytesToString(modelTime)
             print("Day in model", modelTime)
             
