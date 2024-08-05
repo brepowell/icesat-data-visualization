@@ -376,26 +376,19 @@ def main():
     meanmf[:] = e3smMeans
     stdmf[:] = e3smStdDeviations
 
-    # # Model freeboard mean is 
-    # # Model freeboard standard deviation is
-    # # Model freeboard effective sample size is
-    # # Observation freeboard effective sample size is
+    # Model freeboard mean is 
+    # Model freeboard standard deviation is
+    # Model freeboard effective sample size is
+    # Observation freeboard effective sample size is
 
-    # meanmf[:] = all_E3SM_freeboard
-
-    # #Use cellIndicesForAllSamples
-    # #Use cellIndicesForAllObservations
-
-    # print("\n=====   MODEL VARIABLES   ======")
-    # print("Meanmf   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
+    print("\n=====   MODEL VARIABLES   ======")
+    print("Meanmf   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
+    print("Stdmf    Min/Max values:", stdmf[:].min(),    stdmf[:].max())
 
     # print("\n=====   ALONG TRACK   ======")
     # freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
     # print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
     # print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
-
-    # startTime = modelData.variables[START_TIME_VARIABLE]
-    # print("Days in that month:         ", startTime.shape[0])
 
     # close the Dataset
     ncfile.close()
