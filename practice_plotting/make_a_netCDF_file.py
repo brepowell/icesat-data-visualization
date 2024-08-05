@@ -330,10 +330,11 @@ def main():
 
     # Just get unique days on the list of days
     daysList = [np.unique(np.array(row)) for row in daysList]
-
+    dayCount = sum(len(x) for x in daysList)
     print(daysList)
 
-    allFreeboardFromE3SM = np.zeros((len(daysList), CELLCOUNT))
+    allFreeboardFromE3SM = np.zeros(dayCount, CELLCOUNT)
+    print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
 
     for monthIndex, month in enumerate(months):
         modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(YEAR) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
