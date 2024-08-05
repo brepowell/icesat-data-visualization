@@ -22,7 +22,6 @@ DENSITY_WATER   = 1026
 DENSITY_ICE     = 917
 DENSITY_SNOW    = 330
 
-
     #Clusters  1        2         3       4
 SEASONS = ["spring", "summer", "fall", "winter"]
 
@@ -47,7 +46,6 @@ def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
 
     return fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian
 
-#TODO: figure this out on Monday
 def getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters):
     """ Look at the seasonal cluster array from the synch file. Return the indices for the
     season in specified in the config.py file. """
@@ -101,6 +99,7 @@ def printSatelliteTimeDetails(fileIndex, timeStrings, timeCluster, timeYear, tim
 
     return timeString, cluster, year, month, day, hour, gregorian
 
+# Not used currently
 def returnListOfSatFileNamesBySeasonAndYear(season = "*", year = "*"):
     """ Assumes that the synch file was read and that arrays have been filled
     with the time information for all satellite files. This can be used to return a list of files that match a pattern. Uses glob for this. """
@@ -134,6 +133,18 @@ def loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, t
     print("Satellite file name: ", satelliteFileName)
     return satelliteFileName, previousday, dayCount
 
+def getThickness(gridCellAveragedThickness, iceConcentration):
+    """ Grid cell averaged thickness is the same as the sea ice volume variable in E3SM.
+    Concentration is the same as the sea ice area variable in E3SM.
+    volume / area of cell = height (thickness) 
+    """
+    return gridCellAveragedThickness / iceConcentration
+
+def getFreeboard(heightIce, heightSnow):
+    """Formula to calculate freeboard: hf = hi (pw-pi)/pw + hs (pw-ps)/pw.
+    Where p means density; h is height, w is water, i is ice, s is snow"""
+    return heightIce*(DENSITY_WATER-DENSITY_ICE)/DENSITY_WATER + heightSnow*(DENSITY_WATER-DENSITY_SNOW)/DENSITY_WATER
+
 def main():
     
     ##################################
@@ -148,14 +159,12 @@ def main():
     ########################
     fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian = loadSynchronizer()
     print("Number of satellite tracks in Synch file: ", fileCount)
-    print("shape of timeCluster", timeCluster.shape)
-    timeClusters = np.array(timeCluster)
-    timeYears = np.array(timeYear)
 
     # Get all file indices by season and by year; find the intersection of those lists
-    seasonFileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters)
-    yearFileIndices = getFileIndicesFromSynchronizerByYear(timeYears)
+    seasonFileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(np.array(timeCluster))
+    yearFileIndices = getFileIndicesFromSynchronizerByYear(np.array(timeYear))
     fileIndices = intersection(seasonFileIndices, yearFileIndices)
+    print(f"File indices for {SEASON} {YEAR}: ", fileIndices)
 
     ########################
     # OPEN THE NETCDF FILE #
@@ -255,13 +264,12 @@ def main():
 
         # Sample model freeboard is the # of times that cell was passed over 
         # (ex. once in a day) in the full time
-
         samples += np.bincount(cellIndicesForAllSamples, minlength=CELLCOUNT) # Collect one count of the satellite passing overhead.
 
         # Sample observation freeboard is the # of photon reads per cell over full time
         observations += np.bincount(cellIndicesForAllObservations, minlength=CELLCOUNT) # Collect all photon counts into bins using cell indices.
 
-        # Collecting all freeboard readings into a matrix
+        # Collecting all freeboard readings into a matrix for caculating the mean and standard deviation
         allFreeboard[fileIndex][cellIndicesForAllObservations] = freeBoardReadings[:]
 
         # for debugging - checking the latitudes and longitudes indexed
@@ -294,11 +302,6 @@ def main():
     print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
     print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
-    # # Model freeboard mean is 
-    # # Model freeboard standard deviation is
-    # # Model freeboard effective sample size is
-    # # Observation freeboard effective sample size is
-
     # ######################################
     # # CALCULATE FREEBOARD FROM THE MODEL #
     # ######################################
@@ -313,6 +316,11 @@ def main():
     # iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
     # iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
 
+    # # Model freeboard mean is 
+    # # Model freeboard standard deviation is
+    # # Model freeboard effective sample size is
+    # # Observation freeboard effective sample size is
+
     # startTime = modelData.variables[START_TIME_VARIABLE]
     # print("Days in that month:         ", startTime.shape[0])
 
@@ -324,18 +332,6 @@ def main():
     # print("Ice Area Cells shape:       ", iceAreaCells.shape)
 
     # # TODO: Future work could be to add the Freeboard variable to E3SM's variables
-
-    # def getThickness(gridCellAveragedThickness, iceConcentration):
-    #     """ Grid cell averaged thickness is the same as the sea ice volume variable in E3SM.
-    #     Concentration is the same as the sea ice area variable in E3SM.
-    #     volume / area of cell = height (thickness) 
-    #     """
-    #     return gridCellAveragedThickness / iceConcentration
-
-    # def getFreeboard(heightIce, heightSnow):
-    #     """Formula to calculate freeboard: hf = hi (pw-pi)/pw + hs (pw-ps)/pw.
-    #     Where p means density; h is height, w is water, i is ice, s is snow"""
-    #     return heightIce*(DENSITY_WATER-DENSITY_ICE)/DENSITY_WATER + heightSnow*(DENSITY_WATER-DENSITY_SNOW)/DENSITY_WATER
 
     # # Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
     # heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
