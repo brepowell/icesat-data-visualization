@@ -350,7 +350,7 @@ def main():
             iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
 
             modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
-            ConvertDateBytesToString(modelTime)
+            convertDateBytesToString(modelTime)
             print("Day in model", modelTime)
             
             print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
