@@ -14,6 +14,7 @@ from utility import *
 
 import glob
 from pathlib import Path
+from utility import *
 
 USER                = os. getlogin()                        #TODO: check if this is ok for Perlmutter
 SOURCE              = "SOME PATH NAME TO FILL IN LATER"     #TODO: make this dynamic
