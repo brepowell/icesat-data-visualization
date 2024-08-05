@@ -328,8 +328,9 @@ def main():
 
     print(daysList)
 
-    daysList = np.array(daysList)
-    daysList = np.unique(daysList, axis=1)
+    for row in daysList:
+        daysList[row] = np.array(daysList)
+        daysList[row] = np.unique(daysList)
 
     print(daysList)
     print("Shape of daysList: ", daysList.shape)
