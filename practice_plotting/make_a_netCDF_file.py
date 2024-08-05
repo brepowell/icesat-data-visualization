@@ -59,6 +59,11 @@ def getFileIndicesFromSynchronizerByYear(timeYear):
     year in specified in the config.py file. """
     return [i for i in range(len(timeYear)) if timeYear[i] == YEAR]
 
+# From https://www.geeksforgeeks.org/python-intersection-two-lists/#
+def intersection(lst1, lst2):
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3
+
 #TODO: Make sure the data types are correct; there should be an "f" after many of them (from Andrew's example file)
 def createVariableForNetCDF(ncfile, shortName, longName, vmax, vmin = 0.0, fillvalue = None, dtype = np.float64):
     """ Add a variable to the netCDF file. 
@@ -145,7 +150,12 @@ def main():
     timeClusters = np.array(timeCluster)
     print(timeClusters)
 
-    fileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters)
+    seasonFileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters)
+    print("Season file indices", seasonFileIndices)
+    yearFileIndices = getFileIndicesFromSynchronizerByYear(timeYear)
+    print("Year file indices", yearFileIndices)
+    fileIndices = intersection(seasonFileIndices, yearFileIndices)
+    print("Final indices", fileIndices)
 
     ########################
     # OPEN THE NETCDF FILE #
