@@ -150,11 +150,11 @@ def main():
     print("Number of satellite tracks in Synch file: ", fileCount)
     print("shape of timeCluster", timeCluster.shape)
     timeClusters = np.array(timeCluster)
-    print(timeClusters)
+    timeYears = np.array(timeYear)
 
     seasonFileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters)
     print("Season file indices", seasonFileIndices)
-    yearFileIndices = getFileIndicesFromSynchronizerByYear(timeYear)
+    yearFileIndices = getFileIndicesFromSynchronizerByYear(timeYears)
     print("Year file indices", yearFileIndices)
     fileIndices = intersection(seasonFileIndices, yearFileIndices)
     print("Final indices", fileIndices)
