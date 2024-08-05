@@ -17,8 +17,8 @@ from perlmutterpath import *
 #VARIABLETOPLOT      = "samplemf" # make sure to set VMAX
 #VARIABLETOPLOT      = "sampleof"
 #VARIABLETOPLOT       = "meanof"
-VARIABLETOPLOT       = "stdof"
-#VARIABLETOPLOT      = "meanmf"
+#VARIABLETOPLOT       = "stdof"
+VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
