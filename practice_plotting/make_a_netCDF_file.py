@@ -281,9 +281,12 @@ def main():
         # print("Length of lonCell", len(lonCell))
         # print("Longitude: ", satLon)
 
+    print("=== FINISHED GRABBING SATELLITE DATA === ")
+
     samplemf[:] = samples
     sampleof[:] = observations
 
+    print("===   CALCULATING MEANOF AND STDOF   === ")
     means = np.mean(allFreeboardFromSatelliteData, axis=0, dtype='float')
     stdDeviations = np.std(allFreeboardFromSatelliteData, axis=0, dtype='float')
 
@@ -325,10 +328,10 @@ def main():
 
     print(daysList)
 
-    #daysList = np.array(daysList)
-    #daysList = np.unique(daysList, axis=1)
+    daysList = np.array(daysList)
+    daysList = np.unique(daysList, axis=1)
 
-    #print(daysList)
+    print(daysList)
     print("Shape of daysList: ", daysList.shape)
 
     # #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
