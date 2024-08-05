@@ -333,7 +333,7 @@ def main():
     dayCount = sum(len(x) for x in daysList)
     print(daysList)
 
-    allFreeboardFromE3SM = np.zeros(dayCount, CELLCOUNT)
+    allFreeboardFromE3SM = np.zeros((dayCount, CELLCOUNT))
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
 
     for monthIndex, month in enumerate(months):
