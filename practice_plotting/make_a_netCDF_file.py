@@ -315,6 +315,7 @@ def main():
 
     # https://stackoverflow.com/questions/32471310/python-split-list-in-subsets-if-the-current-element-is-minor-than-previous-elem
     days = [i for i in range(1,len(days)) if days[i] < days[i-1]] #
+    print(days)
     [days[x:y] for x,y in zip([0]+days,days+[None])] # Slice by groups of days
     print(days)
     days = np.unique(days)
