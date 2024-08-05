@@ -4,6 +4,8 @@
 # See this great tutorial about writing netCDF files:
 # https://unidata.github.io/python-training/workshop/Bonus/netcdf-writing/
 
+# TODO: Future work could be to add the Freeboard variable to E3SM's variables
+
 import numpy as np
 from netCDF4 import Dataset
 from datetime import datetime
@@ -326,51 +328,42 @@ def main():
         temp.append(x)
         prev = x
 
-    print(daysList)
-
-    # Convert each row to a NumPy array and apply np.unique
+    # Just get unique days on the list of days
     daysList = [np.unique(np.array(row)) for row in daysList]
 
     print(daysList)
-    print("Shape of daysList: ", daysList.shape)
 
-    # #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
-    # #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
-    # modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(year) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
+    allFreeboardFromE3SM = np.zeros((len(daysList), CELLCOUNT))
 
-    # #modelData           = loadData(runDir, modelDailyDataFile)
-    # modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
-    # snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
-    # iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
-    # iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
+    for monthIndex, month in enumerate(months):
+        modelDailyDataFile = "v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily." + str(YEAR) + "-" + str(month).zfill(2) + "-"+ str(1).zfill(2) + ".nc"
+        
+        #modelData           = loadData(runDir, modelDailyDataFile) # LOCAL
+        modelData           = loadData(perlmutterpathDailyData, modelDailyDataFile) #PM
+
+        for dayIndex, day in enumerate(daysList[monthIndex]):
+            snowVolumeCells     = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_snowVolumeCell", dayNumber = day+1) 
+            iceVolumeCells      = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceVolumeCell", dayNumber = day+1)
+            iceAreaCells        = reduceToOneDay(modelData, keyVariableToPlot = "timeDaily_avg_iceAreaCell", dayNumber = day+1)
+
+            print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
+            print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
+            print("Ice Area Cells shape:       ", iceAreaCells.shape)
+
+            # Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
+            heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
+            heightSnowCells = getThickness(snowVolumeCells, iceAreaCells)
+            print("Ice Height Cells shape:     ",   heightIceCells.shape)
+            print("Snow Height Cells shape:    ",  heightSnowCells.shape)
+
+            allFreeboardFromE3SM[day][:] = getFreeboard(heightIceCells, heightSnowCells)
+
+    print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
 
     # # Model freeboard mean is 
     # # Model freeboard standard deviation is
     # # Model freeboard effective sample size is
     # # Observation freeboard effective sample size is
-
-    # startTime = modelData.variables[START_TIME_VARIABLE]
-    # print("Days in that month:         ", startTime.shape[0])
-
-    # modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
-    # convertDateBytesToString(modelTime)
-
-    # print("Snow Volume Cells shape:    ", snowVolumeCells.shape)
-    # print("Ice Volume Cells shape:     ", iceVolumeCells.shape)
-    # print("Ice Area Cells shape:       ", iceAreaCells.shape)
-
-    # # TODO: Future work could be to add the Freeboard variable to E3SM's variables
-
-    # # Freeboard = Sea Ice Thickness * (1 - Sea Ice Density / Seawater Density) + Snow Thickness (1 - Snow Density / Seawater Density)
-    # heightIceCells  = getThickness(iceVolumeCells, iceAreaCells)
-    # heightSnowCells = getThickness(snowVolumeCells, iceAreaCells)
-    # print("Ice Height Cells shape:     ",   heightIceCells.shape)
-    # print("Snow Height Cells shape:    ",  heightSnowCells.shape)
-
-    # # height ice + height snow = height water + height of freeboard
-    # # freeboard = ice thickness + snow height - water height (which is 0?)
-    # all_E3SM_freeboard = getFreeboard(heightIceCells, heightSnowCells)
-    # print("E3SM Freeboard - all cells: ", all_E3SM_freeboard.shape)
 
     # meanmf[:] = all_E3SM_freeboard
 
@@ -384,6 +377,12 @@ def main():
     # freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
     # print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
     # print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
+
+    # startTime = modelData.variables[START_TIME_VARIABLE]
+    # print("Days in that month:         ", startTime.shape[0])
+
+    # modelTime     = reduceToOneDay(modelData, keyVariableToPlot = START_TIME_VARIABLE, dayNumber = day+1)
+    # convertDateBytesToString(modelTime)
 
     # close the Dataset
     ncfile.close()
