@@ -22,6 +22,10 @@ DENSITY_WATER   = 1026
 DENSITY_ICE     = 917
 DENSITY_SNOW    = 330
 
+
+    #Clusters  1        2         3       4
+SEASONS = ["spring", "summer", "fall", "winter"]
+
 def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
     """ Loads the synchronizer file that is organized in chronological order
     returns arrays of the time details for each satellite track and the total number of files. """
@@ -42,6 +46,13 @@ def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
     fileCount = shapeOfSynchData[0]
 
     return fileCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian
+
+#TODO: figure this out on Monday
+def getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters):
+
+    indices = []
+    season = SEASONS.index(SEASON) + 1  # Seasons are 1, 2, 3, 4
+    return [i for i in range(len(timeClusters)) if timeClusters[i] == season]
 
 #TODO: Make sure the data types are correct; there should be an "f" after many of them (from Andrew's example file)
 def createVariableForNetCDF(ncfile, shortName, longName, vmax, vmin = 0.0, fillvalue = None, dtype = np.float64):
@@ -129,6 +140,8 @@ def main():
     timeClusters = np.array(timeCluster)
     print(timeClusters)
 
+    fileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters)
+
     ########################
     # OPEN THE NETCDF FILE #
     ########################
@@ -183,16 +196,15 @@ def main():
     # SATELLITE FILES #
     ###################
 
-    fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
-    #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON)       # All years, specific season
-    #fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
-    print("Files in list", fileList)
+    # fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
+    # #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON)       # All years, specific season
+    # #fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
+    # print("Files in list", fileList)
 
-    fileCount = len(fileList)
-    print("Number of files in the list: ", fileCount)
+    # fileCount = len(fileList)
+    # print("Number of files in the list: ", fileCount)
 
-    stoppingPoint = fileCount # for plotting all files in a season / year
-
+    #stoppingPoint = fileCount # for plotting all files in a season / year
     #stoppingPoint = 1 # for plotting just the first track
 
     samples      = np.zeros(CELLCOUNT)
@@ -204,7 +216,9 @@ def main():
 
     print("Shape of allFreeboard:   ", allFreeboard.shape)
 
-    for fileIndex in range(0, stoppingPoint):
+    #TODO: replace range(0, stoppingPoint) with an indices list.
+    #for fileIndex in range(0, stoppingPoint):
+    for fileIndex in fileIndices:
 
         satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
 
