@@ -61,7 +61,7 @@ def getFileIndicesFromSynchronizerByYear(timeYears):
     print("Year is ", YEAR)
     print(type(timeYears[0]))
     print(type(YEAR))
-    return [i for i in range(len(timeYears)) if timeYears[i] == YEAR]
+    return [i for i in range(len(timeYears)) if timeYears[i] == int(YEAR)]
 
 # From https://www.geeksforgeeks.org/python-intersection-two-lists/#
 def intersection(lst1, lst2):
