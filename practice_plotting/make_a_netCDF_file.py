@@ -49,10 +49,15 @@ def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
 
 #TODO: figure this out on Monday
 def getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters):
-
-    indices = []
+    """ Look at the seasonal cluster array from the synch file. Return the indices for the
+    season in specified in the config.py file. """
     season = SEASONS.index(SEASON) + 1  # Seasons are 1, 2, 3, 4
     return [i for i in range(len(timeClusters)) if timeClusters[i] == season]
+
+def getFileIndicesFromSynchronizerByYear(timeYear):
+    """ Look at the year array from the synch file. Return the indices for the
+    year in specified in the config.py file. """
+    return [i for i in range(len(timeYear)) if timeYear[i] == YEAR]
 
 #TODO: Make sure the data types are correct; there should be an "f" after many of them (from Andrew's example file)
 def createVariableForNetCDF(ncfile, shortName, longName, vmax, vmin = 0.0, fillvalue = None, dtype = np.float64):
@@ -196,17 +201,6 @@ def main():
     # SATELLITE FILES #
     ###################
 
-    # fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON, YEAR) # For a specific year
-    # #fileList = returnListOfSatFileNamesBySeasonAndYear(SEASON)       # All years, specific season
-    # #fileList = returnListOfSatFileNamesBySeasonAndYear()             # All years, all seasons
-    # print("Files in list", fileList)
-
-    # fileCount = len(fileList)
-    # print("Number of files in the list: ", fileCount)
-
-    #stoppingPoint = fileCount # for plotting all files in a season / year
-    #stoppingPoint = 1 # for plotting just the first track
-
     samples      = np.zeros(CELLCOUNT)
     observations = np.zeros(CELLCOUNT)
     allFreeboard = np.zeros((fileCount, CELLCOUNT)) 
@@ -216,8 +210,6 @@ def main():
 
     print("Shape of allFreeboard:   ", allFreeboard.shape)
 
-    #TODO: replace range(0, stoppingPoint) with an indices list.
-    #for fileIndex in range(0, stoppingPoint):
     for fileIndex in fileIndices:
 
         satelliteFileName, previousday, dayCount = loadOneSatFile(fileIndex, previousday, dayCount, timeStrings, timeCluster, timeYear, timeMonth, timeDay, timeHour, timeGregorian)
