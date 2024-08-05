@@ -308,9 +308,18 @@ def main():
     # ######################################
 
     months = np.array(timeMonth[fileIndices])
+    months = np.unique(months) # Removing duplicate months
     print(months)
+
     days = np.array(timeDay[fileIndices])
+
+    # https://stackoverflow.com/questions/32471310/python-split-list-in-subsets-if-the-current-element-is-minor-than-previous-elem
+    days = [i for i in range(1,len(days)) if days[i] < days[i-1]] #
+    [days[x:y] for x,y in zip([0]+days,days+[None])] # Slice by groups of days
     print(days)
+    days = np.unique(days)
+    print(days)
+    print("Shape of days: ", days.shape)
 
     # #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
     # #modelDailyDataFile  = r"v3.LR.historical_0051.mpassi.hist.am.timeSeriesStatsDaily.2008-02-01.nc" #PM
