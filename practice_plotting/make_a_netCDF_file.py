@@ -323,10 +323,12 @@ def main():
         temp.append(x)
         prev = x
 
-    daysList = np.array(daysList)
-    daysList = np.unique(daysList, axis=1)
-
     print(daysList)
+
+    #daysList = np.array(daysList)
+    #daysList = np.unique(daysList, axis=1)
+
+    #print(daysList)
     print("Shape of daysList: ", daysList.shape)
 
     # #modelDailyDataFile  = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"
