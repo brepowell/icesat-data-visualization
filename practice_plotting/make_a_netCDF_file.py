@@ -366,9 +366,10 @@ def main():
             allFreeboardFromE3SM[day][:] = getFreeboard(heightIceCells, heightSnowCells)
 
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
+    freeBoardAlongSatelliteTracks = np.zeros((dayCount+1, CELLCOUNT)) 
 
     print("\n=====   ALONG TRACK   ======")
-    freeBoardAlongSatelliteTracks = allFreeboardFromE3SM[cellIndicesForAllSamples][:]
+    freeBoardAlongSatelliteTracks[:][cellIndicesForAllSamples] = allFreeboardFromE3SM[:][cellIndicesForAllSamples]
     print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
     print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
 
