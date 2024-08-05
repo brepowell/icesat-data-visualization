@@ -367,9 +367,14 @@ def main():
 
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
 
+    print("\n=====   ALONG TRACK   ======")
+    freeBoardAlongSatelliteTracks = allFreeboardFromE3SM[:][cellIndicesForAllSamples]
+    print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
+    print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
+
     print("===   CALCULATING MEANMF AND STDMF   === ")
-    e3smMeans = np.mean(allFreeboardFromE3SM, axis=0, dtype='float')
-    e3smStdDeviations = np.std(allFreeboardFromE3SM, axis=0, dtype='float')
+    e3smMeans = np.mean(freeBoardAlongSatelliteTracks, axis=0, dtype='float')
+    e3smStdDeviations = np.std(freeBoardAlongSatelliteTracks, axis=0, dtype='float')
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
@@ -384,11 +389,6 @@ def main():
     print("\n=====   MODEL VARIABLES   ======")
     print("Meanmf   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
     print("Stdmf    Min/Max values:", stdmf[:].min(),    stdmf[:].max())
-
-    # print("\n=====   ALONG TRACK   ======")
-    # freeBoardAlongSatelliteTracks = all_E3SM_freeboard[cellIndicesForAllSamples]
-    # print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
-    # print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
 
     # close the Dataset
     ncfile.close()
