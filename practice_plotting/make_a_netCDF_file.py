@@ -59,8 +59,6 @@ def getFileIndicesFromSynchronizerByYear(timeYears):
     """ Look at the year array from the synch file. Return the indices for the
     year in specified in the config.py file. """
     print("Year is ", YEAR)
-    print(type(timeYears[0]))
-    print(type(YEAR))
     return [i for i in range(len(timeYears)) if timeYears[i] == int(YEAR)]
 
 # From https://www.geeksforgeeks.org/python-intersection-two-lists/#
@@ -154,12 +152,10 @@ def main():
     timeClusters = np.array(timeCluster)
     timeYears = np.array(timeYear)
 
+    # Get all file indices by season and by year; find the intersection of those lists
     seasonFileIndices = getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters)
-    print("Season file indices", seasonFileIndices)
     yearFileIndices = getFileIndicesFromSynchronizerByYear(timeYears)
-    print("Year file indices", yearFileIndices)
     fileIndices = intersection(seasonFileIndices, yearFileIndices)
-    print("Final indices", fileIndices)
 
     ########################
     # OPEN THE NETCDF FILE #
