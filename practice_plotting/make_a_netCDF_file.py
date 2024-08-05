@@ -51,15 +51,17 @@ def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
 def getFileIndicesFromSynchronizerBySeasonalCluster(timeClusters):
     """ Look at the seasonal cluster array from the synch file. Return the indices for the
     season in specified in the config.py file. """
+    print("Season is ", SEASON)
     season = SEASONS.index(SEASON) + 1  # Seasons are 1, 2, 3, 4
     return [i for i in range(len(timeClusters)) if timeClusters[i] == season]
 
-def getFileIndicesFromSynchronizerByYear(timeYear):
+def getFileIndicesFromSynchronizerByYear(timeYears):
     """ Look at the year array from the synch file. Return the indices for the
     year in specified in the config.py file. """
-    print(timeYear)
-
-    return [i for i in range(len(timeYear)) if timeYear[i] == YEAR]
+    print("Year is ", YEAR)
+    print(type(timeYears[0]))
+    print(type(YEAR))
+    return [i for i in range(len(timeYears)) if timeYears[i] == YEAR]
 
 # From https://www.geeksforgeeks.org/python-intersection-two-lists/#
 def intersection(lst1, lst2):
