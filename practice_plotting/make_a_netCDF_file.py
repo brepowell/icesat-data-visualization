@@ -370,7 +370,8 @@ def main():
 
     # TODO: FIGURE THIS OUT TOMORROW
     print("\n=====   ALONG TRACK   ======")
-    freeBoardAlongSatelliteTracks[:][cellIndicesForAllSamples] = allFreeboardFromE3SM[:][cellIndicesForAllSamples]
+    freeBoardAlongSatelliteTracks = allFreeboardFromE3SM[:, cellIndicesForAllSamples]
+    
     print("Shape of freeBoardAlongSatelliteTracks: ", freeBoardAlongSatelliteTracks.shape)
     print("E3SM Freeboard - along satellite track", freeBoardAlongSatelliteTracks)
 
