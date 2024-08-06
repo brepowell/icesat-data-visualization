@@ -21,9 +21,11 @@ VARIABLETOPLOT       = "meanof"
 #VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
-START_TIME_VARIABLE = "xtime_startDaily"
+#START_TIME_VARIABLE = "xtime_startDaily"
+START_TIME_VARIABLE = "time_string"
 END_TIME_VARIABLE   = ""
 TIMEVARIABLE        = "time"
+
 LATITUDEVARIABLE    = "latCell"    #latitude
 LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
