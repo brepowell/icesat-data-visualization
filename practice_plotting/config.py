@@ -16,9 +16,9 @@ from perlmutterpath import *
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "samplemf" # make sure to set VMAX
 #VARIABLETOPLOT      = "sampleof"
-#VARIABLETOPLOT       = "meanof"
+VARIABLETOPLOT       = "meanof"
 #VARIABLETOPLOT       = "stdof"
-VARIABLETOPLOT      = "meanmf"
+#VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
 START_TIME_VARIABLE = "xtime_startDaily"
@@ -28,8 +28,8 @@ LATITUDEVARIABLE    = "latCell"    #latitude
 LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
-SEASON              = "fall"
-YEAR                = "2008"
+SEASON              = ""        # spring or fall
+YEAR                = "2008"    # 2003 to 2008
 NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
 #NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
 
@@ -53,9 +53,9 @@ VMIN = 0
 #VMAX = 25     # samplemf for spring 2003 - there are not many cells that go above 45 samples;
 #VMAX = 15000  # sampleof for ALL FILES - the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000   # sampleof for spring 2003
-#VMAX = 0.01   # meanof
+VMAX = 0.01   # meanof
 #VMAX = 0.2    # stdof
-VMAX = 0.9   # meanmf fall 2003 
+#VMAX = 0.9   # meanmf fall 2003 
 #VMAX = 0.25  # stdof fall 2003
 
 # Animation speed
@@ -96,7 +96,7 @@ subdirectory = "" # Use for make_a_netCDF_file.py
 FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
-animationFileName   = "animation.gif"                # Should be a .gif extension
+animationFileName   = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.gif"                # Should be a .gif extension
 mapImageFileName = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
 #mapImageFileName    = "samplemf_all_time.png"             # Should be a .png file extension
 
