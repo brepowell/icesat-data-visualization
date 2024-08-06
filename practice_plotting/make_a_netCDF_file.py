@@ -401,6 +401,11 @@ def main():
     print("Meanmf   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
     print("Stdmf    Min/Max values:", stdmf[:].min(),    stdmf[:].max())
 
+    time_string = ncfile.createVariable("time_string", str, ('nCells',))
+    time_string.long_name = "The season and year for this data"
+
+    time_string[:] = [f"{SEASON} {YEAR}"]
+
     # close the Dataset
     ncfile.close()
     print('Dataset is closed!')
