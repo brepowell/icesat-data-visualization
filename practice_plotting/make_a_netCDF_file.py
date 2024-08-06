@@ -370,6 +370,7 @@ def main():
             print("Ice Height Cells shape:     ",   heightIceCells.shape)
             print("Snow Height Cells shape:    ",  heightSnowCells.shape)
 
+            print("Shape of allFreeboardFromE3SM", allFreeboardFromE3SM.shape)
             allFreeboardFromE3SM[day][:] = getFreeboard(heightIceCells, heightSnowCells)
 
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
