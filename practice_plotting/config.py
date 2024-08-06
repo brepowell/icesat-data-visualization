@@ -28,8 +28,8 @@ LATITUDEVARIABLE    = "latCell"    #latitude
 LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
-SEASON              = "fall"
-YEAR                = "2008"
+SEASON              = "spring"
+YEAR                = "2004"
 NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
 #NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
 
