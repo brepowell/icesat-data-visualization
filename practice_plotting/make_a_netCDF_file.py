@@ -337,7 +337,7 @@ def main():
     dayCount = sum(len(x) for x in daysList)
     print(daysList)
 
-    if(YEAR in LEAPYEARS):
+    if(SEASON == "spring" and YEAR in LEAPYEARS):
         daysList[0] = daysList[0][:-1]
         dayCount -= 1
 
