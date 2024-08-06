@@ -338,7 +338,7 @@ def main():
     print(daysList)
 
     if(YEAR in LEAPYEARS):
-        np.delete(daysList[0][-1])
+        daysList[0] = daysList[0][:-1]
         dayCount -= 1
 
     allFreeboardFromE3SM = np.zeros((dayCount+1, CELLCOUNT))
