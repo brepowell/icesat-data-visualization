@@ -371,7 +371,7 @@ def main():
             print("Snow Height Cells shape:    ",  heightSnowCells.shape)
 
             print("Shape of allFreeboardFromE3SM", allFreeboardFromE3SM.shape)
-            allFreeboardFromE3SM[day][:] = getFreeboard(heightIceCells, heightSnowCells)
+            allFreeboardFromE3SM[dayIndex][:] = getFreeboard(heightIceCells, heightSnowCells) #changed from day to dayIndex to see if that helps
 
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
     freeBoardAlongSatelliteTracks = np.zeros((dayCount+1, CELLCOUNT)) 
