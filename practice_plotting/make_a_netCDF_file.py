@@ -28,6 +28,9 @@ DENSITY_SNOW    = 330
     #Clusters  1        2         3       4
 SEASONS = ["spring", "summer", "fall", "winter"]
 
+#TODO: Make this dynamic
+LEAPYEARS = ["2004"]
+
 def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
     """ Loads the synchronizer file that is organized in chronological order.
     Returns arrays of the time details for each satellite track and the total number of files. """
@@ -333,6 +336,10 @@ def main():
     daysList = [np.unique(np.array(row)) for row in daysList]
     dayCount = sum(len(x) for x in daysList)
     print(daysList)
+
+    if(YEAR in LEAPYEARS):
+        np.delete(daysList[0][-1])
+        dayCount -= 1
 
     allFreeboardFromE3SM = np.zeros((dayCount+1, CELLCOUNT))
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
