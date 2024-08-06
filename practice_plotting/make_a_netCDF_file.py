@@ -7,6 +7,7 @@
 # TODO: Future work could be to add the Freeboard variable to E3SM's variables
 
 import numpy as np
+import netCDF4 as nc
 from netCDF4 import Dataset
 from datetime import datetime
 import os
@@ -303,7 +304,7 @@ def main():
 
     print("Number of days", dayCount)
 
-    # # Read data back from variable, print min and max
+    # Read data back from variable, print min and max
     print("===== SATELLITE VARIABLES ======")
     print("Shape of samplemf", samplemf[:].shape)
     print("Shape of sampleof", sampleof[:].shape)
@@ -312,9 +313,9 @@ def main():
     print("Meanof   Min/Max values:", meanof[:].min(),   meanof[:].max())
     print("Stdof    Min/Max values:", stdof[:].min(),    stdof[:].max())
 
-    # ######################################
-    # # CALCULATE FREEBOARD FROM THE MODEL #
-    # ######################################
+    ######################################
+    # CALCULATE FREEBOARD FROM THE MODEL #
+    ######################################
 
     months = np.array(timeMonth[fileIndices])
     months = np.unique(months) # Removing duplicate months
@@ -376,7 +377,6 @@ def main():
     print("E3SM Freeboard - all cells: ", allFreeboardFromE3SM.shape)
     freeBoardAlongSatelliteTracks = np.zeros((dayCount+1, CELLCOUNT)) 
 
-    # TODO: FIGURE THIS OUT TOMORROW
     print("\n=====   ALONG TRACK   ======")
     freeBoardAlongSatelliteTracks[:, cellIndicesForAllSamples] = allFreeboardFromE3SM[:, cellIndicesForAllSamples]
 
@@ -401,11 +401,19 @@ def main():
     print("Meanmf   Min/Max values:", meanmf[:].min(),   meanmf[:].max())
     print("Stdmf    Min/Max values:", stdmf[:].min(),    stdmf[:].max())
 
-    time_dim = ncfile.createDimension('time', None)
-    time_string = ncfile.createVariable("time_string", str, ('time',))
+    # Define the time_string variable with a character dimension
+    max_str_len = 12  # maximum length of your time strings
+    time_string = ncfile.createVariable("time_string", 'S1', ('time', 'str_len'))
     time_string.long_name = "The season and year for this data"
 
-    time_string[:] = [f"{SEASON} {YEAR}"]
+    # Add the character dimension
+    ncfile.createDimension('str_len', max_str_len)
+
+    time_str = f"{SEASON} {YEAR}"
+    time_char_array = nc.stringtochar(np.array([time_str], 'S{}'.format(max_str_len)))
+
+    # Assign the character array to the time_string variable
+    time_string[0, :] = time_char_array
 
     # close the Dataset
     ncfile.close()
