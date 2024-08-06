@@ -87,11 +87,13 @@ SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.
 #outputFileName = r"\new.nc" # Satellite emulator
 outputFileName = f"/{NEW_NETCDF_FILE_NAME}" # Satellite emulator on PM
 
-subdirectory = "" # Use for make_a_netCDF_file.py
+#subdirectory = "" # Use when running make_a_netCDF_file.py
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 #subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
+subdirectory = r"/2003_to_2008_fall/"
+
 
 FULL_PATH = runDir + subdirectory
 
