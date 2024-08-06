@@ -29,7 +29,7 @@ DENSITY_SNOW    = 330
 SEASONS = ["spring", "summer", "fall", "winter"]
 
 #TODO: Make this dynamic
-LEAPYEARS = ["2004"]
+LEAPYEARS = ["2004", "2008"]
 
 def loadSynchronizer(synchronizerFile=SYNCH_FILE_NAME):
     """ Loads the synchronizer file that is organized in chronological order.
