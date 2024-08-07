@@ -47,6 +47,7 @@ def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, outp
                                                                            latCell, lonCell, variableForOneDay, 
                                                                            mapImageFileName, 0,0,0,0,0,0)
         artists.append([northPoleScatter, southPoleScatter, textBox])
+        print("Day: ", i)
 
     if colorbar:
         plt.colorbar(northPoleScatter, ax=northMap)
