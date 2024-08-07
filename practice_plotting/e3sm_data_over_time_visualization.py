@@ -116,7 +116,8 @@ def animateNorthAndSouthFromMultipleFiles():
     """ Reads in a subdirectory of files and maps those on a scatterplot 
     of the north and south poles. Make sure that the subdirectory to the folder containing
     all the data files is specified in the config file. """
-    files = gatherFiles(0)
+    files = gatherFiles(0, subdirectory+file)
+    #files = gatherFiles(0)
     files.sort()
     print("Sorted: ", files)
 
