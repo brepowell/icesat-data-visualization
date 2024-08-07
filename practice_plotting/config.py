@@ -30,8 +30,8 @@ LATITUDEVARIABLE    = "latCell"    #latitude
 LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
-SEASON              = "spring"        # spring or fall
-YEAR                = "2008"    # 2003 to 2008
+SEASON              = "fall"        # spring or fall
+YEAR                = "2003"    # 2003 to 2008
 NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
 #NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
 
@@ -102,7 +102,7 @@ subdirectory = r"/2003_to_2008_spring/"
 FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
-animationFileName   = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.gif"                # Should be a .gif extension
+animationFileName   = f"{VARIABLETOPLOT}_{SEASON}_2003_to_{YEAR}.gif"                # Should be a .gif extension
 mapImageFileName    = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
 #mapImageFileName    = "samplemf_all_time.png"             # Should be a .png file extension
 
