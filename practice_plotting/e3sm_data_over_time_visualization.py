@@ -108,7 +108,7 @@ def animateNorth(runDir, meshFileName, outputFileName):
     addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
     return fig, generateArtistsNorth(fig, northMap, latCell, lonCell, output, mapImageFileName, days, artists) 
     
-def animateFromMultipleFiles():
+def animateNorthAndSouthFromMultipleFiles():
     """ Reads in a subdirectory of files and maps those on a scatterplot 
     of the north and south poles. Make sure that the subdirectory to the folder containing
     all the data files is specified in the config file. """
@@ -136,11 +136,40 @@ def animateFromMultipleFiles():
             
     return fig, artists
 
+def animateNorthFromMultipleFiles():
+    """ Reads in a subdirectory of files and maps those on a scatterplot 
+    of the north and south poles. Make sure that the subdirectory to the folder containing
+    all the data files is specified in the config file. """
+    files = gatherFiles(0)
+    artists = []
+
+    fig, northMap = generateNorthPoleAxes()
+    addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
+    addColorBar = False
+
+    for file in files:
+        latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, subdirectory+file)
+        
+        # This conditional ensures the colorbar is added only once.
+        if not addColorBar:
+            artists.extend(generateArtistsNorth(
+                fig, northMap, latCell, lonCell, output, 
+                mapImageFileName, days, artists, colorBar=True))
+            
+            addColorBar = True
+        else:
+            artists.extend(generateArtistsNorth(
+                fig, northMap, latCell, lonCell, output, 
+                mapImageFileName, days, artists, colorBar=False))
+            
+    return fig, artists
+
 def main():
 
     startTime = time.time()
     #fig, artists = animateNorthAndSouth(runDir, meshFileName, outputFileName)
-    fig, artists = animateFromMultipleFiles()
+    #fig, artists = animateNorthAndSouthFromMultipleFiles()
+    fig, artists = animateNorthFromMultipleFiles()
     saveAnimation(fig, artists, animationFileName)
     endTime = time.time()
     print("It took this much time: ", endTime-startTime)

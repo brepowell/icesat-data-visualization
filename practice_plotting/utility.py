@@ -57,10 +57,12 @@ def reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=0):
     of the latCell and lonCell. """
     
     variableForAllDays = output.variables[keyVariableToPlot][:]
-    variableToPlot1Day = variableForAllDays[dayNumber,:]                                     
-    # print("variableToPlot1Day", variableToPlot1Day[0:5])
 
-    return variableToPlot1Day
+    # Check if the variable is one-dimensional
+    if variableForAllDays.ndim != 1:
+        return variableForAllDays[dayNumber,:]
+    else:
+        return variableForAllDays[:]
 
 def gatherFiles(useFullPath = True, path = FULL_PATH):
     """ Use the subdirectory specified in the config file. 
