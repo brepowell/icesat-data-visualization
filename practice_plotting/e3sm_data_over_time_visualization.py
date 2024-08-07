@@ -67,7 +67,7 @@ def generateArtistsNorth(fig, northMap, latCell, lonCell, output,
     timeList = printDateTime(output, timeStringVariable=START_TIME_VARIABLE, days=days)
     
     for i in range(days):
-        textBoxString = "Time: " + str(timeList[i])
+        textBoxString = "Time: " + str(timeList) # changed from timeList[i]
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
                 verticalalignment='top', bbox=boxStyling)
         variableForOneDay = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=i)
