@@ -15,9 +15,6 @@ def loadMesh(runDir, meshFileName):
     latCell = np.degrees(dataset.variables['latCell'][:]) 
     lonCell = np.degrees(dataset.variables['lonCell'][:])
 
-    # latCell = dataset.variables['latCell'][:]
-    # lonCell = dataset.variables['lonCell'][:]
-
     return latCell, lonCell
 
 def loadData(runDir, outputFileName):
@@ -42,16 +39,15 @@ def getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT):
     variableForAllDays = output.variables[keyVariableToPlot][:]
     return variableForAllDays.shape[0]
 
-def getOneRow(output, keyVariableToPlot=VARIABLETOPLOT):
-    variableForAllDays = output.variables[keyVariableToPlot][:]
-    return variableForAllDays
-
 def loadAllDays(runDir, meshFileName, outputFileName):
     """ Load the mesh and data to plot. """
     latCell, lonCell    = loadMesh(runDir, meshFileName)
     output              = loadData(runDir, outputFileName)
-    #days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
-    days                = 1
+
+    days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+
+    # TODO: For the netCDF make this not hard coded
+    #days                = 1
 
     return latCell, lonCell, output, days
 
