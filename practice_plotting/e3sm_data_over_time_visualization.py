@@ -134,8 +134,9 @@ def animateNorthAndSouthFromMultipleFiles():
         if fileIndex == fileMax:
             return fig, artists
 
-        latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, subdirectory+file)
-        
+        #latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, subdirectory+file)
+        latCell, lonCell, output, days = loadAllDays("", meshFileName, subdirectory+file)
+
         # This conditional ensures the colorbar is added only once.
         if not addColorBar:
             artists = generateArtistsNorthAndSouth(
