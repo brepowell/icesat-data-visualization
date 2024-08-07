@@ -116,6 +116,10 @@ def animateNorthAndSouthFromMultipleFiles():
     of the north and south poles. Make sure that the subdirectory to the folder containing
     all the data files is specified in the config file. """
     files = gatherFiles(0)
+
+    files = files.sort()
+    print("Sorted: ", files)
+
     artists = []
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
     addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
@@ -136,6 +140,8 @@ def animateNorthAndSouthFromMultipleFiles():
             artists = generateArtistsNorthAndSouth(
                 fig, northMap, southMap, latCell, lonCell, output, 
                 mapImageFileName, days, artists, colorbar=False)
+            
+        print("Length of Artists: ", len(artists))
             
     return fig, artists
 
