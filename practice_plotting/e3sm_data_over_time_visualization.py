@@ -64,16 +64,17 @@ def generateArtistsNorth(fig, northMap, latCell, lonCell, output,
     list of artists for the matplotlib Animation package. """
 
     # Get list of all days / time values to plot that exist in one .nc file
-    timeList = printDateTime(output, timeStringVariable=START_TIME_VARIABLE, days=days)
+    timeString = printDateTime(output)
     
     for i in range(days):
-        textBoxString = "Time: " + str(timeList) # changed from timeList[i]
+        textBoxString = "Time: " + str(timeString) # changed from timeList[i]
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
                 verticalalignment='top', bbox=boxStyling)
         variableForOneDay = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=i)
         northPoleScatter = generateNorthPoleMap(fig, northMap, 
                                                                            latCell, lonCell, variableForOneDay, 
                                                                            mapImageFileName, 0,0,0,0,0,0)
+        print("generated scatter plot", i)
         artists.append([northPoleScatter, textBox])
 
     if colorbar:

@@ -405,7 +405,7 @@ def main():
     time_string = ncfile.createVariable("time_string", "S1", ('time',))
     time_string.long_name = "The season and year for this data"
 
-    time_string[:] = [f"{SEASON} {YEAR}"]
+    time_string[:] = [f"{YEAR[-1]}"]
 
     # close the Dataset
     ncfile.close()

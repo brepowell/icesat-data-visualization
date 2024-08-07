@@ -42,11 +42,16 @@ def getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT):
     variableForAllDays = output.variables[keyVariableToPlot][:]
     return variableForAllDays.shape[0]
 
+def getOneRow(output, keyVariableToPlot=VARIABLETOPLOT):
+    variableForAllDays = output.variables[keyVariableToPlot][:]
+    return variableForAllDays
+
 def loadAllDays(runDir, meshFileName, outputFileName):
     """ Load the mesh and data to plot. """
     latCell, lonCell    = loadMesh(runDir, meshFileName)
     output              = loadData(runDir, outputFileName)
-    days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+    #days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
+    days                = 1
 
     return latCell, lonCell, output, days
 
