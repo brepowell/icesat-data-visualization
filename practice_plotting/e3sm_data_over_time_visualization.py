@@ -117,6 +117,7 @@ def animateNorthAndSouthFromMultipleFiles():
     of the north and south poles. Make sure that the subdirectory to the folder containing
     all the data files is specified in the config file. """
     temp = gatherFiles(0)
+    print(type(temp[0]))
 
     files = temp.sort()
     print("Sorted: ", files)
