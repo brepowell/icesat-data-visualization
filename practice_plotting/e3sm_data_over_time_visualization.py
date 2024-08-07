@@ -28,7 +28,7 @@ def saveAnimation(fig, artists, animationFileName, interval=INTERVALS):
     print("Saved .gif")
 
 def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, output, 
-                         mapImageFileName, days, artists, colorBar = True):
+                         mapImageFileName, days, artists, colorbar = True):
     """ For the north and south pole,
     this will make a scatter plot and time stamp per timestep of data in one .nc file.
     Cycle through each day in one output file and map a scatter plot of that full range of days.
@@ -48,7 +48,7 @@ def generateArtistsNorthAndSouth(fig, northMap, southMap, latCell, lonCell, outp
                                                                            mapImageFileName, 0,0,0,0,0,0)
         artists.append([northPoleScatter, southPoleScatter, textBox])
 
-    if colorBar:
+    if colorbar:
         plt.colorbar(northPoleScatter, ax=northMap)
         plt.colorbar(southPoleScatter, ax=southMap)
 
@@ -126,13 +126,13 @@ def animateNorthAndSouthFromMultipleFiles():
         if not addColorBar:
             artists.extend(generateArtistsNorthAndSouth(
                 fig, northMap, southMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorBar=True))
+                mapImageFileName, days, artists, colorbar=True))
             
             addColorBar = True
         else:
             artists.extend(generateArtistsNorthAndSouth(
                 fig, northMap, southMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorBar=False))
+                mapImageFileName, days, artists, colorbar=False))
             
     return fig, artists
 
@@ -154,13 +154,13 @@ def animateNorthFromMultipleFiles():
         if not addColorBar:
             artists.extend(generateArtistsNorth(
                 fig, northMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorBar=True))
+                mapImageFileName, days, artists, colorbar=True))
             
             addColorBar = True
         else:
             artists.extend(generateArtistsNorth(
                 fig, northMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorBar=False))
+                mapImageFileName, days, artists, colorbar=False))
             
     return fig, artists
 
