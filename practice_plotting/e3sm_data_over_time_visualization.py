@@ -67,7 +67,7 @@ def generateArtistsNorth(fig, northMap, latCell, lonCell, output,
     timeString = printDateTime(output)
     
     for i in range(days):
-        textBoxString = "Time: " + str(timeString) # changed from timeList[i]
+        textBoxString = "Time: Spring 200" + str(timeString) # changed from timeList[i]
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
                 verticalalignment='top', bbox=boxStyling)
         variableForOneDay = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=i)
@@ -153,15 +153,15 @@ def animateNorthFromMultipleFiles():
         
         # This conditional ensures the colorbar is added only once.
         if not addColorBar:
-            artists.extend(generateArtistsNorth(
+            artists = generateArtistsNorth(
                 fig, northMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorbar=True))
+                mapImageFileName, days, artists, colorbar=True)
             
             addColorBar = True
         else:
-            artists.extend(generateArtistsNorth(
+            artists = generateArtistsNorth(
                 fig, northMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorbar=False))
+                mapImageFileName, days, artists, colorbar=False)
             
     return fig, artists
 
