@@ -63,11 +63,13 @@ def generateArtistsNorth(fig, northMap, latCell, lonCell, output,
     It uses generateNorthandSouthPoleMaps to generate scatterplots to append to a 
     list of artists for the matplotlib Animation package. """
 
+    #TODO - FIX ANY HARD CODING
+
     # Get list of all days / time values to plot that exist in one .nc file
     timeString = printDateTime(output)
     
     for i in range(days):
-        textBoxString = "Time: Spring 200" + str(timeString) # changed from timeList[i]
+        textBoxString = f"Time: {(SEASON).title()} 200" + str(timeString) # changed from timeList[i]
         textBox = northMap.text(0.05, 0.95, textBoxString, transform=northMap.transAxes, fontsize=14,
                 verticalalignment='top', bbox=boxStyling)
         variableForOneDay = reduceToOneDay(output, keyVariableToPlot=VARIABLETOPLOT, dayNumber=i)
@@ -125,15 +127,15 @@ def animateNorthAndSouthFromMultipleFiles():
         
         # This conditional ensures the colorbar is added only once.
         if not addColorBar:
-            artists.extend(generateArtistsNorthAndSouth(
+            artists = generateArtistsNorthAndSouth(
                 fig, northMap, southMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorbar=True))
+                mapImageFileName, days, artists, colorbar=True)
             
             addColorBar = True
         else:
-            artists.extend(generateArtistsNorthAndSouth(
+            artists = generateArtistsNorthAndSouth(
                 fig, northMap, southMap, latCell, lonCell, output, 
-                mapImageFileName, days, artists, colorbar=False))
+                mapImageFileName, days, artists, colorbar=False)
             
     return fig, artists
 
@@ -169,8 +171,8 @@ def main():
 
     startTime = time.time()
     #fig, artists = animateNorthAndSouth(runDir, meshFileName, outputFileName)
-    #fig, artists = animateNorthAndSouthFromMultipleFiles()
-    fig, artists = animateNorthFromMultipleFiles()
+    fig, artists = animateNorthAndSouthFromMultipleFiles()
+    #fig, artists = animateNorthFromMultipleFiles()
     saveAnimation(fig, artists, animationFileName)
     endTime = time.time()
     print("It took this much time: ", endTime-startTime)

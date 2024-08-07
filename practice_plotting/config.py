@@ -16,8 +16,8 @@ from perlmutterpath import *
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "samplemf" # make sure to set VMAX
 #VARIABLETOPLOT      = "sampleof"
-VARIABLETOPLOT       = "meanof"
-#VARIABLETOPLOT       = "stdof"
+#VARIABLETOPLOT       = "meanof"
+VARIABLETOPLOT       = "stdof"
 #VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
@@ -30,7 +30,7 @@ LATITUDEVARIABLE    = "latCell"    #latitude
 LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
-SEASON              = "fall"        # spring or fall
+SEASON              = "spring"        # spring or fall
 YEAR                = "2008"    # 2003 to 2008
 NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
 #NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
@@ -56,8 +56,8 @@ VMIN = 0
 #VMAX = 25     # samplemf for spring 2003 - there are not many cells that go above 45 samples;
 #VMAX = 15000  # sampleof for ALL FILES - the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000   # sampleof for spring 2003
-VMAX = 0.001   # meanof
-#VMAX = 0.2    # stdof
+#VMAX = 0.001   # meanof - spring 2003 to 2008
+VMAX = 0.04    # stdof - spring 2003 to 2008
 #VMAX = 0.9   # meanmf fall 2003 
 #VMAX = 0.25  # stdof fall 2003
 
@@ -71,15 +71,15 @@ INTERVALS = 250
 ################
 
 #runDir = ""
-#runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-runDir = perlmutterpath1 # For perlmutter (PM) only
+runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+#runDir = perlmutterpath1 # For perlmutter (PM) only
 
 # Change these for different runs if you want to grab other .nc files
 
 #meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
-#meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"  # for satellite emulator
+meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"  # for satellite emulator
 #meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc" # for PM Perlmutter for the 1 year mesh
-meshFileName = perlmutterpathMesh # for PM
+#meshFileName = perlmutterpathMesh # for PM
 
 #SYNCH_FILE_NAME = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
 SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
@@ -96,7 +96,7 @@ outputFileName = f"/{NEW_NETCDF_FILE_NAME}" # Satellite emulator on PM
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 #subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
-subdirectory = r"/2003_to_2008_fall/"
+subdirectory = f"/2003_to_2008_{SEASON}/"
 #subdirectory = r"/2003_to_2008_spring/"
 
 FULL_PATH = runDir + subdirectory
