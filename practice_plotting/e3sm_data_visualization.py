@@ -155,7 +155,7 @@ def generateNorthandSouthPoleMaps(fig, northMap, southMap, latCell, lonCell, var
     plt.suptitle(MAP_SUPTITLE_TOP, size="x-large", fontweight="bold")
 
     # Save the maps as an image.
-    plt.savefig(mapImageFileName)
+    #plt.savefig(mapImageFileName) # TODO: ADD THIS BACK IN. TRYING TO SAVE TIME ON PLOTTING 1 YEAR
 
     return northPoleScatter, southPoleScatter
 
