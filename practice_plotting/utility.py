@@ -43,7 +43,7 @@ def loadAllDays(runDir, meshFileName, outputFileName):
     """ Load the mesh and data to plot. """
     latCell, lonCell    = loadMesh(runDir, meshFileName)
     #output              = loadData(runDir, outputFileName) # TODO MAKE THIS DYNAMIC
-    output              = loadData(subdirectory, outputFileName)
+    output              = loadData("", outputFileName)
 
     days                = getNumberOfDays(output, keyVariableToPlot=VARIABLETOPLOT)
 
