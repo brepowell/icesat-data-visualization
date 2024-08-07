@@ -71,8 +71,8 @@ INTERVALS = 50 # used for year-long animation
 ################
 
 #runDir = ""
-runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-#runDir = perlmutterpath1 # For perlmutter (PM) only
+#runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+runDir = perlmutterpath1 # For perlmutter (PM) only
 
 # Change these for different runs if you want to grab other .nc files
 
