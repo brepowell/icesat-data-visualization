@@ -95,9 +95,10 @@ outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_node
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
-subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
+#subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
 #subdirectory = f"/2003_to_2008_{SEASON}/"
 #subdirectory = r"/2003_to_2008_spring/"
+subdirectory = perlmutterpathDailyData
 
 FULL_PATH = runDir + subdirectory
 

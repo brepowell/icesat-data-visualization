@@ -120,13 +120,20 @@ def animateNorthAndSouthFromMultipleFiles():
     files.sort()
     print("Sorted: ", files)
 
+    fileMax = 12
+
     artists = []
     fig, northMap, southMap = generateNorthandSouthPoleAxes()
     addMapFeatures(northMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
     addMapFeatures(southMap, oceanFeature=OCEANFEATURE, landFeature=LANDFEATURE, grid=GRIDON, coastlines=COASTLINES)
     addColorBar = False
 
-    for file in files:
+    for fileIndex, file in enumerate(files):
+        print("Length of Artists: ", len(artists))
+
+        if fileIndex == fileMax:
+            return fig, artists
+
         latCell, lonCell, output, days = loadAllDays(runDir, meshFileName, subdirectory+file)
         
         # This conditional ensures the colorbar is added only once.
@@ -140,8 +147,6 @@ def animateNorthAndSouthFromMultipleFiles():
             artists = generateArtistsNorthAndSouth(
                 fig, northMap, southMap, latCell, lonCell, output, 
                 mapImageFileName, days, artists, colorbar=False)
-            
-        print("Length of Artists: ", len(artists))
             
     return fig, artists
 
