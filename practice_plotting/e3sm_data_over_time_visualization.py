@@ -171,6 +171,8 @@ def animateNorthFromMultipleFiles():
                 fig, northMap, latCell, lonCell, output, 
                 mapImageFileName, days, artists, colorbar=False)
             
+        print("File plotted: ", file)
+            
     return fig, artists
 
 def main():
