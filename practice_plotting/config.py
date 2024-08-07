@@ -21,8 +21,8 @@ VARIABLETOPLOT       = "meanof"
 #VARIABLETOPLOT      = "meanmf"
 
 TIMESTRINGVARIABLE  = "time_string"
-#START_TIME_VARIABLE = "xtime_startDaily"
-START_TIME_VARIABLE = "time_string"
+START_TIME_VARIABLE = "xtime_startDaily"
+#START_TIME_VARIABLE = "time_string"
 END_TIME_VARIABLE   = ""
 TIMEVARIABLE        = "time"
 
@@ -71,18 +71,18 @@ INTERVALS = 250
 ################
 
 #runDir = ""
-runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
-#runDir = perlmutterpath1 # For perlmutter (PM) only
+#runDir         = os.path.dirname(os.path.abspath(__file__))       # Get current directory path
+runDir = perlmutterpath1 # For perlmutter (PM) only
 
 # Change these for different runs if you want to grab other .nc files
 
 #meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
-meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"  # for satellite emulator
+#meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"  # for satellite emulator
 #meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc" # for PM Perlmutter for the 1 year mesh
-#meshFileName = perlmutterpathMesh
+meshFileName = perlmutterpathMesh # for PM
 
-SYNCH_FILE_NAME = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
-#SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
+#SYNCH_FILE_NAME = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
+SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
 
 #outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 10-day Ice Area
@@ -91,13 +91,13 @@ SYNCH_FILE_NAME = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.
 #outputFileName = r"\new.nc" # Satellite emulator
 outputFileName = f"/{NEW_NETCDF_FILE_NAME}" # Satellite emulator on PM
 
-#subdirectory = "" # Use when running make_a_netCDF_file.py
+subdirectory = "" # Use when running make_a_netCDF_file.py
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 #subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
 #subdirectory = r"/2003_to_2008_fall/"
-subdirectory = r"/2003_to_2008_spring/"
+#subdirectory = r"/2003_to_2008_spring/"
 
 FULL_PATH = runDir + subdirectory
 
@@ -115,7 +115,6 @@ boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha 
 #MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} {YEAR}"
 #MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} ALL TIME"
 MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} 2003 - {YEAR}"
-
 
 # These features are on
 OCEANFEATURE    = 1   
