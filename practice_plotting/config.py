@@ -12,11 +12,11 @@ from perlmutterpath import *
 ####################                                                                                                                            ####################
 
 # Change these for different runs if you want to narrow down your focus
-VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
+#VARIABLETOPLOT     = "timeDaily_avg_iceAreaCell"   # The variable to plot from the E3SM data
 #VARIABLETOPLOT      = "freeboard"                   # The variable to plot from the satellite data
 #VARIABLETOPLOT      = "samplemf" # make sure to set VMAX
 #VARIABLETOPLOT      = "sampleof"
-#VARIABLETOPLOT       = "meanof"
+VARIABLETOPLOT       = "meanof"
 #VARIABLETOPLOT       = "stdof"
 #VARIABLETOPLOT      = "meanmf"
 
@@ -31,13 +31,13 @@ LONGITUDEVARIABLE   = "lonCell"   #longitude
 CELLVARIABLE        = "cell"
 
 SEASON              = "spring"        # spring or fall
-YEAR                = "2008"    # 2003 to 2008
+YEAR                = "2003"    # 2003 to 2008
 NEW_NETCDF_FILE_NAME = f"{SEASON}_{YEAR}.nc"
 #NEW_NETCDF_FILE_NAME = "ALL_SATELLITE_DATA.nc"
 
 # Change if you want a wider or narrower view
-LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
-#LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
+#LAT_LIMIT       =  50  # Good wide view for the north and south poles for E3SM data
+LAT_LIMIT       =  65  # More of a closeup, better for the satellite data
 #LAT_LIMIT        =  80  # Extreme closeup for the freeboard of one satellite track
 
 # Change if you want larger or smaller dots for the scatterplot
@@ -56,7 +56,7 @@ VMAX = 1      # Good for Ice Area
 #VMAX = 25     # samplemf for spring 2003 - there are not many cells that go above 45 samples;
 #VMAX = 15000  # sampleof for ALL FILES - the max is 46893, but there are not that many tracks that go about 15000 samples; 20000 looks ok 
 #VMAX = 4000   # sampleof for spring 2003
-#VMAX = 0.001   # meanof - spring 2003 to 2008
+VMAX = 0.01   # meanof - spring 2003 to 2008
 #VMAX = 0.04    # stdof - spring 2003 to 2008
 #VMAX = 0.9   # meanmf fall 2003 
 #VMAX = 0.25  # stdof fall 2003
@@ -78,8 +78,8 @@ runDir = perlmutterpath1 # For perlmutter (PM) only
 
 #meshFileName   = r"\mesh_files\seaice.EC30to60E2r2.210210.nc"    # for 5 day and 10 day simulations
 #meshFileName   = r"\mesh_files\mpassi.IcoswISC30E3r5.20231120.nc"  # for satellite emulator
-meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc" # for PM Perlmutter for the 1 year mesh
-#meshFileName = perlmutterpathMesh # for PM
+#meshFileName   = r"/mesh_files/mpassi.IcoswISC30E3r5.20231120.nc" # for PM Perlmutter for the 1 year mesh
+meshFileName = perlmutterpathMesh # for PM
 
 #SYNCH_FILE_NAME = r"\mesh_files\E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc"
 SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.nc" #PM
@@ -87,26 +87,28 @@ SYNCH_FILE_NAME = r"/mesh_files/E3SM_IcoswISC30E3r5_ICESat_Orbital_Synchronizer.
 #outputFileName = r"\output_files\Breanna_D_test_1x05_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 5-day Ice Area
 #outputFileName = r"\output_files\Breanna_D_test_1x10_days.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc"  # 10-day Ice Area
 #outputFileName = r"\satellite_data_preprocessed\one_day\icesat_E3SM_spring_2008_02_22_14.nc" # One Satellite Track
-outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
+#outputFileName = r"/output_files/Breanna_D_test_5_nodes_1_nyears_with_fewer_nodes.mpassi.hist.am.timeSeriesStatsDaily.0001-01-01.nc" # 1-year, month 1
 #outputFileName = r"\new.nc" # Satellite emulator
-#outputFileName = f"/{NEW_NETCDF_FILE_NAME}" # Satellite emulator on PM
+outputFileName = f"/{NEW_NETCDF_FILE_NAME}" # Satellite emulator on PM
 
-#subdirectory = "" # Use when running make_a_netCDF_file.py
+subdirectory = "" # Use when running make_a_netCDF_file.py
 #subdirectory = r"/satellite_data_preprocessed/one_month" # Satellite Track folder for one month
 #subdirectory = r"/satellite_data_preprocessed/one_week" # Satellite Track folder for one week
 #subdirectory = r"/satellite_data_preprocessed/one_day" # Satellite Track folder for one day
 #subdirectory = r"/output_files/" # for plotting more than one output file (Use on PM Perlmutter for year simulation)
 #subdirectory = f"/2003_to_2008_{SEASON}/"
 #subdirectory = r"/2003_to_2008_spring/"
-subdirectory = perlmutterpathDailyData
+#subdirectory = perlmutterpathDailyData
 
 FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
-animationFileName = f"E3SM_2003_5_months_simulation.gif"
-mapImageFileName = f"static_image.png"
-#animationFileName   = f"{VARIABLETOPLOT}_{SEASON}_2003_to_{YEAR}.gif"                # Should be a .gif extension
-#mapImageFileName    = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
+#animationFileName = f"E3SM_2003_5_months_simulation.gif"
+#mapImageFileName = f"static_image.png"
+
+animationFileName   = f"{VARIABLETOPLOT}_{SEASON}_2003_to_{YEAR}.gif"                # Should be a .gif extension
+mapImageFileName    = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
+
 #mapImageFileName    = "samplemf_all_time.png"             # Should be a .png file extension
 
 ################
@@ -117,8 +119,8 @@ boxStyling = dict(boxstyle='round', facecolor='wheat') #other options are alpha 
 
 #MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} {YEAR}"
 #MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} ALL TIME"
-#MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} 2003 - {YEAR}"
-MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} from E3SM"
+MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} {SEASON.upper()} 2003 - {YEAR}"
+#MAP_SUPTITLE_TOP = f"{VARIABLETOPLOT.upper()} from E3SM"
 
 # These features are on
 OCEANFEATURE    = 1   
