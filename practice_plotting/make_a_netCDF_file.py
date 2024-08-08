@@ -295,8 +295,8 @@ def main():
     condition = allFreeboardFromSatelliteData > 0
 
     print("===   CALCULATING MEANOF AND STDOF   === ")
-    means = np.mean(allFreeboardFromSatelliteData, axis=0, dtype='float', where=condition)
-    stdDeviations = np.std(allFreeboardFromSatelliteData, axis=0, dtype='float', where=condition)
+    means = np.nanmean(allFreeboardFromSatelliteData, axis=0, dtype='float', where=condition)
+    stdDeviations = np.nanstd(allFreeboardFromSatelliteData, axis=0, dtype='float', where=condition)
 
     # Observed freeboard mean is the sum of all photon readings per cell over time
     # divided by the number of tracks (ex. 409 for spring 2003)
