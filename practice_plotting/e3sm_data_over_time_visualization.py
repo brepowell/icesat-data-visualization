@@ -121,7 +121,7 @@ def animateNorthAndSouthFromMultipleFiles():
     files.sort()
     print("Sorted: ", files)
 
-    fileMax = 12
+    fileMax = 6
 
     artists = []
     fig, northMap, southMap = generateNorthandSouthPoleAxes()

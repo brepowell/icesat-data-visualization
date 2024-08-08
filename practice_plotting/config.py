@@ -103,7 +103,7 @@ subdirectory = perlmutterpathDailyData
 FULL_PATH = runDir + subdirectory
 
 # Change these to save without overwriting your files
-animationFileName = f"E3SM_one_year_simulation.gif"
+animationFileName = f"E3SM_2003_6_months_simulation.gif"
 mapImageFileName = f"static_image.png"
 #animationFileName   = f"{VARIABLETOPLOT}_{SEASON}_2003_to_{YEAR}.gif"                # Should be a .gif extension
 #mapImageFileName    = f"{VARIABLETOPLOT}_{SEASON}_{YEAR}.png"
